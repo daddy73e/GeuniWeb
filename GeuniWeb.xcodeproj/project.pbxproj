@@ -29,6 +29,7 @@
 		6B0BDC652991E26A008645A5 /* WebBridgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC542991E26A008645A5 /* WebBridgeViewController.swift */; };
 		6B0BDC662991E26A008645A5 /* WebBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC552991E26A008645A5 /* WebBridge.swift */; };
 		6B0BDC682991E3DE008645A5 /* WebBridgeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC672991E3DE008645A5 /* WebBridgeRequest.swift */; };
+		6B0BDC6A2991E9BF008645A5 /* TestUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC692991E9BF008645A5 /* TestUIViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		6B0BDC542991E26A008645A5 /* WebBridgeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebBridgeViewController.swift; sourceTree = "<group>"; };
 		6B0BDC552991E26A008645A5 /* WebBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebBridge.swift; sourceTree = "<group>"; };
 		6B0BDC672991E3DE008645A5 /* WebBridgeRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebBridgeRequest.swift; sourceTree = "<group>"; };
+		6B0BDC692991E9BF008645A5 /* TestUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUIViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 				6B0BDC502991E26A008645A5 /* Util */,
 				6B0BDC552991E26A008645A5 /* WebBridge.swift */,
 				6B0BDC542991E26A008645A5 /* WebBridgeViewController.swift */,
+				6B0BDC692991E9BF008645A5 /* TestUIViewController.swift */,
 				6B0BDC2A2991E1D8008645A5 /* AppDelegate.swift */,
 				6B0BDC2C2991E1D8008645A5 /* SceneDelegate.swift */,
 				6B0BDC2E2991E1D8008645A5 /* ViewController.swift */,
@@ -252,6 +255,7 @@
 				6B0BDC2B2991E1D8008645A5 /* AppDelegate.swift in Sources */,
 				6B0BDC632991E26A008645A5 /* Dictionary+.swift in Sources */,
 				6B0BDC2D2991E1D8008645A5 /* SceneDelegate.swift in Sources */,
+				6B0BDC6A2991E9BF008645A5 /* TestUIViewController.swift in Sources */,
 				6B0BDC5D2991E26A008645A5 /* Data.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
