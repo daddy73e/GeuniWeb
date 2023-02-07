@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <title>WKWebViewBridge</title>
+        <button type="button" onclick="pluginNavigator_goPrevPageWithData()">Close</button>
+        <link rel="stylesheet" href="test.css">
+        <script type="text/javascript" src="test.js"></script>
+    </head>
+	<body>
+		<h1 style="text-align: center;">Test Webview</h1>
+		<hr>
+		<h3>브릿지 기능 테스트</h3>
+		<div style="width:100%; margin: 0 auto; text-align: all;">
+			<div style="width: 49%; display: inline-block; vertical-align: top;">
+				<p style="text-align: center;">Request</p>
+				<textarea id="request" name="request"></textarea>
+			</div>
+			<div style="width: 49%; display: inline-block; vertical-align: top;">
+				<p style="text-align: center;">Response</p>
+				<textarea id="response" name="response"></textarea>
+			</div>
+		</div>
+        <div>
+            <h4>플러그인 - 보이스뱅킹</h4>
+            <div style="display: grid; grid-template-columns: 30% 30% 30%; align-content: center; overflow: hidden;">
+                <button type="button" onclick="pluginCalendar_showCalendar()">Show Calendar</button>
+                <button type="button" onclick="pluginWonKeypad_showKeypad()">Show WonKeypad</button>
+                <button type="button" onclick="pluginSKeypad_showKeypad()">Show sKeypad</button>
+            </div>
+        </div>
+	</body>
+</html>
+
