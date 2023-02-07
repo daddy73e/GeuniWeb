@@ -20,14 +20,14 @@ final class WebMainViewController: UIViewController {
         configureUI()
         loadURL()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         configureLayout()
     }
-    
+
     @IBAction func didTapTestButton(_ sender: Any) {
-        
+
     }
 }
 
@@ -35,11 +35,11 @@ private extension WebMainViewController {
     func configureUI() {
         safeAreaFrame.addSubview(webview)
     }
-    
+
     func configureLayout() {
         webview.frame = safeAreaFrame.bounds
     }
-    
+
     func configureWebView() {
         let userContentController = WKUserContentController()
         userContentController.add(self, name: messageHandlerName)
@@ -48,7 +48,7 @@ private extension WebMainViewController {
         webview.uiDelegate = self
         webview.navigationDelegate = self
     }
-    
+
     func loadURL() {
         let testURL = Bundle.main.url(forResource: "test", withExtension: "html")!
         var urlRequest = URLRequest(url: testURL)
@@ -76,7 +76,12 @@ extension WebMainViewController: WebBridgeDelegate {
 }
 
 extension WebMainViewController: WKUIDelegate {
-    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+    func webView(
+        _ webView: WKWebView,
+        createWebViewWith configuration: WKWebViewConfiguration,
+        for navigationAction: WKNavigationAction,
+        windowFeatures: WKWindowFeatures
+    ) -> WKWebView? {
         if navigationAction.targetFrame?.isMainFrame == false {
             webView.load(navigationAction.request)
             return nil
@@ -86,23 +91,27 @@ extension WebMainViewController: WKUIDelegate {
 }
 
 extension WebMainViewController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        guard let navigateURL = navigationAction.request.url else {
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationAction: WKNavigationAction,
+        decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
+    ) {
+        guard navigationAction.request.url != nil else {
             decisionHandler(.cancel)
             return
         }
         decisionHandler(.allow)
     }
-    
+
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        
+
     }
-    
+
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        
+
     }
-    
+
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        
+
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 public struct WebBridgeRespose {
     public let jsonString: String?
-    
+
     public init(
         jsonString: String? = nil
     ) {

@@ -8,11 +8,8 @@
 import Foundation
 
 public struct SampleInput {
-    
 }
-
 public struct SampleOutput {
-    
 }
 
 public protocol SampleUseCaseProtocol {
@@ -20,11 +17,8 @@ public protocol SampleUseCaseProtocol {
 }
 
 public class SampleUseCase: SampleUseCaseProtocol {
-    
     public init() {
-        
     }
-    
     public func execute(input: SampleInput) -> SampleOutput {
         return SampleOutput()
     }

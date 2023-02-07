@@ -9,10 +9,8 @@ import Foundation
 import WebKit
 
 public extension WKScriptMessage {
-    
+
     func toWKScriptMessageMapper() -> WKScriptMessageMapper? {
         return (body as? String)?.toDictionary()
     }
 }
-
-

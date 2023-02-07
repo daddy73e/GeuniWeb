@@ -37,15 +37,12 @@ public protocol LocationUseCaseProtocol {
 
 public class LocationUseCase: LocationUseCaseProtocol {
     var locationManager: CLLocationManager?
-    
     public init() { }
-    
     public func request(input: LocationInput) {
         locationManager = CLLocationManager()
         locationManager?.delegate = input.delegate
         locationManager?.requestAlwaysAuthorization()
     }
-    
     public func permissionCheck() -> LocationPermissionOutput {
         if CLLocationManager.locationServicesEnabled() {
             switch CLLocationManager.authorizationStatus() {

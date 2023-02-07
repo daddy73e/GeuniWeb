@@ -20,9 +20,7 @@ public class WebBridge {
     var viewController: WKUserContentController?
     var scriptMessage: WKScriptMessage?
     var webDelegate: WebBridgeDelegate?
-    
     public static let shared = WebBridge()
-    
     func requestWebCallback(
         viewController: WKUserContentController,
         message: WKScriptMessage,
@@ -31,18 +29,12 @@ public class WebBridge {
         self.viewController = viewController
         self.scriptMessage = message
         self.webDelegate = webDelegate
-        
         self.routeMessageCase(message: message)
     }
-    
     private func routeMessageCase(message: WKScriptMessage) {
         let message = message.toWKScriptMessageMapper()
         let requestId = message?.toRequestId()
-        let request = message?.toWebBridgeRequest()
-        
-        /* 분기별 처리 */        
-    
-        
+//        let request = message?.toWebBridgeRequest()
         /* 웹으로 콜백 */
         sendCallbackToWeb(
             javascriptMessage: WebBridgeRespose(
@@ -50,10 +42,9 @@ public class WebBridge {
             ).toJavascriptMessage(withRequestId: requestId ?? "")
         )
     }
-    
-    
-    private func sendCallbackToWeb(javascriptMessage: String) {
-        
+    private func sendCallbackToWeb(
+        javascriptMessage: String
+    ) {
 #if DEBUG
         let log = """
         ----- 📤 Bridging Response Start -----

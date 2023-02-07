@@ -14,7 +14,6 @@ public extension Dictionary where Key == String {
         }
         return try? JSONSerialization.data(withJSONObject: self, options: [])
     }
-    
     func toJSONString() -> String? {
         guard let data = self.toJSONData() else { return nil }
         return String(data: data, encoding: .utf8)

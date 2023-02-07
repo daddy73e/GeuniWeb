@@ -6,5 +6,5 @@
 //
 
 public enum WebBridgeRequest {
-    case Navigator(WebBridgeNavigatorActionType)
+    case navigator(WebBridgeNavigatorActionType)
 }

@@ -201,6 +201,7 @@
 				6B0BDC232991E1D8008645A5 /* Sources */,
 				6B0BDC242991E1D8008645A5 /* Frameworks */,
 				6B0BDC252991E1D8008645A5 /* Resources */,
+				6B66DE41299223E90073313E /* SwiftLint Run Script */,
 			);
 			buildRules = (
 			);
@@ -259,6 +260,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6B66DE41299223E90073313E /* SwiftLint Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n    PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nexport PATH\n\nif which swiftlint > /dev/null; then\n    # Correct violations whenever possible.\n    # swiftlint lint --fix\n    # Show a live-updating progress bar instead of each file being processed.\n    swiftlint lint --progress\n    # Ignore cache when linting.\n    swiftlint lint --no-cache\n    # Use an alternative algorithm to exclude paths for `excluded`, which may be faster in some cases.\n    swiftlint lint --use-alternative-excluding\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6B0BDC232991E1D8008645A5 /* Sources */ = {

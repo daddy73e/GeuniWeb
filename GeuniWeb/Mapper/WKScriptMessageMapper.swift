@@ -14,7 +14,7 @@ public extension WKScriptMessageMapper {
     func toRequestId() -> RequestID? {
         return self["requestId"] as? String
     }
-    
+
     func toWebBridgeRequest() -> WebBridgeRequest? {
         guard let serviceName = self["serviceName"] as? String,
               let action = self["action"] as? String,
@@ -22,7 +22,7 @@ public extension WKScriptMessageMapper {
         else {
             return nil
         }
-        
+
 #if DEBUG
         let log = """
         ----- 📨 Web Bridge Request Start -----

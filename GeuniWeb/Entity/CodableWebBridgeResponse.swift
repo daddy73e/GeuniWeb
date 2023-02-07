@@ -14,7 +14,6 @@ public struct CodableWebBridgeResponse: Codable {
     public let isOk: Bool
     /// 응답 데이터
     public var params: String
-    
     public init(
         requestId: String,
         isOk: Bool,
@@ -24,7 +23,6 @@ public struct CodableWebBridgeResponse: Codable {
         self.isOk = isOk
         self.params = params
     }
-    
     func toJavascriptMessage() -> String {
         guard let data = try? JSONEncoder().encode(self),
               let message = String(data: data, encoding: .utf8)

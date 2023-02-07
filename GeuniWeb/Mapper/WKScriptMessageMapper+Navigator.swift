@@ -11,12 +11,11 @@ extension WKScriptMessageMapper {
     func toWebBridgeNavigatorRequest(action: String, params: [String: Any]?) -> WebBridgeRequest? {
         switch action {
         case "goPrevPageWithData":
-            return .Navigator(
+            return .navigator(
                 .goPrevPageWithData(
                     params?.toJSONString() ?? ""
                 )
             )
-        
         default:
             return nil
         }

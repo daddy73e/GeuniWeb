@@ -6,11 +6,8 @@
 //
 
 public class AppConfigure {
-    
     public static let shared = AppConfigure()
-    
     public var enviromentType: EnvironmentType = .develop
-    
     public func baseURL() -> String {
         switch enviromentType {
         case .production:
@@ -23,7 +20,6 @@ public class AppConfigure {
             return "https://mock"
         }
     }
-    
     public enum EnvironmentType: String {
         case production
         case develop
