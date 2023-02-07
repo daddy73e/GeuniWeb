@@ -15,15 +15,12 @@ class TestUIViewController: UIViewController {
     }
     
     @IBAction func didTest1(_ sender: Any) {
-        
     }
     
     @IBAction func didTest2(_ sender: Any) {
-        
     }
     
     @IBAction func didTest3(_ sender: Any) {
-        
     }
     
     /*

@@ -25,6 +25,10 @@ final class WebMainViewController: UIViewController {
         super.viewDidLayoutSubviews()
         configureLayout()
     }
+    
+    @IBAction func didTapTestButton(_ sender: Any) {
+        
+    }
 }
 
 private extension WebMainViewController {

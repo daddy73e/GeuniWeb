@@ -8,6 +8,10 @@
 import Foundation
 import WebKit
 
+public protocol WebCallbackDataReceivable: AnyObject {
+    func receiveCallbackData(jsonDic: [String: Any])
+}
+
 protocol WebBridgeDelegate: AnyObject {
     func evaluateJavaScript(_ javaScriptString: String, completionHandler: ((Any?, Error?) -> Void)?)
 }
@@ -37,7 +41,7 @@ public class WebBridge {
         let request = message?.toWebBridgeRequest()
         
         /* 분기별 처리 */        
-        
+    
         
         /* 웹으로 콜백 */
         sendCallbackToWeb(

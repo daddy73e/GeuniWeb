@@ -30,6 +30,7 @@
 		6B0BDC682991E3DE008645A5 /* WebBridgeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC672991E3DE008645A5 /* WebBridgeRequest.swift */; };
 		6B0BDC6A2991E9BF008645A5 /* TestUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC692991E9BF008645A5 /* TestUIViewController.swift */; };
 		6B0BDC6D29920338008645A5 /* UserDefaultUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC6C29920338008645A5 /* UserDefaultUseCase.swift */; };
+		6B0BDC72299210A7008645A5 /* AppConfigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC71299210A7008645A5 /* AppConfigure.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		6B0BDC672991E3DE008645A5 /* WebBridgeRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebBridgeRequest.swift; sourceTree = "<group>"; };
 		6B0BDC692991E9BF008645A5 /* TestUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUIViewController.swift; sourceTree = "<group>"; };
 		6B0BDC6C29920338008645A5 /* UserDefaultUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultUseCase.swift; sourceTree = "<group>"; };
+		6B0BDC71299210A7008645A5 /* AppConfigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigure.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 		6B0BDC292991E1D8008645A5 /* GeuniWeb */ = {
 			isa = PBXGroup;
 			children = (
+				6B0BDC702992109A008645A5 /* Configuration */,
 				6B0BDC6B2992032C008645A5 /* UseCase */,
 				6B0BDC4C2991E26A008645A5 /* Entity */,
 				6B0BDC432991E26A008645A5 /* Mapper */,
@@ -172,6 +175,14 @@
 				6B0BDC6C29920338008645A5 /* UserDefaultUseCase.swift */,
 			);
 			path = UseCase;
+			sourceTree = "<group>";
+		};
+		6B0BDC702992109A008645A5 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				6B0BDC71299210A7008645A5 /* AppConfigure.swift */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,6 +273,7 @@
 				6B0BDC5B2991E26A008645A5 /* ToJavascriptMessageMapping.swift in Sources */,
 				6B0BDC2B2991E1D8008645A5 /* AppDelegate.swift in Sources */,
 				6B0BDC632991E26A008645A5 /* Dictionary+.swift in Sources */,
+				6B0BDC72299210A7008645A5 /* AppConfigure.swift in Sources */,
 				6B0BDC2D2991E1D8008645A5 /* SceneDelegate.swift in Sources */,
 				6B0BDC6A2991E9BF008645A5 /* TestUIViewController.swift in Sources */,
 				6B0BDC5D2991E26A008645A5 /* Data.swift in Sources */,
