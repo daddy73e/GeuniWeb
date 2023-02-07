@@ -1,5 +1,5 @@
 //
-//  WebBridgeViewController.swift
+//  WebMainViewController.swift
 //  GeuniModule
 //
 //  Created by 60157085 on 2023/02/05.
@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-final class WebBridgeViewController: UIViewController {
+final class WebMainViewController: UIViewController {
 
     @IBOutlet weak var safeAreaFrame: UIView!
     private var messageHandlerName = "geuniModule"
@@ -27,7 +27,7 @@ final class WebBridgeViewController: UIViewController {
     }
 }
 
-private extension WebBridgeViewController {
+private extension WebMainViewController {
     func configureUI() {
         safeAreaFrame.addSubview(webview)
     }
@@ -53,7 +53,7 @@ private extension WebBridgeViewController {
     }
 }
 
-extension WebBridgeViewController: WKScriptMessageHandler {
+extension WebMainViewController: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         WebBridge.shared.requestWebCallback(
             viewController: userContentController,
@@ -63,7 +63,7 @@ extension WebBridgeViewController: WKScriptMessageHandler {
     }
 }
 
-extension WebBridgeViewController: WebBridgeDelegate {
+extension WebMainViewController: WebBridgeDelegate {
     func evaluateJavaScript(_ javaScriptString: String, completionHandler: ((Any?, Error?) -> Void)?) {
         DispatchQueue.main.async { [weak self] in
             self?.webview.evaluateJavaScript(javaScriptString, completionHandler: completionHandler)
@@ -71,7 +71,7 @@ extension WebBridgeViewController: WebBridgeDelegate {
     }
 }
 
-extension WebBridgeViewController: WKUIDelegate {
+extension WebMainViewController: WKUIDelegate {
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
         if navigationAction.targetFrame?.isMainFrame == false {
             webView.load(navigationAction.request)
@@ -81,7 +81,7 @@ extension WebBridgeViewController: WKUIDelegate {
     }
 }
 
-extension WebBridgeViewController: WKNavigationDelegate {
+extension WebMainViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         guard let navigateURL = navigationAction.request.url else {
             decisionHandler(.cancel)

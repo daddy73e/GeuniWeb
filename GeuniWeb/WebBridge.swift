@@ -36,8 +36,7 @@ public class WebBridge {
         let requestId = message?.toRequestId()
         let request = message?.toWebBridgeRequest()
         
-        /* 분기별 처리 */
-        
+        /* 분기별 처리 */        
         
         
         /* 웹으로 콜백 */

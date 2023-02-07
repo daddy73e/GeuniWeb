@@ -8,33 +8,22 @@
 import UIKit
 
 class TestUIViewController: UIViewController {
-
-    var originBrightnessValue = 0.5
-    var brightnessValue = 0.5
+    let userDefulatUseCase = UserDefaultUseCase()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.originBrightnessValue = UIScreen.main.brightness
-        self.brightnessValue = self.originBrightnessValue
-        // Do any additional setup after loading the view.
-    }
-    @IBAction func didTapBrightUp(_ sender: Any) {
-        if brightnessValue > 1.0 {
-            return
-        }
-        brightnessValue += 0.1
-        UIScreen.main.brightness = self.brightnessValue
     }
     
-    @IBAction func didTapBridgeDown(_ sender: Any) {
-        if brightnessValue < 0.1 {
-            return
-        }
-        brightnessValue -= 0.1
-        UIScreen.main.brightness = self.brightnessValue
+    @IBAction func didTest1(_ sender: Any) {
+        
     }
-    @IBAction func didTapBrightInit(_ sender: Any) {
-        UIScreen.main.brightness = self.originBrightnessValue
+    
+    @IBAction func didTest2(_ sender: Any) {
+        
+    }
+    
+    @IBAction func didTest3(_ sender: Any) {
+        
     }
     
     /*
