@@ -24,15 +24,20 @@ public protocol ContactsUseCaseProtocol {
 }
 
 public class ContactsUseCase: ContactsUseCaseProtocol {
-    public init() {
-    }
+
+    public init() { }
 
     public func request(completion: @escaping (ContactsOutput) -> Void) {
         let store = CNContactStore()
         var contacts: [Contact] = []
 
         // 연락처에 요청할 항목
-        let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
+        let keys = [
+            CNContactGivenNameKey,
+            CNContactFamilyNameKey,
+            CNContactPhoneNumbersKey
+        ] as [CNKeyDescriptor]
+
         // Request 생성
         let request = CNContactFetchRequest(keysToFetch: keys)
         request.sortOrder = CNContactSortOrder.userDefault
