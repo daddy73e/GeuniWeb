@@ -31,18 +31,15 @@ class TestUIViewController: UIViewController {
     }
 
     @IBAction func didTest3(_ sender: Any) {
+        let contectsUseCase = ContactsUseCase()
+        contectsUseCase.request { [weak self] output in
+            if output.isPermissionAccess {
+                print(output.contacts)
+            } else {
+                self?.routeSettingPage()
+            }
+        }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension TestUIViewController: CLLocationManagerDelegate {
@@ -51,5 +48,16 @@ extension TestUIViewController: CLLocationManagerDelegate {
             return
         }
         currentLocation = location
+    }
+}
+extension TestUIViewController {
+    override func becomeFirstResponder() -> Bool {
+        return true
+    }
+
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            print("Shake Gesture Detected")
+        }
     }
 }

@@ -21,6 +21,7 @@ public class WebBridge {
     var scriptMessage: WKScriptMessage?
     var webDelegate: WebBridgeDelegate?
     public static let shared = WebBridge()
+
     func requestWebCallback(
         viewController: WKUserContentController,
         message: WKScriptMessage,
@@ -31,6 +32,7 @@ public class WebBridge {
         self.webDelegate = webDelegate
         self.routeMessageCase(message: message)
     }
+
     private func routeMessageCase(message: WKScriptMessage) {
         let message = message.toWKScriptMessageMapper()
         let requestId = message?.toRequestId()

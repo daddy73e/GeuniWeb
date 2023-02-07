@@ -18,9 +18,9 @@
 		6B0BDC5A2991E26A008645A5 /* WKScriptMessageMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC442991E26A008645A5 /* WKScriptMessageMapper.swift */; };
 		6B0BDC5B2991E26A008645A5 /* ToJavascriptMessageMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC462991E26A008645A5 /* ToJavascriptMessageMapping.swift */; };
 		6B0BDC5C2991E26A008645A5 /* WKScriptMessageMapper+Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC472991E26A008645A5 /* WKScriptMessageMapper+Navigator.swift */; };
-		6B0BDC5D2991E26A008645A5 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC492991E26A008645A5 /* Data.swift */; };
-		6B0BDC5E2991E26A008645A5 /* WKScriptMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC4A2991E26A008645A5 /* WKScriptMessage.swift */; };
-		6B0BDC5F2991E26A008645A5 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC4B2991E26A008645A5 /* String.swift */; };
+		6B0BDC5D2991E26A008645A5 /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC492991E26A008645A5 /* Data+.swift */; };
+		6B0BDC5E2991E26A008645A5 /* WKScriptMessage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC4A2991E26A008645A5 /* WKScriptMessage+.swift */; };
+		6B0BDC5F2991E26A008645A5 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC4B2991E26A008645A5 /* String+.swift */; };
 		6B0BDC602991E26A008645A5 /* WebBridgeRespose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC4D2991E26A008645A5 /* WebBridgeRespose.swift */; };
 		6B0BDC612991E26A008645A5 /* CodableWebBridgeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC4E2991E26A008645A5 /* CodableWebBridgeResponse.swift */; };
 		6B0BDC622991E26A008645A5 /* WebBridgeNavigatorActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC4F2991E26A008645A5 /* WebBridgeNavigatorActionType.swift */; };
@@ -33,6 +33,9 @@
 		6B0BDC72299210A7008645A5 /* AppConfigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC71299210A7008645A5 /* AppConfigure.swift */; };
 		6B0BDC7429921943008645A5 /* SampleUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC7329921943008645A5 /* SampleUseCase.swift */; };
 		6B0BDC76299219C2008645A5 /* LocationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC75299219C2008645A5 /* LocationUseCase.swift */; };
+		6B66DE4329922B3F0073313E /* ContactsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE4229922B3F0073313E /* ContactsUseCase.swift */; };
+		6B66DE4529922D580073313E /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE4429922D580073313E /* Contact.swift */; };
+		6B66DE47299230D40073313E /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE46299230D40073313E /* UIViewController+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,9 +52,9 @@
 		6B0BDC442991E26A008645A5 /* WKScriptMessageMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKScriptMessageMapper.swift; sourceTree = "<group>"; };
 		6B0BDC462991E26A008645A5 /* ToJavascriptMessageMapping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToJavascriptMessageMapping.swift; sourceTree = "<group>"; };
 		6B0BDC472991E26A008645A5 /* WKScriptMessageMapper+Navigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WKScriptMessageMapper+Navigator.swift"; sourceTree = "<group>"; };
-		6B0BDC492991E26A008645A5 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
-		6B0BDC4A2991E26A008645A5 /* WKScriptMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKScriptMessage.swift; sourceTree = "<group>"; };
-		6B0BDC4B2991E26A008645A5 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		6B0BDC492991E26A008645A5 /* Data+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
+		6B0BDC4A2991E26A008645A5 /* WKScriptMessage+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WKScriptMessage+.swift"; sourceTree = "<group>"; };
+		6B0BDC4B2991E26A008645A5 /* String+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		6B0BDC4D2991E26A008645A5 /* WebBridgeRespose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebBridgeRespose.swift; sourceTree = "<group>"; };
 		6B0BDC4E2991E26A008645A5 /* CodableWebBridgeResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodableWebBridgeResponse.swift; sourceTree = "<group>"; };
 		6B0BDC4F2991E26A008645A5 /* WebBridgeNavigatorActionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebBridgeNavigatorActionType.swift; sourceTree = "<group>"; };
@@ -64,6 +67,9 @@
 		6B0BDC71299210A7008645A5 /* AppConfigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigure.swift; sourceTree = "<group>"; };
 		6B0BDC7329921943008645A5 /* SampleUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleUseCase.swift; sourceTree = "<group>"; };
 		6B0BDC75299219C2008645A5 /* LocationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationUseCase.swift; sourceTree = "<group>"; };
+		6B66DE4229922B3F0073313E /* ContactsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsUseCase.swift; sourceTree = "<group>"; };
+		6B66DE4429922D580073313E /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		6B66DE46299230D40073313E /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,9 +153,10 @@
 		6B0BDC482991E26A008645A5 /* UI+Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				6B0BDC492991E26A008645A5 /* Data.swift */,
-				6B0BDC4A2991E26A008645A5 /* WKScriptMessage.swift */,
-				6B0BDC4B2991E26A008645A5 /* String.swift */,
+				6B0BDC492991E26A008645A5 /* Data+.swift */,
+				6B0BDC4A2991E26A008645A5 /* WKScriptMessage+.swift */,
+				6B0BDC4B2991E26A008645A5 /* String+.swift */,
+				6B66DE46299230D40073313E /* UIViewController+.swift */,
 			);
 			path = "UI+Extensions";
 			sourceTree = "<group>";
@@ -161,6 +168,7 @@
 				6B0BDC4D2991E26A008645A5 /* WebBridgeRespose.swift */,
 				6B0BDC4E2991E26A008645A5 /* CodableWebBridgeResponse.swift */,
 				6B0BDC4F2991E26A008645A5 /* WebBridgeNavigatorActionType.swift */,
+				6B66DE4429922D580073313E /* Contact.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -179,6 +187,7 @@
 				6B0BDC6C29920338008645A5 /* UserDefaultUseCase.swift */,
 				6B0BDC7329921943008645A5 /* SampleUseCase.swift */,
 				6B0BDC75299219C2008645A5 /* LocationUseCase.swift */,
+				6B66DE4229922B3F0073313E /* ContactsUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -292,13 +301,16 @@
 				6B0BDC662991E26A008645A5 /* WebBridge.swift in Sources */,
 				6B0BDC7429921943008645A5 /* SampleUseCase.swift in Sources */,
 				6B0BDC682991E3DE008645A5 /* WebBridgeRequest.swift in Sources */,
+				6B66DE4329922B3F0073313E /* ContactsUseCase.swift in Sources */,
+				6B66DE4529922D580073313E /* Contact.swift in Sources */,
 				6B0BDC652991E26A008645A5 /* WebBridgeViewController.swift in Sources */,
 				6B0BDC76299219C2008645A5 /* LocationUseCase.swift in Sources */,
-				6B0BDC5F2991E26A008645A5 /* String.swift in Sources */,
-				6B0BDC5E2991E26A008645A5 /* WKScriptMessage.swift in Sources */,
+				6B0BDC5F2991E26A008645A5 /* String+.swift in Sources */,
+				6B0BDC5E2991E26A008645A5 /* WKScriptMessage+.swift in Sources */,
 				6B0BDC622991E26A008645A5 /* WebBridgeNavigatorActionType.swift in Sources */,
 				6B0BDC5C2991E26A008645A5 /* WKScriptMessageMapper+Navigator.swift in Sources */,
 				6B0BDC612991E26A008645A5 /* CodableWebBridgeResponse.swift in Sources */,
+				6B66DE47299230D40073313E /* UIViewController+.swift in Sources */,
 				6B0BDC602991E26A008645A5 /* WebBridgeRespose.swift in Sources */,
 				6B0BDC5B2991E26A008645A5 /* ToJavascriptMessageMapping.swift in Sources */,
 				6B0BDC2B2991E1D8008645A5 /* AppDelegate.swift in Sources */,
@@ -306,7 +318,7 @@
 				6B0BDC72299210A7008645A5 /* AppConfigure.swift in Sources */,
 				6B0BDC2D2991E1D8008645A5 /* SceneDelegate.swift in Sources */,
 				6B0BDC6A2991E9BF008645A5 /* TestUIViewController.swift in Sources */,
-				6B0BDC5D2991E26A008645A5 /* Data.swift in Sources */,
+				6B0BDC5D2991E26A008645A5 /* Data+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
