@@ -9,7 +9,7 @@ import UIKit
 
 class SplashViewController: UIViewController {
 
-    let timeManger = TimerManager(finishTime: 0.5)
+    let timeManger = TimerManager(timeInterval: 0.05, finishTime: 0.1)
     override func viewDidLoad() {
         super.viewDidLoad()
         timeManger.startTimer(tickAction: nil) {

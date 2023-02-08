@@ -33,6 +33,7 @@ final class WebMainViewController: UIViewController {
 
 private extension WebMainViewController {
     func configureUI() {
+        self.navigationController?.isNavigationBarHidden = true
         safeAreaFrame.addSubview(webview)
     }
 
