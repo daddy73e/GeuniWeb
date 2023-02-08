@@ -13,7 +13,8 @@ public protocol WebCallbackDataReceivable: AnyObject {
 }
 
 protocol WebBridgeDelegate: AnyObject {
-    func evaluateJavaScript(_ javaScriptString: String, completionHandler: ((Any?, Error?) -> Void)?)
+    func evaluateJavaScript(_ javaScriptString: String, completion: ((Any?, Error?) -> Void)?)
+    func closeSubWebView()
 }
 
 public class WebBridge {
@@ -35,14 +36,20 @@ public class WebBridge {
 
     private func routeMessageCase(message: WKScriptMessage) {
         let message = message.toWKScriptMessageMapper()
-        let requestId = message?.toRequestId()
-//        let request = message?.toWebBridgeRequest()
-        /* 웹으로 콜백 */
-        sendCallbackToWeb(
-            javascriptMessage: WebBridgeRespose(
-                jsonString: message?.toJSONString()
-            ).toJavascriptMessage(withRequestId: requestId ?? "")
-        )
+        guard let request = message?.toWebBridgeRequest(),
+            let requestId = message?.toRequestId()
+        else {
+            return
+        }
+        let webBridgeAction = WebBridgeAction(requestID: requestId)
+        webBridgeAction.execute(request: request) { [weak self] _ in
+            /* 웹으로 콜백 */
+            self?.sendCallbackToWeb(
+                javascriptMessage: WebBridgeRespose(
+                    jsonString: message?.toJSONString()
+                ).toJavascriptMessage(withRequestId: requestId)
+            )
+        }
     }
     private func sendCallbackToWeb(
         javascriptMessage: String
@@ -55,6 +62,6 @@ public class WebBridge {
         """
         print(log)
 #endif
-        webDelegate?.evaluateJavaScript(javascriptMessage, completionHandler: nil)
+        webDelegate?.evaluateJavaScript(javascriptMessage, completion: nil)
     }
 }

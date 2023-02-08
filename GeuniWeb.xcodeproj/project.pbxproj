@@ -36,6 +36,7 @@
 		6B66DE4329922B3F0073313E /* ContactsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE4229922B3F0073313E /* ContactsUseCase.swift */; };
 		6B66DE4529922D580073313E /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE4429922D580073313E /* Contact.swift */; };
 		6B66DE47299230D40073313E /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE46299230D40073313E /* UIViewController+.swift */; };
+		6B66DE4929932A220073313E /* WebBridgeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE4829932A220073313E /* WebBridgeAction.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		6B66DE4229922B3F0073313E /* ContactsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsUseCase.swift; sourceTree = "<group>"; };
 		6B66DE4429922D580073313E /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		6B66DE46299230D40073313E /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
+		6B66DE4829932A220073313E /* WebBridgeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBridgeAction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				6B0BDC482991E26A008645A5 /* UI+Extensions */,
 				6B0BDC502991E26A008645A5 /* Util */,
 				6B0BDC552991E26A008645A5 /* WebBridge.swift */,
+				6B66DE4829932A220073313E /* WebBridgeAction.swift */,
 				6B0BDC542991E26A008645A5 /* WebBridgeViewController.swift */,
 				6B0BDC692991E9BF008645A5 /* TestUIViewController.swift */,
 				6B0BDC2A2991E1D8008645A5 /* AppDelegate.swift */,
@@ -313,6 +316,7 @@
 				6B66DE47299230D40073313E /* UIViewController+.swift in Sources */,
 				6B0BDC602991E26A008645A5 /* WebBridgeRespose.swift in Sources */,
 				6B0BDC5B2991E26A008645A5 /* ToJavascriptMessageMapping.swift in Sources */,
+				6B66DE4929932A220073313E /* WebBridgeAction.swift in Sources */,
 				6B0BDC2B2991E1D8008645A5 /* AppDelegate.swift in Sources */,
 				6B0BDC632991E26A008645A5 /* Dictionary+.swift in Sources */,
 				6B0BDC72299210A7008645A5 /* AppConfigure.swift in Sources */,

@@ -68,9 +68,17 @@ extension WebMainViewController: WKScriptMessageHandler {
 }
 
 extension WebMainViewController: WebBridgeDelegate {
-    func evaluateJavaScript(_ javaScriptString: String, completionHandler: ((Any?, Error?) -> Void)?) {
+    func evaluateJavaScript(_ javaScriptString: String, completion: ((Any?, Error?) -> Void)?) {
         DispatchQueue.main.async { [weak self] in
-            self?.webview.evaluateJavaScript(javaScriptString, completionHandler: completionHandler)
+            self?.webview.evaluateJavaScript(javaScriptString, completionHandler: completion)
+        }
+    }
+
+    func closeSubWebView() {
+        if let navigationController = self.navigationController {
+            navigationController.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true)
         }
     }
 }
