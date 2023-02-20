@@ -21,4 +21,18 @@ public class Router {
             fromVC.present(toVC, animated: animated)
         }
     }
+    
+    public func showPopup(
+        fromVC: UIViewController,
+        popupInput: PopupInput
+    ) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        if let popupViewController = storyBoard.instantiateViewController(
+            withIdentifier: "PopupViewController"
+        ) as? PopupViewController {
+            popupViewController.configure(input: popupInput)
+            popupViewController.modalPresentationStyle = .overCurrentContext
+            fromVC.present(popupViewController, animated: false)
+        }
+    }
 }

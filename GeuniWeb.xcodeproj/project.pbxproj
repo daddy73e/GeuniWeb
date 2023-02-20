@@ -41,6 +41,8 @@
 		6B66DE502993353B0073313E /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE4F2993353B0073313E /* TimerManager.swift */; };
 		6B66DE5229933C020073313E /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE5129933C020073313E /* Router.swift */; };
 		6B66DE5429939F300073313E /* AppleLoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE5329939F300073313E /* AppleLoginUseCase.swift */; };
+		6BBEFF9529A33BF200C38307 /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBEFF9429A33BF200C38307 /* PopupViewController.swift */; };
+		6BBEFF9729A343C100C38307 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBEFF9629A343C100C38307 /* UIColor+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +83,8 @@
 		6B66DE5129933C020073313E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		6B66DE5329939F300073313E /* AppleLoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginUseCase.swift; sourceTree = "<group>"; };
 		6B66DE552993A1E20073313E /* GeuniWeb.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GeuniWeb.entitlements; sourceTree = "<group>"; };
+		6BBEFF9429A33BF200C38307 /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
+		6BBEFF9629A343C100C38307 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +171,7 @@
 				6B0BDC4A2991E26A008645A5 /* WKScriptMessage+.swift */,
 				6B0BDC4B2991E26A008645A5 /* String+.swift */,
 				6B66DE46299230D40073313E /* UIViewController+.swift */,
+				6BBEFF9629A343C100C38307 /* UIColor+.swift */,
 			);
 			path = "UI+Extensions";
 			sourceTree = "<group>";
@@ -211,6 +216,7 @@
 				6B66DE4C299334710073313E /* SplashViewController.swift */,
 				6B0BDC542991E26A008645A5 /* WebMainViewController.swift */,
 				6B0BDC692991E9BF008645A5 /* TestUIViewController.swift */,
+				6BBEFF9429A33BF200C38307 /* PopupViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -334,6 +340,7 @@
 				6B0BDC662991E26A008645A5 /* WebBridge.swift in Sources */,
 				6B0BDC7429921943008645A5 /* SampleUseCase.swift in Sources */,
 				6B66DE5229933C020073313E /* Router.swift in Sources */,
+				6BBEFF9529A33BF200C38307 /* PopupViewController.swift in Sources */,
 				6B0BDC682991E3DE008645A5 /* WebBridgeRequest.swift in Sources */,
 				6B66DE4329922B3F0073313E /* ContactsUseCase.swift in Sources */,
 				6B66DE4529922D580073313E /* Contact.swift in Sources */,
@@ -357,6 +364,7 @@
 				6B0BDC2D2991E1D8008645A5 /* SceneDelegate.swift in Sources */,
 				6B0BDC6A2991E9BF008645A5 /* TestUIViewController.swift in Sources */,
 				6B0BDC5D2991E26A008645A5 /* Data+.swift in Sources */,
+				6BBEFF9729A343C100C38307 /* UIColor+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
