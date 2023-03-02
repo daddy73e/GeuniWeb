@@ -95,13 +95,18 @@ final class PopupViewController: UIViewController {
         titleLabel.text = popupInputData?.title
         contentsLabel.text = popupInputData?.contents
         self.rootVerticalCenter.constant = Constants.animateInterval
+        self.rootView.isHidden = true
     }
 
     private func showAnimate() {
+        if !self.rootView.isHidden {
+            return
+        }
+        self.rootView.isHidden = false
         self.rootVerticalCenter.constant = 0
         self.rootView.alpha = 0
         UIView.animate(
-            withDuration: 0.3,
+            withDuration: Constants.animateDuration,
             delay: 0,
             options: .curveEaseInOut) {
                 self.rootView.alpha = 1
@@ -110,6 +115,9 @@ final class PopupViewController: UIViewController {
     }
 
     private func hideAnimate(completion: (() -> Void)? = nil) {
+        if self.rootView.isHidden {
+            return
+        }
         self.rootVerticalCenter.constant = Constants.animateInterval
         self.rootView.alpha = 1
         UIView.animate(
@@ -120,6 +128,7 @@ final class PopupViewController: UIViewController {
                 self.view.layoutIfNeeded()
         } completion: { isFinish in
             if isFinish {
+                self.rootView.isHidden = true
                 completion?()
             }
         }

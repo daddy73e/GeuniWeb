@@ -8,11 +8,11 @@
 import UIKit
 import WebKit
 
-protocol WebMainViewDelegate: AnyObject {
+public protocol WebMainViewDelegate: AnyObject {
     func closeWebMain(sendData: Any?)
 }
 
-final class WebMainViewController: UIViewController {
+public final class WebMainViewController: UIViewController {
 
     @IBOutlet weak var safeAreaFrame: UIView!
     public var delegate: WebMainViewDelegate?
@@ -20,14 +20,14 @@ final class WebMainViewController: UIViewController {
     private var configuration = WKWebViewConfiguration()
     private var webview = WKWebView()
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         configureWebView()
         configureUI()
         loadURL()
     }
 
-    override func viewDidLayoutSubviews() {
+    public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         configureLayout()
     }
@@ -74,7 +74,7 @@ private extension WebMainViewController {
 }
 
 extension WebMainViewController: WKScriptMessageHandler {
-    func userContentController(
+    public func userContentController(
         _ userContentController: WKUserContentController,
         didReceive message: WKScriptMessage
     ) {
@@ -124,7 +124,7 @@ extension WebMainViewController: WebBridgeDelegate {
 }
 
 extension WebMainViewController: WKUIDelegate {
-    func webView(
+    public func webView(
         _ webView: WKWebView,
         createWebViewWith configuration: WKWebViewConfiguration,
         for navigationAction: WKNavigationAction,
@@ -139,7 +139,7 @@ extension WebMainViewController: WKUIDelegate {
 }
 
 extension WebMainViewController: WKNavigationDelegate {
-    func webView(
+    public func webView(
         _ webView: WKWebView,
         decidePolicyFor navigationAction: WKNavigationAction,
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
@@ -151,15 +151,19 @@ extension WebMainViewController: WKNavigationDelegate {
         decisionHandler(.allow)
     }
 
-    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+    public func webView(
+        _ webView: WKWebView,
+        didFailProvisionalNavigation navigation: WKNavigation!,
+        withError error: Error
+    ) {
 
     }
 
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
 
     }
 
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+    public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
 
     }
 }

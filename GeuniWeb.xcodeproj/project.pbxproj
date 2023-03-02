@@ -121,6 +121,7 @@
 			children = (
 				6B66DE552993A1E20073313E /* GeuniWeb.entitlements */,
 				6B0BDC702992109A008645A5 /* Configuration */,
+				6B66DE4E299335230073313E /* Manager */,
 				6B66DE4B299333F90073313E /* Web */,
 				6B66DE4A299333E90073313E /* ViewController */,
 				6B0BDC6B2992032C008645A5 /* UseCase */,
@@ -128,7 +129,6 @@
 				6B0BDC432991E26A008645A5 /* Mapper */,
 				6B0BDC3E2991E26A008645A5 /* Resource */,
 				6B0BDC482991E26A008645A5 /* UI+Extensions */,
-				6B66DE4E299335230073313E /* Manager */,
 				6B0BDC382991E1D9008645A5 /* Info.plist */,
 			);
 			path = GeuniWeb;

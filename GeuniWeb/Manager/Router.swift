@@ -22,6 +22,20 @@ public class Router {
         }
     }
 
+    public func navigateWeb(
+        fromVC: UIViewController,
+        toVC: WebMainViewController,
+        delegate: WebMainViewDelegate,
+        animated: Bool
+    ) {
+        toVC.delegate = delegate
+        if let navigationController = fromVC.navigationController {
+            navigationController.pushViewController(toVC, animated: animated)
+        } else {
+            fromVC.present(toVC, animated: animated)
+        }
+    }
+
     public func showPopup(
         fromVC: UIViewController,
         popupInput: PopupInput

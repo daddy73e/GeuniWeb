@@ -42,18 +42,19 @@ class TestUIViewController: UIViewController {
     }
 
     @IBAction func didTest4(_ sender: Any) {
-        Router.shared.showPopup(
-            fromVC: self,
-            popupInput: .init(
-                title: "TEST",
-                contents: "Contents",
-                completion: { completion in
-                    print("completion = \(completion)"
-            )
-        }))
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        if let webMainViewController = storyBoard.instantiateViewController(
+            withIdentifier: "WebMainViewController"
+        ) as? WebMainViewController {
+            Router.shared.navigateWeb(fromVC: self, toVC: webMainViewController, delegate: self, animated: true)
+        }
     }
 }
-
+extension TestUIViewController: WebMainViewDelegate {
+    func closeWebMain(sendData: Any?) {
+        print(sendData)
+    }
+}
 extension TestUIViewController: CLLocationManagerDelegate {
     func locationManager(
         _ manager: CLLocationManager,
