@@ -25,25 +25,21 @@ public struct PopupInput {
     var contents: String
     var yesText: String
     var noText: String
-    var delegate: PopupViewDelegate?
+    var completion: ((PopupOutPut) -> Void)?
 
     init(
         title: String,
         contents: String = "",
         yesText: String = "YES",
         noText: String = "NO",
-        delegate: PopupViewDelegate? = nil
+        completion: ((PopupOutPut) -> Void)?
     ) {
         self.title = title
         self.contents = contents
         self.yesText = yesText
         self.noText = noText
-        self.delegate = delegate
+        self.completion = completion
     }
-}
-
-protocol PopupViewDelegate: AnyObject {
-    func responsePopupResult(output: PopupOutPut)
 }
 
 final class PopupViewController: UIViewController {
@@ -54,7 +50,6 @@ final class PopupViewController: UIViewController {
     @IBOutlet weak var contentsLabel: UILabel!
 
     private var popupInputData: PopupInput?
-    private var delegate: PopupViewDelegate?
     private var flagAnimate = false
 
     private enum Constants {
@@ -77,13 +72,12 @@ final class PopupViewController: UIViewController {
 
     public func configure(input: PopupInput) {
         self.popupInputData = input
-        self.delegate = input.delegate
     }
 
     @IBAction func didTapNo(_ sender: Any) {
         hideAnimate { [weak self] in
             self?.dismiss(animated: false) { [weak self] in
-                self?.delegate?.responsePopupResult(output: .init(result: false))
+                self?.popupInputData?.completion?(.init(result: false))
             }
         }
     }
@@ -91,7 +85,7 @@ final class PopupViewController: UIViewController {
     @IBAction func didTapYes(_ sender: Any) {
         hideAnimate { [weak self] in
             self?.dismiss(animated: false) { [weak self] in
-                self?.delegate?.responsePopupResult(output: .init(result: true))
+                self?.popupInputData?.completion?(.init(result: true))
             }
         }
     }

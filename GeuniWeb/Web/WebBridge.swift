@@ -8,13 +8,9 @@
 import Foundation
 import WebKit
 
-public protocol WebCallbackDataReceivable: AnyObject {
-    func receiveCallbackData(jsonDic: [String: Any])
-}
-
 protocol WebBridgeDelegate: AnyObject {
     func evaluateJavaScript(_ javaScriptString: String, completion: ((Any?, Error?) -> Void)?)
-    func closeSubWebView()
+    func callBridgeAction(actionType: WebBridgeUIActionType, completion: (() -> Void)?)
 }
 
 public class WebBridge {
@@ -37,20 +33,59 @@ public class WebBridge {
     private func routeMessageCase(message: WKScriptMessage) {
         let message = message.toWKScriptMessageMapper()
         guard let request = message?.toWebBridgeRequest(),
-            let requestId = message?.toRequestId()
+              let requestId = message?.toRequestId()
         else {
             return
         }
-        let webBridgeAction = WebBridgeAction(requestID: requestId)
-        webBridgeAction.execute(request: request) { [weak self] _ in
-            /* 웹으로 콜백 */
-            self?.sendCallbackToWeb(
-                javascriptMessage: WebBridgeRespose(
-                    jsonString: message?.toJSONString()
-                ).toJavascriptMessage(withRequestId: requestId)
-            )
+
+        switch request {
+        case .userInteraction(let webBridgeUIActionType):
+            /* UI 로직 수행*/
+            webDelegate?.callBridgeAction(
+                actionType: webBridgeUIActionType,
+                completion: { [weak self] in
+                    self?.sendCallbackToWeb(
+                        javascriptMessage: WebBridgeRespose(
+                            jsonString: message?.toJSONString()
+                        ).toJavascriptMessage(withRequestId: requestId)
+                    )
+                })
+        case .bussiness(let webBridgeBusinessActionType):
+            /* 비즈니스 로직 수행*/
+            callBridgeBussinessAction(actinType: webBridgeBusinessActionType) { [weak self] in
+                self?.sendCallbackToWeb(
+                    javascriptMessage: WebBridgeRespose(
+                        jsonString: message?.toJSONString()
+                    ).toJavascriptMessage(withRequestId: requestId)
+                )
+            }
         }
     }
+
+    private func callBridgeBussinessAction(
+        actinType: WebBridgeBusinessActionType,
+        completion: (() -> Void)?) {
+            switch actinType {
+            case .userDefault(let userDefaultActionType):
+                userDefaultAction(type: userDefaultActionType)
+            }
+            completion?()
+        }
+
+    private func userDefaultAction(type: UserDefaultActionType) {
+        let useCase = UserDefaultUseCase()
+        switch type {
+        case .write(let key, let value):
+            useCase.write(input: .init(key: key, value: value))
+        case .read(let key):
+            if let readData = useCase.read(input: .init(key: key)).value {
+                print("read data = \(readData)")
+            }
+        case .remove(let key):
+            useCase.delete(input: .init(key: key))
+        }
+    }
+
     private func sendCallbackToWeb(
         javascriptMessage: String
     ) {

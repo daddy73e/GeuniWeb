@@ -24,8 +24,23 @@
 			</div>
             <button style="width: 49%"
                 type="button"
-                onclick="goPrevPageWithData()">
+                onclick="showAlertPopup()">
                 알림팝업
+            </button>
+            <button style="width: 80%"
+                type="button"
+                onclick="writeLocalStorage()">
+                데이터 저장 Key:test, value:testValue
+            </button>
+            <button style="width: 80%"
+                type="button"
+                onclick="readLocalStorage()">
+                데이터 불러오기 Key:test
+            </button>
+            <button style="width: 80%"
+                type="button"
+                onclick="removeLocalStorage()">
+                데이터 지우기
             </button>
 		</div>
 	</body>

@@ -6,5 +6,6 @@
 //
 
 public enum WebBridgeRequest {
-    case navigator(WebBridgeNavigatorActionType)
+    case userInteraction(WebBridgeUIActionType)
+    case bussiness(WebBridgeBusinessActionType)
 }

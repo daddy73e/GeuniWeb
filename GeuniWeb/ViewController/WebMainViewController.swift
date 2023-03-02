@@ -8,9 +8,14 @@
 import UIKit
 import WebKit
 
+protocol WebMainViewDelegate: AnyObject {
+    func closeWebMain(sendData: Any?)
+}
+
 final class WebMainViewController: UIViewController {
 
     @IBOutlet weak var safeAreaFrame: UIView!
+    public var delegate: WebMainViewDelegate?
     private var messageHandlerName = "geuniModule"
     private var configuration = WKWebViewConfiguration()
     private var webview = WKWebView()
@@ -53,10 +58,26 @@ private extension WebMainViewController {
         urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         webview.load(urlRequest)
     }
+
+    func closeWebMain(sendData: String?, completion: (() -> Void)?) {
+        if let navigationController = self.navigationController {
+            navigationController.popViewController(animated: true)
+            self.delegate?.closeWebMain(sendData: sendData)
+            completion?()
+        } else {
+            self.dismiss(animated: true) { [weak self] in
+                self?.delegate?.closeWebMain(sendData: sendData)
+                completion?()
+            }
+        }
+    }
 }
 
 extension WebMainViewController: WKScriptMessageHandler {
-    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+    func userContentController(
+        _ userContentController: WKUserContentController,
+        didReceive message: WKScriptMessage
+    ) {
         WebBridge.shared.requestWebCallback(
             viewController: userContentController,
             message: message,
@@ -66,6 +87,27 @@ extension WebMainViewController: WKScriptMessageHandler {
 }
 
 extension WebMainViewController: WebBridgeDelegate {
+    func callBridgeAction(actionType: WebBridgeUIActionType, completion: (() -> Void)?) {
+        switch actionType {
+        case .closeWeb(let string):
+            closeWebMain(sendData: string, completion: completion)
+        case .showAlertPopup(let dictionary):
+            Router.shared.showPopup(
+                fromVC: self,
+                popupInput: .init(
+                    title: dictionary["title"] ?? "",
+                    contents: dictionary["contents"] ?? "",
+                    yesText: dictionary["yesText"] ?? "",
+                    noText: dictionary["noText"] ?? "",
+                    completion: { output in
+                            print("output = \(output)")
+                        completion?()
+                    }
+                )
+            )
+        }
+    }
+
     func evaluateJavaScript(_ javaScriptString: String, completion: ((Any?, Error?) -> Void)?) {
         DispatchQueue.main.async { [weak self] in
             self?.webview.evaluateJavaScript(javaScriptString, completionHandler: completion)

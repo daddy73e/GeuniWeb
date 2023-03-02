@@ -47,9 +47,10 @@ class TestUIViewController: UIViewController {
             popupInput: .init(
                 title: "TEST",
                 contents: "Contents",
-                delegate: self
+                completion: { completion in
+                    print("completion = \(completion)"
             )
-        )
+        }))
     }
 }
 
@@ -74,11 +75,5 @@ extension TestUIViewController {
         if motion == .motionShake {
             print("Shake Gesture Detected")
         }
-    }
-}
-
-extension TestUIViewController: PopupViewDelegate {
-    func responsePopupResult(output: PopupOutPut) {
-        print("output = \(output)")
     }
 }
