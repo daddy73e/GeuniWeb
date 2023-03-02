@@ -9,7 +9,7 @@ import Foundation
 import AuthenticationServices
 
 public struct AppleLoginInput {
-    
+
 }
 public struct AppleLoginOutput {
 }
@@ -24,4 +24,3 @@ public class AppleLoginUseCase: AppleLoginUseCaseProtocol {
         return AppleLoginOutput()
     }
 }
-

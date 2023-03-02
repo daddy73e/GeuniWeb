@@ -14,6 +14,7 @@ final class WebMainViewController: UIViewController {
     private var messageHandlerName = "geuniModule"
     private var configuration = WKWebViewConfiguration()
     private var webview = WKWebView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureWebView()
@@ -24,10 +25,6 @@ final class WebMainViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         configureLayout()
-    }
-
-    @IBAction func didTapTestButton(_ sender: Any) {
-
     }
 }
 

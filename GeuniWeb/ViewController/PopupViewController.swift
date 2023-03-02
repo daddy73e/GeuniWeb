@@ -48,15 +48,31 @@ protocol PopupViewDelegate: AnyObject {
 
 final class PopupViewController: UIViewController {
 
+    @IBOutlet weak var rootVerticalCenter: NSLayoutConstraint!
+    @IBOutlet weak var rootView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var contentsLabel: UILabel!
 
     private var popupInputData: PopupInput?
     private var delegate: PopupViewDelegate?
+    private var flagAnimate = false
+
+    private enum Constants {
+        static let animateInterval = 30.0
+        static let animateDuration = 0.3
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !flagAnimate {
+            showAnimate()
+            flagAnimate = true
+        }
     }
 
     public func configure(input: PopupInput) {
@@ -65,14 +81,18 @@ final class PopupViewController: UIViewController {
     }
 
     @IBAction func didTapNo(_ sender: Any) {
-        self.dismiss(animated: false) { [weak self] in
-            self?.delegate?.responsePopupResult(output: .init(result: false))
+        hideAnimate { [weak self] in
+            self?.dismiss(animated: false) { [weak self] in
+                self?.delegate?.responsePopupResult(output: .init(result: false))
+            }
         }
     }
 
     @IBAction func didTapYes(_ sender: Any) {
-        self.dismiss(animated: false) { [weak self] in
-            self?.delegate?.responsePopupResult(output: .init(result: true))
+        hideAnimate { [weak self] in
+            self?.dismiss(animated: false) { [weak self] in
+                self?.delegate?.responsePopupResult(output: .init(result: true))
+            }
         }
     }
 
@@ -80,5 +100,34 @@ final class PopupViewController: UIViewController {
         self.view.backgroundColor = UIColor(hex: "#0000004C")
         titleLabel.text = popupInputData?.title
         contentsLabel.text = popupInputData?.contents
+        self.rootVerticalCenter.constant = Constants.animateInterval
+    }
+
+    private func showAnimate() {
+        self.rootVerticalCenter.constant = 0
+        self.rootView.alpha = 0
+        UIView.animate(
+            withDuration: 0.3,
+            delay: 0,
+            options: .curveEaseInOut) {
+                self.rootView.alpha = 1
+                self.view.layoutIfNeeded()
+        } completion: { _ in }
+    }
+
+    private func hideAnimate(completion: (() -> Void)? = nil) {
+        self.rootVerticalCenter.constant = Constants.animateInterval
+        self.rootView.alpha = 1
+        UIView.animate(
+            withDuration: Constants.animateDuration,
+            delay: 0,
+            options: .curveEaseInOut) {
+                self.rootView.alpha = 0
+                self.view.layoutIfNeeded()
+        } completion: { isFinish in
+            if isFinish {
+                completion?()
+            }
+        }
     }
 }

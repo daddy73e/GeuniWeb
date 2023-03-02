@@ -40,6 +40,7 @@ class TestUIViewController: UIViewController {
             }
         }
     }
+
     @IBAction func didTest4(_ sender: Any) {
         Router.shared.showPopup(
             fromVC: self,
@@ -53,13 +54,17 @@ class TestUIViewController: UIViewController {
 }
 
 extension TestUIViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(
+        _ manager: CLLocationManager,
+        didUpdateLocations locations: [CLLocation]
+    ) {
         guard let location = locations.last else {
             return
         }
         currentLocation = location
     }
 }
+
 extension TestUIViewController {
     override func becomeFirstResponder() -> Bool {
         return true

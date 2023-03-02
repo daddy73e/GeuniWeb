@@ -21,7 +21,7 @@ public class Router {
             fromVC.present(toVC, animated: animated)
         }
     }
-    
+
     public func showPopup(
         fromVC: UIViewController,
         popupInput: PopupInput

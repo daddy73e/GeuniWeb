@@ -5,7 +5,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
         <title>WKWebViewBridge</title>
-        <button type="button" onclick="pluginNavigator_goPrevPageWithData()">Close</button>
+        <button type="button" onclick="goPrevPageWithData()">Close</button>
         <link rel="stylesheet" href="test.css">
         <script type="text/javascript" src="test.js"></script>
     </head>
@@ -14,14 +14,19 @@
 		<hr>
 		<h3>브릿지 기능 테스트</h3>
 		<div style="width:100%; margin: 0 auto; text-align: all;">
-			<div style="width: 49%; display: inline-block; vertical-align: top;">
+			<div style="width: 45%; display: inline-block; vertical-align: top;">
 				<p style="text-align: center;">Request</p>
 				<textarea id="request" name="request"></textarea>
 			</div>
-			<div style="width: 49%; display: inline-block; vertical-align: top;">
+			<div style="width: 45%; display: inline-block; vertical-align: top; margin-left: 3%;">
 				<p style="text-align: center;">Response</p>
 				<textarea id="response" name="response"></textarea>
 			</div>
+            <button style="width: 49%"
+                type="button"
+                onclick="goPrevPageWithData()">
+                알림팝업
+            </button>
 		</div>
 	</body>
 </html>
