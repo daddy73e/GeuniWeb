@@ -37,7 +37,7 @@ public extension WKScriptMessageMapper {
         switch serviceName {
         case "Navigator", "CustomAlert":
             return toWebBridgeUIRequest(action: action, params: params)
-        case "LocalStorage":
+        case "LocalStorage",  "Login":
             return toWebBridgeBusinessRequest(action: action, params: params)
         default:
             return nil

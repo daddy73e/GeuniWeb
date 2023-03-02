@@ -10,8 +10,6 @@
         <script type="text/javascript" src="test.js"></script>
     </head>
 	<body>
-		<h1 style="text-align: center;">Test Webview</h1>
-		<hr>
 		<h3>브릿지 기능 테스트</h3>
 		<div style="width:100%; margin: 0 auto; text-align: all;">
 			<div style="width: 45%; display: inline-block; vertical-align: top;">
@@ -22,22 +20,27 @@
 				<p style="text-align: center;">Response</p>
 				<textarea id="response" name="response"></textarea>
 			</div>
-            <button style="width: 49%"
+            <button style="width: 100%"
+                type="button"
+                onclick="loginSNS()">
+                SNS-애플로그인
+            </button>
+            <button style="width: 100%"
                 type="button"
                 onclick="showAlertPopup()">
                 알림팝업
             </button>
-            <button style="width: 80%"
+            <button style="width: 100%"
                 type="button"
                 onclick="writeLocalStorage()">
                 데이터 저장 Key:test, value:testValue
             </button>
-            <button style="width: 80%"
+            <button style="width: 100%"
                 type="button"
                 onclick="readLocalStorage()">
                 데이터 불러오기 Key:test
             </button>
-            <button style="width: 80%"
+            <button style="width: 100%"
                 type="button"
                 onclick="removeLocalStorage()">
                 데이터 지우기

@@ -68,6 +68,8 @@ public class WebBridge {
             switch actinType {
             case .userDefault(let userDefaultActionType):
                 userDefaultAction(type: userDefaultActionType)
+            case .snsLogin(let snsType):
+                snsLoginAction(type: snsType)
             }
             completion?()
         }
@@ -83,6 +85,21 @@ public class WebBridge {
             }
         case .remove(let key):
             useCase.delete(input: .init(key: key))
+        }
+    }
+    
+    private func snsLoginAction(type: SNSLoginType) {
+        let useCase = AppleLoginUseCase()
+        switch type {
+        case .none:
+            break
+        case .apple:
+            useCase.requestLogin { output in
+                if let loginInfo = output {
+                    print(loginInfo)
+                }
+                print(output)
+            }
         }
     }
 

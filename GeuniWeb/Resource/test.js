@@ -171,67 +171,11 @@ function removeLocalStorage() {
     sendNativeAction("LocalStorage", "removeLocalStorage", params)
 }
 
-function pluginNavigator_goNextPage() {
+function loginSNS() {
     var params = {
-        "programId" : "BM1509S0401U01",
-        "data" : ""
+        "type" : "apple"
     };
-    sendNativeAction("Navigator", "goNextPage", params)
-}
-function pluginNavigator_goNextPage_allAccounts() {
-    var params = {
-        "programId" : "BM1501S0001F01",
-        "data" : ""
-    };
-    sendNativeAction("Navigator", "goNextPage", params)
-}
-
-function pluginNavigator_goNextPage_Ddang() {
-    var params = {
-        "programId" : "CO04000000243",
-        "data" : ""
-    };
-    sendNativeAction("Navigator", "goNextPage", params)
-}
-function pluginNavigator_goNextPageByPost() {
-    var params = {
-        "url": "https://wapi.dev-zeropaypoint.or.kr/wapi/zpp/webview/v1/point/main",
-        "method": "POST",
-        "headers": {
-            "Content-Type":"application/x-www-form-urlencoded",
-            "Authorization":"BTzIaKhkB+sSGiTPNCrd3kG7to/T4LxcPedOf3F+Gh+aUgfIdvL7NKfSfYSkWBrc"
-        },
-        "data": "saleChannel=088&userNo=7dZa%2BROEEI3N9JWiYDOS7w%3D%3D&zpphash=2aOFjDaOouDjVcnMSI8tUnOnc10XniaP7OquoH6wufQ%3D"
-    };
-    sendNativeAction("Navigator", "goNextPageByPost", params);
-}
-function pluginNavigator_goToLogin() {
-    var params = {
-        "loginType" : "G"
-    };
-    sendNativeAction("Navigator", "goToLogin", params)
-}
-function pluginNavigator_goMain() {
-    var params = {
-        "mainType" : "1",
-        "subType" : "2"
-    };
-    sendNativeAction("Navigator", "goMain", params)
-}
-function pluginNavigator_logout() {
-    var params = {};
-    sendNativeAction("Navigator", "logout", params)
-}
-function pluginNavigator_regStudentId() {
-    var params = {
-        "mainTitle" : "학생증 체크카드",
-        "linkUrl" : "https://newm.shinhancard.com/mob/MOBIDCPHTN/IDCPHT01.shc?z="
-    };
-    sendNativeAction("Navigator", "regStudentId", params)
-}
-function pluginNavigator_closeApp() {
-    var params = {};
-    sendNativeAction("Navigator", "closeApp", params)
+    sendNativeAction("Login", "loginSNS", params)
 }
 
 function callbackListener(message) {
