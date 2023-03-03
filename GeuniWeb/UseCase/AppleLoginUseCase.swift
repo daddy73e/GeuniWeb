@@ -42,7 +42,7 @@ public class AppleLoginUseCase: NSObject, AppleLoginUseCaseProtocol {
 }
 
 extension AppleLoginUseCase: ASAuthorizationControllerDelegate {
-    /* success */
+
     public func authorizationController(
         controller: ASAuthorizationController,
         didCompleteWithAuthorization authorization: ASAuthorization
@@ -56,7 +56,7 @@ extension AppleLoginUseCase: ASAuthorizationControllerDelegate {
             completion?(.init(idToken: token, authCode: authCode, user: user))
         }
     }
-    /* fail */
+
     public func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         completion?(nil)
     }
