@@ -52,7 +52,7 @@ class TestUIViewController: UIViewController {
 }
 extension TestUIViewController: WebMainViewDelegate {
     func closeWebMain(sendData: Any?) {
-        print(sendData)
+
     }
 }
 extension TestUIViewController: CLLocationManagerDelegate {

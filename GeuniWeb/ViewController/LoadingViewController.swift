@@ -8,7 +8,7 @@
 import UIKit
 
 final class LoadingViewController: UIViewController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
