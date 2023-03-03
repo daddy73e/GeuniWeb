@@ -8,6 +8,7 @@
 public class AppConfigure {
     public static let shared = AppConfigure()
     public var enviromentType: EnvironmentType = .develop
+    public var appleIDKey = "GEUNI_WEB_APPLE_LOGIN_ID"
     public func baseURL() -> String {
         switch enviromentType {
         case .production:
@@ -26,4 +27,5 @@ public class AppConfigure {
         case test
         case mock
     }
+    
 }

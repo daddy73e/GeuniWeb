@@ -16,8 +16,11 @@ class TestUIViewController: UIViewController {
     }
 
     @IBAction func didTest1(_ sender: Any) {
-        let locationUseCase = LocationUseCase()
-        locationUseCase.request(input: .init(delegate: self))
+        let useCase = KeychainUseCase()
+//        useCase.writeKeychain(data: "savedData", key: "test")
+        useCase.write(input: .init(key: "test", saveData: "saveData"))
+//        useCase.delete(input: .init(key: "test"))
+        print(useCase.read(input: .init(key: "test")))
     }
 
     @IBAction func didTest2(_ sender: Any) {

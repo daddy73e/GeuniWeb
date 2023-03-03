@@ -96,9 +96,12 @@ public class WebBridge {
         case .apple:
             useCase.requestLogin { output in
                 if let loginInfo = output {
-                    print(loginInfo)
+                    let keyCainUseCase = KeychainUseCase()
+                    keyCainUseCase.write(input: .init(
+                        key: AppConfigure.shared.appleIDKey,
+                        saveData: loginInfo.user
+                    ))
                 }
-                print(output)
             }
         }
     }

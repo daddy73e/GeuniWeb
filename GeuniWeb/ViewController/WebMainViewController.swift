@@ -19,10 +19,12 @@ public final class WebMainViewController: UIViewController {
     private var messageHandlerName = "geuniModule"
     private var configuration = WKWebViewConfiguration()
     private var webview = WKWebView()
-
+    private var networkManager = NetworkManager.shared
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         configureWebView()
+        configureNetwork()
         configureUI()
         loadURL()
     }
@@ -30,6 +32,11 @@ public final class WebMainViewController: UIViewController {
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         configureLayout()
+    }
+    
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        networkManager.stopMonitoring()
     }
 }
 
@@ -50,6 +57,11 @@ private extension WebMainViewController {
         webview = WKWebView(frame: .zero, configuration: configuration)
         webview.uiDelegate = self
         webview.navigationDelegate = self
+    }
+    
+    func configureNetwork() {
+        networkManager.delegate = self
+        networkManager.startMonitoring()
     }
 
     func loadURL() {
@@ -171,4 +183,10 @@ extension WebMainViewController: WKNavigationDelegate {
 /* 웹메인에서 웹 메인을 호출하는 경우 callback으로 사용 */
 extension WebMainViewController: WebMainViewDelegate {
     public func closeWebMain(sendData: Any?) { }
+}
+
+extension WebMainViewController: NetworkStatusDelegate {
+    public func observeNetworkStatus(status: NetworkStatus) {
+        print("Network status = \(status)")
+    }
 }

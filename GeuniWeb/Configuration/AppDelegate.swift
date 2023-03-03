@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AuthenticationServices
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -13,6 +14,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            let keyCainUseCase = KeychainUseCase()
+            if let appleLoginID = keyCainUseCase.read(input: .init(key: AppConfigure.shared.appleIDKey)) {
+                appleIDProvider.getCredentialState(forUserID: appleLoginID) { (credentialState, error) in
+                    switch credentialState {
+                    case .authorized:
+                        break // The Apple ID credential is valid.
+                    case .revoked, .notFound:
+                        
+                        break
+                    default:
+                        break
+                    }
+                }
+                return true
+            }
         return true
     }
 
