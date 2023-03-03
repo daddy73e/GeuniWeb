@@ -17,12 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let appleIDProvider = ASAuthorizationAppleIDProvider()
             let keyCainUseCase = KeychainUseCase()
             if let appleLoginID = keyCainUseCase.read(input: .init(key: AppConfigure.shared.appleIDKey)) {
-                appleIDProvider.getCredentialState(forUserID: appleLoginID) { (credentialState, error) in
+                appleIDProvider.getCredentialState(forUserID: appleLoginID) { (credentialState, _) in
                     switch credentialState {
                     case .authorized:
                         break // The Apple ID credential is valid.
                     case .revoked, .notFound:
-                        
                         break
                     default:
                         break

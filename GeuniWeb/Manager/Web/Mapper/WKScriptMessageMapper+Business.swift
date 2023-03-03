@@ -20,9 +20,6 @@ extension WKScriptMessageMapper {
         case "removeLocalStorage":
             let key = (params?["key"] as? String) ?? ""
             return .bussiness(.userDefault(type: .remove(key: key)))
-        case "loginSNS":
-            let type = (params?["type"] as? String) ?? ""
-            return .bussiness(.snsLogin(type: .init(fromRawValue: type)))
         default:
             return nil
         }

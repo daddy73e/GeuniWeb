@@ -9,6 +9,11 @@ import Foundation
 import CoreLocation
 import UIKit
 
+public protocol LocationUseCaseProtocol {
+    func request(input: LocationInput)
+    func permissionCheck() -> LocationPermissionOutput
+}
+
 public enum LocationPermission {
     case none
     case access /// 사용가능
@@ -28,11 +33,6 @@ public struct LocationPermissionOutput {
     init(permission: LocationPermission) {
         self.permission = permission
     }
-}
-
-public protocol LocationUseCaseProtocol {
-    func request(input: LocationInput)
-    func permissionCheck() -> LocationPermissionOutput
 }
 
 public class LocationUseCase: LocationUseCaseProtocol {

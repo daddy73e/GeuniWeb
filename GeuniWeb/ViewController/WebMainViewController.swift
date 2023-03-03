@@ -20,7 +20,7 @@ public final class WebMainViewController: UIViewController {
     private var configuration = WKWebViewConfiguration()
     private var webview = WKWebView()
     private var networkManager = NetworkManager.shared
-    
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         configureWebView()
@@ -33,7 +33,7 @@ public final class WebMainViewController: UIViewController {
         super.viewDidLayoutSubviews()
         configureLayout()
     }
-    
+
     public override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         networkManager.stopMonitoring()
@@ -58,7 +58,7 @@ private extension WebMainViewController {
         webview.uiDelegate = self
         webview.navigationDelegate = self
     }
-    
+
     func configureNetwork() {
         networkManager.delegate = self
         networkManager.startMonitoring()
@@ -117,6 +117,12 @@ extension WebMainViewController: WebBridgeDelegate {
                     }
                 )
             )
+        case .logout:
+            /* 페이지 초기화 */
+            completion?()
+        case .login:
+            /* 페이지 이동 */
+            completion?()
         }
     }
 
@@ -188,5 +194,16 @@ extension WebMainViewController: WebMainViewDelegate {
 extension WebMainViewController: NetworkStatusDelegate {
     public func observeNetworkStatus(status: NetworkStatus) {
         print("Network status = \(status)")
+        switch status {
+        case .notConnected:
+            Router.shared.showPopup(fromVC: self, popupInput: .init(
+                title: "알림",
+                contents: "네트워크 연결이 끊겼습니다.",
+                yesText: "확인",
+                noText: "", completion: nil
+            ))
+        default:
+            break
+        }
     }
 }

@@ -7,13 +7,14 @@
 
 import Foundation
 
-public struct SampleInput {
-}
-public struct SampleOutput {
-}
-
 public protocol SampleUseCaseProtocol {
     func execute(input: SampleInput) -> SampleOutput
+}
+
+public struct SampleInput {
+}
+
+public struct SampleOutput {
 }
 
 public class SampleUseCase: SampleUseCaseProtocol {

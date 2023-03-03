@@ -48,6 +48,8 @@ final class PopupViewController: UIViewController {
     @IBOutlet weak var rootView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var contentsLabel: UILabel!
+    @IBOutlet weak var noButton: UIButton!
+    @IBOutlet weak var yesButton: UIButton!
 
     private var popupInputData: PopupInput?
     private var flagAnimate = false
@@ -92,10 +94,14 @@ final class PopupViewController: UIViewController {
 
     private func configureUI() {
         self.view.backgroundColor = UIColor(hex: "#0000004C")
-        titleLabel.text = popupInputData?.title
-        contentsLabel.text = popupInputData?.contents
         self.rootVerticalCenter.constant = Constants.animateInterval
         self.rootView.isHidden = true
+        self.titleLabel.text = popupInputData?.title
+        self.contentsLabel.text = popupInputData?.contents
+        self.noButton.isHidden = popupInputData?.noText.isEmpty ?? true
+        self.yesButton.isHidden = popupInputData?.yesText.isEmpty ?? true
+        self.noButton.setTitle(popupInputData?.noText, for: .normal)
+        self.yesButton.setTitle(popupInputData?.yesText, for: .normal)
     }
 
     private func showAnimate() {

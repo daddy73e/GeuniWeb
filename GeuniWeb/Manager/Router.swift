@@ -40,13 +40,15 @@ public class Router {
         fromVC: UIViewController,
         popupInput: PopupInput
     ) {
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        if let popupViewController = storyBoard.instantiateViewController(
-            withIdentifier: "PopupViewController"
-        ) as? PopupViewController {
-            popupViewController.configure(input: popupInput)
-            popupViewController.modalPresentationStyle = .overCurrentContext
-            fromVC.present(popupViewController, animated: false)
+        DispatchQueue.main.async {
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            if let popupViewController = storyBoard.instantiateViewController(
+                withIdentifier: "PopupViewController"
+            ) as? PopupViewController {
+                popupViewController.configure(input: popupInput)
+                popupViewController.modalPresentationStyle = .overCurrentContext
+                fromVC.present(popupViewController, animated: false)
+            }
         }
     }
 }

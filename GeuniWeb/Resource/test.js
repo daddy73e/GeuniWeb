@@ -178,6 +178,11 @@ function loginSNS() {
     sendNativeAction("Login", "loginSNS", params)
 }
 
+function logOut() {
+    var params = { };
+    sendNativeAction("LogOut", "logout", params)
+}
+
 function callbackListener(message) {
     var response = document.getElementById("response")
     response.value = JSON.stringify(message, null, 4)

@@ -8,6 +8,10 @@
 import Foundation
 import AuthenticationServices
 
+public protocol AppleLoginUseCaseProtocol {
+    func requestLogin(completion: ((AppleLoginOutput?) -> Void)?)
+}
+
 public struct AppleLoginOutput {
     var idToken: String?
     var authCode: String?
@@ -21,10 +25,6 @@ public struct AppleLoginOutput {
         self.authCode = authCode
         self.user = user
     }
-}
-
-public protocol AppleLoginUseCaseProtocol {
-    func requestLogin(completion: ((AppleLoginOutput?) -> Void)?)
 }
 
 public class AppleLoginUseCase: NSObject, AppleLoginUseCaseProtocol {

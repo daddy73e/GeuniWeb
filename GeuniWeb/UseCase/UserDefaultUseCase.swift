@@ -7,6 +7,13 @@
 
 import Foundation
 
+public protocol UserDefaultUseCaseProtocol {
+    func read(input: UserDefaultInput) -> UserDefaultOutput
+    func write(input: UserDefaultInput)
+    func delete(input: UserDefaultInput)
+    func deleteAll()
+}
+
 public struct UserDefaultInput {
     let key: String
     var value: Any?
@@ -23,13 +30,6 @@ public struct UserDefaultOutput {
     init(value: Any? = nil) {
         self.value = value
     }
-}
-
-public protocol UserDefaultUseCaseProtocol {
-    func read(input: UserDefaultInput) -> UserDefaultOutput
-    func write(input: UserDefaultInput)
-    func delete(input: UserDefaultInput)
-    func deleteAll()
 }
 
 final public class UserDefaultUseCase: UserDefaultUseCaseProtocol {

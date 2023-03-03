@@ -8,6 +8,10 @@
 import Foundation
 import Contacts
 
+public protocol ContactsUseCaseProtocol {
+    func request(completion: @escaping (ContactsOutput) -> Void)
+}
+
 public struct ContactsOutput {
 
     var contacts = [Contact]()
@@ -17,10 +21,6 @@ public struct ContactsOutput {
         self.contacts = contacts
         self.isPermissionAccess = isPermissionAccess
     }
-}
-
-public protocol ContactsUseCaseProtocol {
-    func request(completion: @escaping (ContactsOutput) -> Void)
 }
 
 public class ContactsUseCase: ContactsUseCaseProtocol {

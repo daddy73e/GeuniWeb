@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import AuthenticationServices
 
 class TestUIViewController: UIViewController {
     let userDefulatUseCase = UserDefaultUseCase()
@@ -16,11 +17,7 @@ class TestUIViewController: UIViewController {
     }
 
     @IBAction func didTest1(_ sender: Any) {
-        let useCase = KeychainUseCase()
-//        useCase.writeKeychain(data: "savedData", key: "test")
-        useCase.write(input: .init(key: "test", saveData: "saveData"))
-//        useCase.delete(input: .init(key: "test"))
-        print(useCase.read(input: .init(key: "test")))
+        Loading.shared.show(fromVC: self)
     }
 
     @IBAction func didTest2(_ sender: Any) {

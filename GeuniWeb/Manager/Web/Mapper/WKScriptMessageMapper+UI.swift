@@ -18,6 +18,11 @@ extension WKScriptMessageMapper {
             } else {
                 return nil
             }
+        case "logout":
+            return .userInteraction(.logout)
+        case "loginSNS":
+            let type = (params?["type"] as? String) ?? ""
+            return .userInteraction(.login(loginType: .init(fromRawValue: type), error: nil))
         default:
             return nil
         }

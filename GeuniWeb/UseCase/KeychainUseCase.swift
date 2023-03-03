@@ -7,10 +7,16 @@
 
 import Foundation
 
+public protocol KeychainUseCaseProtocol {
+    func write(input: KeychainInput)
+    func read(input: KeychainInput) -> String?
+    func delete(input: KeychainInput)
+}
+
 public struct KeychainInput {
     let key: String
     let saveData: String?
-    
+
     public init(
         key: String,
         saveData: String? = nil
@@ -25,12 +31,6 @@ public struct KeychainOutput {
     public init(savedData: String) {
         self.savedData = savedData
     }
-}
-
-public protocol KeychainUseCaseProtocol {
-    func write(input: KeychainInput)
-    func read(input: KeychainInput) -> String?
-    func delete(input: KeychainInput)
 }
 
 public class KeychainUseCase: KeychainUseCaseProtocol {
