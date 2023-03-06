@@ -1,5 +1,5 @@
 //
-//  NetworkManager.swift
+//  NetworkStatusManager.swift
 //  GeuniWeb
 //
 //  Created by 60157085 on 2023/03/03.
@@ -21,9 +21,9 @@ public enum NetworkStatus {
     case notConnected
 }
 
-final class NetworkManager {
+final class NetworkStatusManager {
 
-    public static let shared = NetworkManager()
+    public static let shared = NetworkStatusManager()
     public weak var delegate: NetworkStatusDelegate?
     private var networkStatus: NetworkStatus = .none
 

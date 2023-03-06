@@ -19,7 +19,7 @@ public final class WebMainViewController: UIViewController {
     private var messageHandlerName = "geuniModule"
     private var configuration = WKWebViewConfiguration()
     private var webview = WKWebView()
-    private var networkManager = NetworkManager.shared
+    private var networkStatusManager = NetworkStatusManager.shared
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +36,7 @@ public final class WebMainViewController: UIViewController {
 
     public override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        networkManager.stopMonitoring()
+        networkStatusManager.stopMonitoring()
     }
 }
 
@@ -60,8 +60,8 @@ private extension WebMainViewController {
     }
 
     func configureNetwork() {
-        networkManager.delegate = self
-        networkManager.startMonitoring()
+        networkStatusManager.delegate = self
+        networkStatusManager.startMonitoring()
     }
 
     func loadURL() {

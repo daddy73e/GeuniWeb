@@ -132,6 +132,12 @@ var rsaKey = "356AA68F5A50D5EA9024CC33B772F573A768ABA6CDBB941E74B0C1B2A91A5A9BAB
 
 //////////////////////////////////////////////////////////////////////////
 /* plugin functions */
+function requestAPI() {
+    var params = { };
+    
+    sendNativeAction("APIRequest", "requestTest", params)
+}
+
 function goPrevPageWithData() {
     var params = {
         "data" : "test data"

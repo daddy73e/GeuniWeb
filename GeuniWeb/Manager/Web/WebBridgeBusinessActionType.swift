@@ -7,6 +7,7 @@
 
 public enum WebBridgeBusinessActionType {
     case userDefault(type: UserDefaultActionType)
+    case requestAPI
 }
 
 public enum UserDefaultActionType {

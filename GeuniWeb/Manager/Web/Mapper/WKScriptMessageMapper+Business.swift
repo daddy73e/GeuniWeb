@@ -10,6 +10,8 @@ import Foundation
 extension WKScriptMessageMapper {
     func toWebBridgeBusinessRequest(action: String, params: [String: Any]?) -> WebBridgeRequest? {
         switch action {
+        case "requestTest":
+            return .bussiness(.requestAPI)
         case "writeLocalStorage":
             let key = (params?["key"] as? String) ?? ""
             let value = (params?["value"] as? String) ?? ""

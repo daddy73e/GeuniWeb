@@ -101,8 +101,19 @@ public class WebBridge {
         switch actinType {
         case .userDefault(let userDefaultActionType):
             userDefaultAction(type: userDefaultActionType)
+            completion?()
+        case .requestAPI:
+            requestAPI {
+                completion?()
+            }
         }
-        completion?()
+    }
+
+    private func requestAPI(completion: (() -> Void)?) {
+        Loading.shared.show()
+        APIManager.shared.request { response, error in
+            Loading.shared.hide()
+        }
     }
 
     private func userDefaultAction(type: UserDefaultActionType) {
@@ -143,7 +154,7 @@ public class WebBridge {
     }
 
     private func logout() {
-        LoginManager.shared.requestLogout { [weak self] in
+        LoginManager.shared.requestLogout {
             print("logout")
         }
     }

@@ -8,19 +8,21 @@
 public class AppConfigure {
     public static let shared = AppConfigure()
     public var enviromentType: EnvironmentType = .develop
+
     public var appleIDKey = "GEUNI_WEB_APPLE_LOGIN_ID"
     public func baseURL() -> String {
         switch enviromentType {
         case .production:
             return "https://production"
         case .develop:
-            return "https://develop"
+            return "https://swapi.dev/api/films"
         case .test:
             return "https://test"
         case .mock:
             return "https://mock"
         }
     }
+
     public enum EnvironmentType: String {
         case production
         case develop

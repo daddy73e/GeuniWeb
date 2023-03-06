@@ -17,7 +17,7 @@ class TestUIViewController: UIViewController {
     }
 
     @IBAction func didTest1(_ sender: Any) {
-        Loading.shared.show(fromVC: self)
+        Loading.shared.show()
     }
 
     @IBAction func didTest2(_ sender: Any) {
