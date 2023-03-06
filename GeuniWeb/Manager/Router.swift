@@ -40,7 +40,7 @@ public class Router {
         fromVC: UIViewController,
         popupInput: PopupInput
     ) {
-        DispatchQueue.main.async {
+        Task { @MainActor in
             let storyBoard = UIStoryboard(name: "Main", bundle: nil)
             if let popupViewController = storyBoard.instantiateViewController(
                 withIdentifier: "PopupViewController"

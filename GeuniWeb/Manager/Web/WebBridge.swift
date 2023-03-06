@@ -111,7 +111,7 @@ public class WebBridge {
 
     private func requestAPI(completion: (() -> Void)?) {
         Loading.shared.show()
-        APIManager.shared.request { response, error in
+        APIManager.shared.request { _, _ in
             Loading.shared.hide()
         }
     }

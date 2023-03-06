@@ -72,20 +72,14 @@ final class Loading: UIView, LoadingPresentable {
 
     /// showLoading을 선행시켜서 loadingSet이 Empty여야만 UI로직을 태우도록 작성
     func show(withMessage message: String? = nil) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else {
-                return
-            }
+        Task { @MainActor in
             self.showLoading(with: message, set: self.loadingSet)
             self.loadingSet.insert(Constants.defaultLoadingID)
         }
     }
 
     func hide() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else {
-                return
-            }
+        Task { @MainActor in
             self.loadingSet.remove(Constants.defaultLoadingID)
             self.hideLoading(set: self.loadingSet)
         }

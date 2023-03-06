@@ -127,8 +127,8 @@ extension WebMainViewController: WebBridgeDelegate {
     }
 
     func evaluateJavaScript(_ javaScriptString: String, completion: ((Any?, Error?) -> Void)?) {
-        DispatchQueue.main.async { [weak self] in
-            self?.webview.evaluateJavaScript(javaScriptString, completionHandler: completion)
+        Task { @MainActor in
+            self.webview.evaluateJavaScript(javaScriptString, completionHandler: completion)
         }
     }
 

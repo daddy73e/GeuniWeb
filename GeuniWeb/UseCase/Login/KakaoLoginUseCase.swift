@@ -44,9 +44,7 @@ public class KakaoLoginUseCase: KakaoLoginUseCaseProtocol {
     public init() { }
 
     public func initSDK() {
-        guard let url = Bundle.main.url(forResource: "AppKey", withExtension: "plist") else { return }
-        guard let dictionary = NSDictionary(contentsOf: url) else { return }
-        if let kakaoAppKey = dictionary["kakaoAppKey"] as? String {
+        if let kakaoAppKey = AppConfigure.shared.kakaoAppKey() {
             KakaoSDK.initSDK(appKey: kakaoAppKey)
         }
     }
