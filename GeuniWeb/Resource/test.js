@@ -171,9 +171,16 @@ function removeLocalStorage() {
     sendNativeAction("LocalStorage", "removeLocalStorage", params)
 }
 
-function loginSNS() {
+function loginApple() {
     var params = {
         "type" : "apple"
+    };
+    sendNativeAction("Login", "loginSNS", params)
+}
+
+function loginKakao() {
+    var params = {
+        "type" : "kakao"
     };
     sendNativeAction("Login", "loginSNS", params)
 }

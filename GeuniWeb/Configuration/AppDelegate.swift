@@ -10,24 +10,31 @@ import AuthenticationServices
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            KakaoLoginUseCase().initSDK()
             let keyCainUseCase = KeychainUseCase()
             if let appleLoginID = keyCainUseCase.read(input: .init(key: AppConfigure.shared.appleIDKey)) {
-                appleIDProvider.getCredentialState(forUserID: appleLoginID) { (credentialState, _) in
-                    switch credentialState {
-                    case .authorized:
-                        break // The Apple ID credential is valid.
-                    case .revoked, .notFound:
-                        break
-                    default:
-                        break
+                AppleLoginUseCase().checkLogin(appleID: appleLoginID) { isLoginSuccess in
+                    if isLoginSuccess {
+                        LoginManager.shared.updateSNSLoginType(type: .apple)
+                        print("로그인 이후 페이지로 이동")
+                    } else {
+                        print("로그인 페이지로 이동")
                     }
                 }
-                return true
+            }
+            KakaoLoginUseCase().checkLogin { result in
+                switch result {
+                case .enableLogin:
+                    LoginManager.shared.updateSNSLoginType(type: .kakao)
+                    print("로그인 이후 페이지로 이동")
+                case .otherError(let error):
+                    print("로그인 페이지로 이동 \(String(describing: error))")
+                case .needToLogin(let error):
+                    print("로그인 페이지로 이동 \(String(describing: error))")
+                }
             }
         return true
     }

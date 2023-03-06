@@ -50,7 +50,7 @@ public class WebBridge {
                 switch type {
                 case .none:
                     break
-                case .apple:
+                case .apple, .kakao:
                     loginAction(type: type) { [weak self] in
                         self?.callBridgeAction(
                             type: webBridgeUIActionType,
@@ -59,7 +59,7 @@ public class WebBridge {
                     }
                 }
             case .logout:
-                self.logOut()
+                self.logout()
                 self.callBridgeAction(
                     type: webBridgeUIActionType,
                     scriptMessage: responseMessage
@@ -127,20 +127,25 @@ public class WebBridge {
         case .none:
             completion?()
         case .apple:
-            LoginManager.shared.requestAppleLogin { userID in
+            LoginManager.shared.requestAppleLogin { userInfo in
                 let keyCainUseCase = KeychainUseCase()
                 keyCainUseCase.write(input: .init(
                     key: AppConfigure.shared.appleIDKey,
-                    saveData: userID
+                    saveData: userInfo?.userID
                 ))
+                completion?()
+            }
+        case .kakao:
+            LoginManager.shared.requestKakaoLogin { _ in
                 completion?()
             }
         }
     }
 
-    private func logOut() {
-        let keyCainUseCase = KeychainUseCase()
-        keyCainUseCase.delete(input: .init(key: AppConfigure.shared.appleIDKey))
+    private func logout() {
+        LoginManager.shared.requestLogout { [weak self] in
+            print("logout")
+        }
     }
 
     private func sendCallbackToWeb(javascriptMessage: String) {
