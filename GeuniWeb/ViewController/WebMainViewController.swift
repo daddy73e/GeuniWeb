@@ -14,7 +14,6 @@ public protocol WebMainViewDelegate: AnyObject {
 
 public final class WebMainViewController: UIViewController {
     public var delegate: WebMainViewDelegate?
-    @IBOutlet weak var safeAreaFrame: UIView!
     private var webViewBottomMargin = NSLayoutConstraint()
     private var messageHandlerName = AppConfigure.shared.webBridgeMessageHandlerName
     private var configuration = WKWebViewConfiguration()
@@ -31,7 +30,6 @@ public final class WebMainViewController: UIViewController {
 
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        webview.frame = safeAreaFrame.bounds
     }
 
     public override func viewWillAppear(_ animated: Bool) {
@@ -50,40 +48,9 @@ public final class WebMainViewController: UIViewController {
         print("navigateLoginPage")
     }
 
-    @objc func keyboardWillShow(_ notification: Notification) {
-        guard let keyboardHeight = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height,
-              let duration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double)
-        else {
-            return
-        }
+    @objc func keyboardWillShow(_ notification: Notification) { }
 
-        webViewBottomMargin.constant = -keyboardHeight
-        UIView.animate(
-            withDuration: duration,
-            delay: 0,
-            options: .curveEaseInOut,
-            animations: { [weak self] in
-                self?.view.layoutIfNeeded()
-            }, completion: nil
-        )
-    }
-
-    @objc func keyboardWillHide(_ notification: Notification) {
-        guard let duration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double)
-        else {
-            return
-        }
-
-        webViewBottomMargin.constant = 0
-        UIView.animate(
-            withDuration: duration,
-            delay: 0,
-            options: .curveEaseInOut,
-            animations: { [weak self] in
-                self?.view.layoutIfNeeded()
-            }, completion: nil
-        )
-    }
+    @objc func keyboardWillHide(_ notification: Notification) { }
 }
 
 private extension WebMainViewController {
@@ -91,8 +58,18 @@ private extension WebMainViewController {
     func configureUI() {
         self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = .white
-        self.view.addSubview(safeAreaFrame)
-        safeAreaFrame.addSubview(webview)
+        self.view.addSubview(webview)
+        webview.translatesAutoresizingMaskIntoConstraints = false
+        webViewBottomMargin = webview.bottomAnchor.constraint(
+            equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0
+        )
+
+        NSLayoutConstraint.activate([
+            webview.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            webview.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            webview.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            webViewBottomMargin
+        ])
     }
 
     func configureWebView() {

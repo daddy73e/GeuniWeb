@@ -16,12 +16,7 @@ class SplashViewController: UIViewController {
             /// isAutoLogin이 true일 경우, 메인
             /// false일 경우, login화면
             Task { @MainActor in
-                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                let mainViewController = storyBoard.instantiateViewController(
-                    withIdentifier: "WebMainViewController"
-                )
-
-                let navigationController = UINavigationController(rootViewController: mainViewController)
+                let navigationController = UINavigationController(rootViewController: WebMainViewController())
                 navigationController.modalPresentationStyle = .fullScreen
                 Router.shared.navigate(fromVC: self, toVC: navigationController, animated: false)
             }
