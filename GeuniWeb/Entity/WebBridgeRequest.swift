@@ -12,4 +12,5 @@ public enum WebBridgeRequest {
     case logout
     case userDefault(type: UserDefaultActionType)
     case requestAPI
+    case updateConfigure(type: EnvironmentType)
 }

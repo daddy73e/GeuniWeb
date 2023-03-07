@@ -60,6 +60,8 @@ public extension WKScriptMessageMapper {
             return localStorageAction(action: action, params: params)
         case "APIRequest":
             return apiRequestAction(action: action, params: params)
+        case "Configuration":
+            return configurationAction(action: action, params: params)
         default:
             return nil
         }

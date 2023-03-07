@@ -10,6 +10,16 @@ public class Router {
 
     public static let shared = Router()
 
+    public func restart(fromVC: UIViewController) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        if let splashViewController = storyBoard.instantiateViewController(
+            withIdentifier: "SplashViewController"
+        ) as? PopupViewController {
+            splashViewController.modalPresentationStyle = .overFullScreen
+            fromVC.present(splashViewController, animated: false)
+        }
+    }
+
     public func navigate(
         fromVC: UIViewController,
         toVC: UIViewController,

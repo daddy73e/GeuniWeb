@@ -124,6 +124,11 @@ extension WebMainViewController: WebBridgeDelegate {
     /// 웹으로 정상 호출 확인용 completion 
     func callBridgeAction(actionType: WebBridgeRequest, completion: (() -> Void)?) {
         switch actionType {
+        case .updateConfigure:
+            self.navigationController?.dismiss(animated: false, completion: {
+                completion?()
+                Router.shared.restart(fromVC: self)
+            })
         case .closeWeb(let string):
             closeWebMain(sendData: string, completion: completion)
         case .showAlertPopup(let dictionary):
@@ -142,7 +147,10 @@ extension WebMainViewController: WebBridgeDelegate {
             )
         case .logout:
             /* 페이지 초기화 */
-            completion?()
+            self.navigationController?.dismiss(animated: false, completion: {
+                completion?()
+                Router.shared.restart(fromVC: self)
+            })
         case .login(let loginType, _):
             /* 페이지 이동 */
             switch loginType {

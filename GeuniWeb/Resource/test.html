@@ -2,70 +2,76 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        <title>WKWebViewBridge</title>
-        <button type="button" onclick="goPrevPageWithData()">Close</button>
-        <link rel="stylesheet" href="test.css">
-        <script type="text/javascript" src="test.js"></script>
-    </head>
-	<body>
-		<h3>브릿지 기능 테스트</h3>
-		<div style="width:100%; margin: 0 auto; text-align: all;">
-			<div style="width: 45%; display: inline-block; vertical-align: top;">
-				<p style="text-align: center;">Request</p>
-				<textarea id="request" name="request"></textarea>
-			</div>
-			<div style="width: 45%; display: inline-block; vertical-align: top; margin-left: 3%;">
-				<p style="text-align: center;">Response</p>
-				<textarea id="response" name="response"></textarea>
-			</div>
-            <button style="width: 100%"
-                type="button"
-                onclick="requestAPI()">
-                API 데이터 요청
-            </button>
-            <button style="width: 100%"
-                type="button"
-                onclick="loginFacebook()">
-                SNS-페이스북 로그인
-            </button>
-            <button style="width: 100%"
-                type="button"
-                onclick="loginKakao()">
-                SNS-카카오로그인
-            </button>
-            <button style="width: 100%"
-                type="button"
-                onclick="loginApple()">
-                SNS-애플로그인
-            </button>
-            <button style="width: 100%"
-                type="button"
-                onclick="logOut()">
-                로그아웃
-            </button>
-            <button style="width: 100%"
-                type="button"
-                onclick="showAlertPopup()">
-                알림팝업
-            </button>
-            <button style="width: 100%"
-                type="button"
-                onclick="writeLocalStorage()">
-                데이터 저장 Key:test, value:testValue
-            </button>
-            <button style="width: 100%"
-                type="button"
-                onclick="readLocalStorage()">
-                데이터 불러오기 Key:test
-            </button>
-            <button style="width: 100%"
-                type="button"
-                onclick="removeLocalStorage()">
-                데이터 지우기
-            </button>
-		</div>
-	</body>
+            <meta name="description" content="">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+                    <title>WKWebViewBridge</title>
+                    <button
+                        style="width: 100%"
+                        type="button"
+                        onclick="goPrevPageWithData()">
+                        Close
+                    </button>
+                    <link rel="stylesheet" href="test.css">
+                        <script type="text/javascript" src="test.js"></script>
+                    </head>
+    <body>
+        <h3>브릿지 기능 테스트</h3>
+        <div style="width:100%; margin: 0 auto; text-align: all;">
+            <div style="width: 45%; display: inline-block; vertical-align: top;">
+                <p style="text-align: center;">Request</p>
+                <textarea id="request" name="request"></textarea>
+            </div>
+            <div style="width: 45%; display: inline-block; vertical-align: top; margin-left: 3%;">
+                <p style="text-align: center;">Response</p>
+                <textarea id="response" name="response"></textarea>
+            </div>
+            <div>
+                <button type="button"
+                    onclick="updateConfigureDevelop()">
+                    개발환경
+                </button>
+                <button type="button"
+                    onclick="updateConfigureProduction()">
+                    운영환경
+                </button>
+                <button type="button"
+                    onclick="requestAPI()">
+                    API 데이터 요청
+                </button>
+                <button type="button"
+                    onclick="loginFacebook()">
+                    SNS-페이스북 로그인
+                </button>
+                <button type="button"
+                    onclick="loginKakao()">
+                    SNS-카카오로그인
+                </button>
+                <button type="button"
+                    onclick="loginApple()">
+                    SNS-애플로그인
+                </button>
+                <button type="button"
+                    onclick="logOut()">
+                    로그아웃
+                </button>
+                <button type="button"
+                    onclick="showAlertPopup()">
+                    알림팝업
+                </button>
+                <button type="button"
+                    onclick="writeLocalStorage()">
+                    데이터 저장
+                </button>
+                <button type="button"
+                    onclick="readLocalStorage()">
+                    데이터 불러오기
+                </button>
+                <button type="button"
+                    onclick="removeLocalStorage()">
+                    데이터 지우기
+                </button>
+            </div>
+        </div>
+    </body>
 </html>
 

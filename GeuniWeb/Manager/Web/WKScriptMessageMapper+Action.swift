@@ -92,4 +92,17 @@ public extension WKScriptMessageMapper {
             return nil
         }
     }
+
+    func configurationAction(
+        action: String,
+        params: [String: Any]?
+    ) -> WebBridgeRequest? {
+        let configure = (params?["configure"] as? String) ?? ""
+        switch action {
+        case "updateConfigure":
+            return .updateConfigure(type: .init(fromRawValue: configure))
+        default:
+            return nil
+        }
+    }
 }

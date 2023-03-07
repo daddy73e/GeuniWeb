@@ -132,6 +132,20 @@ var rsaKey = "356AA68F5A50D5EA9024CC33B772F573A768ABA6CDBB941E74B0C1B2A91A5A9BAB
 
 //////////////////////////////////////////////////////////////////////////
 /* plugin functions */
+function updateConfigureDevelop() {
+    var params = {
+        "configure" : "develop",
+    };
+    sendNativeAction("Configuration", "updateConfigure", params)
+}
+
+function updateConfigureProduction() {
+    var params = {
+        "configure" : "production",
+    };
+    sendNativeAction("Configuration", "updateConfigure", params)
+}
+
 function requestAPI() {
     var params = { };
     

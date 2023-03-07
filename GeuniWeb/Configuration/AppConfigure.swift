@@ -9,12 +9,6 @@ import Foundation
 public class AppConfigure {
 
     public static let shared = AppConfigure()
-    public enum EnvironmentType: String {
-        case production
-        case develop
-        case test
-        case mock
-    }
 
     public let webBridgeMessageHandlerName = "geuniModule"
     /// 빌드환경
