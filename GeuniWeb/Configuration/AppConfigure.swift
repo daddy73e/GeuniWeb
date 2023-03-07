@@ -16,6 +16,7 @@ public class AppConfigure {
         case mock
     }
 
+    public let webBridgeMessageHandlerName = "geuniModule"
     /// 빌드환경
     public var enviromentType: EnvironmentType = .develop
 

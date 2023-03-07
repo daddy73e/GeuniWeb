@@ -15,10 +15,12 @@ public class Router {
         toVC: UIViewController,
         animated: Bool
     ) {
-        if let navigationController = fromVC.navigationController {
-            navigationController.pushViewController(toVC, animated: animated)
-        } else {
-            fromVC.present(toVC, animated: animated)
+        Task { @MainActor in
+            if let navigationController = fromVC.navigationController {
+                navigationController.pushViewController(toVC, animated: animated)
+            } else {
+                fromVC.present(toVC, animated: animated)
+            }
         }
     }
 

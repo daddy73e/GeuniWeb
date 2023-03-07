@@ -161,6 +161,7 @@ public class WebBridge {
 
     private func logout(completion: (() -> Void)?) {
         SNSLoginManager.shared.requestLogout {
+            NotificationCenter.default.post(name: Notification.Name.logout, object: nil)
             completion?()
         }
     }

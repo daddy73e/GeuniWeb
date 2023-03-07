@@ -33,7 +33,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="OVV-Py-gmi"/>
                     <connections>
-                        <outlet property="safeAreaFrame" destination="5EP-rY-QO5" id="rmc-zo-TyA"/>
+                        <outlet property="safeAreaFrame" destination="5EP-rY-QO5" id="SpA-wr-5AG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

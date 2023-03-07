@@ -15,9 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
             SNSLoginManager.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-            SNSLoginManager.shared.checkLogin { isAutoLogin in
-                print("autoLogin = \(isAutoLogin)")
-            }
 
             //            if let userInfo = launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
             //                /// 푸시로 앱 진입한 경우 처리
