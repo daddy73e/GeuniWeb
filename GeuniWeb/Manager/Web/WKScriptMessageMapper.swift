@@ -34,11 +34,32 @@ public extension WKScriptMessageMapper {
         """
         print(log)
 #endif
+
+        return routeService(
+            serviceName: serviceName,
+            action: action,
+            params: params
+        )
+    }
+
+    func routeService(
+        serviceName: String,
+        action: String,
+        params: [String: Any]?
+    ) -> WebBridgeRequest? {
         switch serviceName {
-        case "Navigator", "CustomAlert", "LogOut", "Login":
-            return toWebBridgeUIRequest(action: action, params: params)
-        case "LocalStorage", "APIRequest":
-            return toWebBridgeBusinessRequest(action: action, params: params)
+        case "Navigator":
+            return navigatorAction(action: action, params: params)
+        case "CustomAlert":
+            return customAlertAction(action: action, params: params)
+        case "LogOut":
+            return logoutAction(action: action, params: params)
+        case "Login":
+            return loginAction(action: action, params: params)
+        case "LocalStorage":
+            return localStorageAction(action: action, params: params)
+        case "APIRequest":
+            return apiRequestAction(action: action, params: params)
         default:
             return nil
         }

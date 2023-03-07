@@ -10,7 +10,7 @@ import WebKit
 
 protocol WebBridgeDelegate: AnyObject {
     func evaluateJavaScript(_ javaScriptString: String, completion: ((Any?, Error?) -> Void)?)
-    func callBridgeAction(actionType: WebBridgeUIActionType, completion: (() -> Void)?)
+    func callBridgeAction(actionType: WebBridgeRequest, completion: (() -> Void)?)
 }
 
 public class WebBridge {
@@ -43,52 +43,47 @@ public class WebBridge {
         ).toJavascriptMessage(withRequestId: requestId)
 
         switch request {
-        case .userInteraction(let webBridgeUIActionType):
-            /* UI 로직 수행*/
-            switch webBridgeUIActionType {
-            case .login(let type, _):
-                switch type {
-                case .apple, .kakao:
-                    loginAction(type: type) { [weak self] in
-                        self?.callBridgeAction(
-                            type: webBridgeUIActionType,
-                            scriptMessage: responseMessage
-                        )
-                    }
-                case .facebook:
-                    self.callBridgeAction(
-                        type: webBridgeUIActionType,
-                        scriptMessage: responseMessage
-                    )
-                default:
-                    break
-                }
-            case .logout:
-                self.logout { [weak self] in
+        case .closeWeb, .showAlertPopup:
+            self.callBridgeAction(
+                type: request,
+                scriptMessage: responseMessage
+            )
+        case .login(let loginType, _):
+            switch loginType {
+            case .apple, .kakao:
+                loginAction(type: loginType) { [weak self] in
                     self?.callBridgeAction(
-                        type: webBridgeUIActionType,
+                        type: request,
                         scriptMessage: responseMessage
                     )
                 }
-            default:
+            case .facebook:
                 self.callBridgeAction(
-                    type: webBridgeUIActionType,
+                    type: request,
+                    scriptMessage: responseMessage
+                )
+            default:
+                break
+            }
+        case .logout:
+            self.logout { [weak self] in
+                self?.callBridgeAction(
+                    type: request,
                     scriptMessage: responseMessage
                 )
             }
-
-        case .bussiness(let webBridgeBusinessActionType):
-            /* 비즈니스 로직 수행*/
-            callBridgeBussinessAction(actinType: webBridgeBusinessActionType) { [weak self] in
-                self?.sendCallbackToWeb(
-                    javascriptMessage: responseMessage
-                )
+        case .userDefault(let type):
+            userDefaultAction(type: type)
+            self.sendCallbackToWeb(javascriptMessage: responseMessage)
+        case .requestAPI:
+            self.requestAPI {[weak self] in
+                self?.sendCallbackToWeb(javascriptMessage: responseMessage)
             }
         }
     }
 
     private func callBridgeAction(
-        type: WebBridgeUIActionType,
+        type: WebBridgeRequest,
         scriptMessage: String
     ) {
         /* ViewController 에서 동작 */

@@ -122,7 +122,7 @@ extension WebMainViewController: WKScriptMessageHandler {
 
 extension WebMainViewController: WebBridgeDelegate {
     /// 웹으로 정상 호출 확인용 completion 
-    func callBridgeAction(actionType: WebBridgeUIActionType, completion: (() -> Void)?) {
+    func callBridgeAction(actionType: WebBridgeRequest, completion: (() -> Void)?) {
         switch actionType {
         case .closeWeb(let string):
             closeWebMain(sendData: string, completion: completion)
@@ -154,6 +154,8 @@ extension WebMainViewController: WebBridgeDelegate {
             default:
                 completion?()
             }
+        default:
+            completion?()
         }
     }
 
