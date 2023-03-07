@@ -20,8 +20,18 @@ public class AppConfigure {
         guard let dictionary = NSDictionary(contentsOf: url) else {
             return nil
         }
+        return dictionary["kakaoAppAppID"] as? String
+    }
 
-        return dictionary["kakaoAppKey"] as? String
+    public func facebookAppID() -> String? {
+        guard let url = Bundle.main.url(forResource: "AppKey", withExtension: "plist") else {
+            return nil
+        }
+
+        guard let dictionary = NSDictionary(contentsOf: url) else {
+            return nil
+        }
+        return dictionary["facebookAppID"] as? String
     }
 
     public func baseURL() -> String {

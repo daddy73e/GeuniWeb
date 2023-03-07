@@ -120,7 +120,16 @@ extension WebMainViewController: WebBridgeDelegate {
         case .logout:
             /* 페이지 초기화 */
             completion?()
-        case .login:
+        case .login(let loginType, _):
+            switch loginType {
+            case .facebook:
+                print("")
+                SNSLoginManager.shared.requestFacebookLogin(viewController: self) { userInfo in
+                    completion?()
+                }
+            default:
+                break
+            }
             /* 페이지 이동 */
             completion?()
         }

@@ -191,6 +191,13 @@ function loginKakao() {
     sendNativeAction("Login", "loginSNS", params)
 }
 
+function loginFacebook() {
+    var params = {
+        "type" : "facebook"
+    };
+    sendNativeAction("Login", "loginSNS", params)
+}
+
 function logOut() {
     var params = { };
     sendNativeAction("LogOut", "logout", params)

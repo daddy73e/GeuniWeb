@@ -19,7 +19,7 @@ public protocol KakaoLoginUseCaseProtocol {
     func requestLogin(completion: ((KakaoLoginOutput?) -> Void)?)
     /// 로그아웃 요청
     func requestLogout(completion: ((Error?) -> Void)?)
-    /// 카카오톡 로그인
+    /// URL을 통해 열기
     func loginWithOpenUrl(url: URL)
     /// 카카오 플랫폼 안에서 앱과 사용자 카카오계정의 연결 상태를 해제
     func unlinkKakao(completion: ((Error?) -> Void)?)

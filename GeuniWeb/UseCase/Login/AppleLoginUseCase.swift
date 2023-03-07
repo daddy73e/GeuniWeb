@@ -10,7 +10,7 @@ import AuthenticationServices
 
 public protocol AppleLoginUseCaseProtocol {
     /// 로그인이 되어있는지 체크
-    func checkLogin(appleID: String, completion: ((Bool) -> Void)?)
+    func checkLogin(completion: ((Bool) -> Void)?)
     /// 로그인 요청
     func requestLogin(completion: ((AppleLoginOutput?) -> Void)?)
 }
@@ -33,7 +33,13 @@ public struct AppleLoginOutput {
 public class AppleLoginUseCase: NSObject, AppleLoginUseCaseProtocol {
     var completion: ((AppleLoginOutput?) -> Void)?
 
-    public func checkLogin(appleID: String, completion: ((Bool) -> Void)?) {
+    public func checkLogin(completion: ((Bool) -> Void)?) {
+        let keyCainUseCase = KeychainUseCase()
+        guard let appleID = keyCainUseCase.read(input: .init(key: AppConfigure.shared.appleIDKey)) else {
+            completion?(false)
+            return
+        }
+
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         appleIDProvider.getCredentialState(forUserID: appleID) { (credentialState, _) in
             switch credentialState {

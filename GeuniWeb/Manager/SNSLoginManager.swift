@@ -1,27 +1,30 @@
 //
-//  LoginManager.swift
+//  SNSLoginManager.swift
 //  GeuniWeb
 //
 //  Created by 60157085 on 2023/03/03.
 //
 
 import Foundation
+import UIKit
 
 public enum SNSLoginType: String {
     case none
     case apple
     case kakao
+    case facebook
     init(fromRawValue: String) {
         self = SNSLoginType(rawValue: fromRawValue) ?? .none
     }
 }
 
-final class LoginManager: NSObject {
+final class SNSLoginManager: NSObject {
 
-    public static let shared = LoginManager()
+    public static let shared = SNSLoginManager()
 
     private var appleLoginUseCase: AppleLoginUseCase?
     private var kakaoLoginUseCase: KakaoLoginUseCase?
+    private var facebookLoginUseCase: FacebookLoginUseCase?
 
     private var loginType: SNSLoginType = .none
 
@@ -49,13 +52,24 @@ final class LoginManager: NSObject {
         }
     }
 
+    public func requestFacebookLogin(
+        viewController: UIViewController,
+        completion: ((UserInfo?) -> Void)?
+    ) {
+        self.facebookLoginUseCase = FacebookLoginUseCase()
+        self.facebookLoginUseCase?.requestLogin(
+            viewController: viewController,
+            completion: { output in
+                completion?(nil)
+        })
+    }
+
     public func requestLogout(completion: (() -> Void)?) {
         switch loginType {
-        case .none:
-            completion?()
         case .apple:
             let keyCainUseCase = KeychainUseCase()
             keyCainUseCase.delete(input: .init(key: AppConfigure.shared.appleIDKey))
+            loginType = .none
             completion?()
         case .kakao:
             /// SNS Kakao Logout
@@ -63,8 +77,15 @@ final class LoginManager: NSObject {
                 if error != nil {
                     print("카카오톡 로그아웃 성공")
                 }
+                self.loginType = .none
                 completion?()
             }
+        case .facebook:
+            FacebookLoginUseCase().requestLogout()
+            loginType = .none
+            completion?()
+        default:
+            completion?()
         }
     }
 

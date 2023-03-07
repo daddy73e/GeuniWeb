@@ -6,29 +6,28 @@
 //
 
 import UIKit
-import AuthenticationServices
+import FacebookCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-            KakaoLoginUseCase().initSDK()
-            let keyCainUseCase = KeychainUseCase()
-            if let appleLoginID = keyCainUseCase.read(input: .init(key: AppConfigure.shared.appleIDKey)) {
-                AppleLoginUseCase().checkLogin(appleID: appleLoginID) { isLoginSuccess in
-                    if isLoginSuccess {
-                        LoginManager.shared.updateSNSLoginType(type: .apple)
-                        print("로그인 이후 페이지로 이동")
-                    } else {
-                        print("로그인 페이지로 이동")
-                    }
+
+            AppleLoginUseCase().checkLogin { isLoginSuccess in
+                if isLoginSuccess {
+                    SNSLoginManager.shared.updateSNSLoginType(type: .apple)
+                    print("로그인 이후 페이지로 이동")
+                } else {
+                    print("로그인 페이지로 이동")
                 }
             }
+
+            KakaoLoginUseCase().initSDK()
             KakaoLoginUseCase().checkLogin { result in
                 switch result {
                 case .enableLogin:
-                    LoginManager.shared.updateSNSLoginType(type: .kakao)
+                    SNSLoginManager.shared.updateSNSLoginType(type: .kakao)
                     print("로그인 이후 페이지로 이동")
                 case .otherError(let error):
                     print("로그인 페이지로 이동 \(String(describing: error))")
@@ -36,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("로그인 페이지로 이동 \(String(describing: error))")
                 }
             }
+
+            FacebookLoginUseCase().initSDK(launchOptions: launchOptions)
         return true
     }
 
