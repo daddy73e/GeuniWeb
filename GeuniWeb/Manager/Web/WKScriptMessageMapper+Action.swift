@@ -8,7 +8,6 @@
 import Foundation
 
 public extension WKScriptMessageMapper {
-
     func navigatorAction(
         action: String,
         params: [String: Any]?
@@ -16,7 +15,8 @@ public extension WKScriptMessageMapper {
         switch action {
         case "goPrevPageWithData":
             return .closeWeb(params?.toJSONString() ?? "")
-        default: return nil
+        default:
+            return nil
         }
     }
 
@@ -31,7 +31,8 @@ public extension WKScriptMessageMapper {
             } else {
                 return nil
             }
-        default: return nil
+        default:
+            return nil
         }
     }
 

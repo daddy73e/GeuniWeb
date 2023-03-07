@@ -98,18 +98,6 @@ public class WebBridge {
         )
     }
 
-    private func callBridgeBussinessAction(actinType: WebBridgeBusinessActionType, completion: (() -> Void)?) {
-        switch actinType {
-        case .userDefault(let userDefaultActionType):
-            userDefaultAction(type: userDefaultActionType)
-            completion?()
-        case .requestAPI:
-            requestAPI {
-                completion?()
-            }
-        }
-    }
-
     private func requestAPI(completion: (() -> Void)?) {
         Loading.shared.show()
         APIManager.shared.request { _, _ in
