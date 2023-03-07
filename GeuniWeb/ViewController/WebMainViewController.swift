@@ -57,7 +57,7 @@ private extension WebMainViewController {
         guard let webview = self.webview else {
             return
         }
-        
+
         self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = .white
         self.view.addSubview(webview)
