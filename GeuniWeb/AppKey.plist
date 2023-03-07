@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>facebookAppID</key>
+	<string>761522388654731</string>
 	<key>kakaoAppKey</key>
 	<string>3f1930bce00d0fcab7cee062e7a58d87</string>
 </dict>
