@@ -64,11 +64,12 @@ public class WebBridge {
                     break
                 }
             case .logout:
-                self.logout()
-                self.callBridgeAction(
-                    type: webBridgeUIActionType,
-                    scriptMessage: responseMessage
-                )
+                self.logout { [weak self] in
+                    self?.callBridgeAction(
+                        type: webBridgeUIActionType,
+                        scriptMessage: responseMessage
+                    )
+                }
             default:
                 self.callBridgeAction(
                     type: webBridgeUIActionType,
@@ -158,9 +159,9 @@ public class WebBridge {
         }
     }
 
-    private func logout() {
+    private func logout(completion: (() -> Void)?) {
         SNSLoginManager.shared.requestLogout {
-            print("logout")
+            completion?()
         }
     }
 

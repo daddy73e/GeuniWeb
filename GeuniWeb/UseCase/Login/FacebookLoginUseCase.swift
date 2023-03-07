@@ -26,6 +26,8 @@ public struct FacebookLoginInput {
 }
 
 public struct FacebookLoginOutput {
+    var userInfo: UserInfo?
+    var error: Error?
 }
 
 public class FacebookLoginUseCase: FacebookLoginUseCaseProtocol {
@@ -64,11 +66,17 @@ public class FacebookLoginUseCase: FacebookLoginUseCaseProtocol {
         let facebookLoginManager = LoginManager()
         facebookLoginManager.logIn(permissions: ["public_profile"], from: viewController) { result, error in
             if let error = error {
-                print("Encountered Erorr: \(error)")
+                completion?(.init(userInfo: nil, error: error))
             } else if let result = result, result.isCancelled {
-                print("Cancelled")
+                completion?(nil)
             } else {
-                print("Logged In")
+                Profile.loadCurrentProfile { profile, error in
+                    if let userID = profile?.userID {
+                        completion?(.init(userInfo: .init(userID: userID), error: nil))
+                    } else {
+                        completion?(.init(userInfo: nil, error: error))
+                    }
+                }
             }
         }
     }

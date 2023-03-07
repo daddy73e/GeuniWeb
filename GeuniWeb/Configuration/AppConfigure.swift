@@ -7,11 +7,22 @@
 import Foundation
 
 public class AppConfigure {
+
     public static let shared = AppConfigure()
+    public enum EnvironmentType: String {
+        case production
+        case develop
+        case test
+        case mock
+    }
+
+    /// 빌드환경
     public var enviromentType: EnvironmentType = .develop
 
+    /// 애플 로그인 ID
     public var appleIDKey = "GEUNI_WEB_APPLE_LOGIN_ID"
 
+    /// 카카오 로그인 AppKey
     public func kakaoAppKey() -> String? {
         guard let url = Bundle.main.url(forResource: "AppKey", withExtension: "plist") else {
             return nil
@@ -23,17 +34,7 @@ public class AppConfigure {
         return dictionary["kakaoAppAppID"] as? String
     }
 
-    public func facebookAppID() -> String? {
-        guard let url = Bundle.main.url(forResource: "AppKey", withExtension: "plist") else {
-            return nil
-        }
-
-        guard let dictionary = NSDictionary(contentsOf: url) else {
-            return nil
-        }
-        return dictionary["facebookAppID"] as? String
-    }
-
+    /// 기본 URL
     public func baseURL() -> String {
         switch enviromentType {
         case .production:
@@ -45,12 +46,5 @@ public class AppConfigure {
         case .mock:
             return "https://mock"
         }
-    }
-
-    public enum EnvironmentType: String {
-        case production
-        case develop
-        case test
-        case mock
     }
 }

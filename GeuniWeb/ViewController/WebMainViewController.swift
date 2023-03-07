@@ -99,6 +99,7 @@ extension WebMainViewController: WKScriptMessageHandler {
 }
 
 extension WebMainViewController: WebBridgeDelegate {
+    /// 웹으로 정상 호출 확인용 completion 
     func callBridgeAction(actionType: WebBridgeUIActionType, completion: (() -> Void)?) {
         switch actionType {
         case .closeWeb(let string):
@@ -121,17 +122,15 @@ extension WebMainViewController: WebBridgeDelegate {
             /* 페이지 초기화 */
             completion?()
         case .login(let loginType, _):
+            /* 페이지 이동 */
             switch loginType {
             case .facebook:
-                print("")
                 SNSLoginManager.shared.requestFacebookLogin(viewController: self) { userInfo in
                     completion?()
                 }
             default:
-                break
+                completion?()
             }
-            /* 페이지 이동 */
-            completion?()
         }
     }
 
