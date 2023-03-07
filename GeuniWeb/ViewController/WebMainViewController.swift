@@ -14,10 +14,8 @@ public protocol WebMainViewDelegate: AnyObject {
 
 public final class WebMainViewController: UIViewController {
     public var delegate: WebMainViewDelegate?
-    private var webViewBottomMargin = NSLayoutConstraint()
     private var messageHandlerName = AppConfigure.shared.webBridgeMessageHandlerName
-    private var configuration = WKWebViewConfiguration()
-    private var webview = WKWebView()
+    private var webview: WKWebView?
     private var networkStatusManager = NetworkStatusManager.shared
 
     public override func viewDidLoad() {
@@ -56,29 +54,32 @@ public final class WebMainViewController: UIViewController {
 private extension WebMainViewController {
 
     func configureUI() {
+        guard let webview = self.webview else {
+            return
+        }
+        
         self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = .white
         self.view.addSubview(webview)
         webview.translatesAutoresizingMaskIntoConstraints = false
-        webViewBottomMargin = webview.bottomAnchor.constraint(
-            equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0
-        )
-
         NSLayoutConstraint.activate([
             webview.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             webview.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             webview.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            webViewBottomMargin
+            webview.bottomAnchor.constraint(
+                equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0
+            )
         ])
     }
 
     func configureWebView() {
         let userContentController = WKUserContentController()
         userContentController.add(self, name: messageHandlerName)
+        let configuration = WKWebViewConfiguration()
         configuration.userContentController = userContentController
-        webview = WKWebView(frame: .zero, configuration: configuration)
-        webview.uiDelegate = self
-        webview.navigationDelegate = self
+        self.webview = WKWebView(frame: .zero, configuration: configuration)
+        self.webview?.uiDelegate = self
+        self.webview?.navigationDelegate = self
     }
 
     func configureNetwork() {
@@ -90,7 +91,7 @@ private extension WebMainViewController {
         let testURL = Bundle.main.url(forResource: "test", withExtension: "html")!
         var urlRequest = URLRequest(url: testURL)
         urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        webview.load(urlRequest)
+        webview?.load(urlRequest)
     }
 
     func closeWebMain(sendData: String?, completion: (() -> Void)?) {
@@ -125,10 +126,8 @@ extension WebMainViewController: WebBridgeDelegate {
     func callBridgeAction(actionType: WebBridgeRequest, completion: (() -> Void)?) {
         switch actionType {
         case .updateConfigure:
-            self.navigationController?.dismiss(animated: false, completion: {
-                completion?()
-                Router.shared.restart(fromVC: self)
-            })
+            completion?()
+            Router.shared.restart(fromVC: self)
         case .closeWeb(let string):
             closeWebMain(sendData: string, completion: completion)
         case .showAlertPopup(let dictionary):
@@ -146,11 +145,8 @@ extension WebMainViewController: WebBridgeDelegate {
                 )
             )
         case .logout:
-            /* 페이지 초기화 */
-            self.navigationController?.dismiss(animated: false, completion: {
-                completion?()
-                Router.shared.restart(fromVC: self)
-            })
+            /* 로그인화면으로 이동 */
+            completion?()
         case .login(let loginType, _):
             /* 페이지 이동 */
             switch loginType {
@@ -169,7 +165,7 @@ extension WebMainViewController: WebBridgeDelegate {
 
     func evaluateJavaScript(_ javaScriptString: String, completion: ((Any?, Error?) -> Void)?) {
         Task { @MainActor in
-            self.webview.evaluateJavaScript(javaScriptString, completionHandler: completion)
+            self.webview?.evaluateJavaScript(javaScriptString, completionHandler: completion)
         }
     }
 
