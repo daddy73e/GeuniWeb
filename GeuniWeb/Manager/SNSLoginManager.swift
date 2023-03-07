@@ -18,21 +18,75 @@ public enum SNSLoginType: String {
     }
 }
 
-final class SNSLoginManager: NSObject {
+protocol SNSLoginManagerProtocol: AnyObject {
+    /// AppDelegate에서 didFinishLaunchingWithOptions 호출시 호출
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    )
+    /// 로그인 유무 체크, 스플래시에서 호출
+    func checkLogin(completion: ((Bool) -> Void)?)
+    /// 애플 로그인 요청
+    func requestAppleLogin(completion: ((UserInfo?) -> Void)?)
+    /// 카카오 로그인 요청
+    func requestKakaoLogin(completion: ((UserInfo?) -> Void)?)
+    /// 페이스북 로그인 요청
+    func requestFacebookLogin(viewController: UIViewController, completion: ((UserInfo?) -> Void)?)
+    /// 로그아웃 요청
+    func requestLogout(completion: (() -> Void)?)
+}
+
+final class SNSLoginManager: SNSLoginManagerProtocol {
 
     public static let shared = SNSLoginManager()
+    private var appleLoginUseCase = AppleLoginUseCase()
+    private var kakaoLoginUseCase =  KakaoLoginUseCase()
+    private var facebookLoginUseCase = FacebookLoginUseCase()
+    private let userDefaultKey = "SNSLoginType"
 
-    private var appleLoginUseCase: AppleLoginUseCase?
-    private var kakaoLoginUseCase: KakaoLoginUseCase?
-    private var facebookLoginUseCase: FacebookLoginUseCase?
+    public func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) {
+        self.kakaoLoginUseCase.initSDK()
+        self.facebookLoginUseCase.initSDK(launchOptions: launchOptions)
+    }
 
-    private var loginType: SNSLoginType = .none
+    public func checkLogin(completion: ((Bool) -> Void)?) {
+        let loginType = savedLoginType()
+        switch loginType {
+        case .apple:
+            self.appleLoginUseCase.checkLogin { isLoginSuccess in
+                if isLoginSuccess {
+                    SNSLoginManager.shared.updateSNSLoginType(type: .apple)
+                    completion?(true)
+                } else {
+                    completion?(false)
+                }
+            }
+        case .kakao:
+            self.kakaoLoginUseCase.checkLogin { result in
+                switch result {
+                case .enableLogin:
+                    SNSLoginManager.shared.updateSNSLoginType(type: .kakao)
+                    completion?(true)
+                case .otherError:
+                    completion?(false)
+                case .needToLogin:
+                    completion?(false)
+                }
+            }
+        case .facebook:
+            completion?(self.facebookLoginUseCase.checkLogin())
+        default:
+            completion?(false)
+        }
+    }
 
     public func requestAppleLogin(completion: ((UserInfo?) -> Void)?) {
-        self.appleLoginUseCase = AppleLoginUseCase()
-        appleLoginUseCase?.requestLogin(completion: { [weak self] output in
+        appleLoginUseCase.requestLogin(completion: { [weak self] output in
             if let userID = output?.user {
-                self?.loginType = .apple
+                self?.updateSNSLoginType(type: .apple)
                 completion?(.init(userID: userID))
             } else {
                 completion?(nil)
@@ -41,10 +95,9 @@ final class SNSLoginManager: NSObject {
     }
 
     public func requestKakaoLogin(completion: ((UserInfo?) -> Void)?) {
-        self.kakaoLoginUseCase = KakaoLoginUseCase()
-        self.kakaoLoginUseCase?.requestLogin { [weak self] output in
+        self.kakaoLoginUseCase.requestLogin { [weak self] output in
             if let userInfo = output?.userInfo {
-                self?.loginType = .kakao
+                self?.updateSNSLoginType(type: .kakao)
                 completion?(userInfo)
             } else {
                 completion?(nil)
@@ -56,20 +109,27 @@ final class SNSLoginManager: NSObject {
         viewController: UIViewController,
         completion: ((UserInfo?) -> Void)?
     ) {
-        self.facebookLoginUseCase = FacebookLoginUseCase()
-        self.facebookLoginUseCase?.requestLogin(
+        self.facebookLoginUseCase.requestLogin(
             viewController: viewController,
-            completion: { output in
-                completion?(nil)
-        })
+            completion: { [weak self] output in
+                guard let userInfo = output?.userInfo else {
+                    completion?(nil)
+                    return
+                }
+                print(userInfo)
+                self?.updateSNSLoginType(type: .facebook)
+            }
+        )
     }
 
     public func requestLogout(completion: (() -> Void)?) {
+        let loginType = savedLoginType()
+
         switch loginType {
         case .apple:
             let keyCainUseCase = KeychainUseCase()
             keyCainUseCase.delete(input: .init(key: AppConfigure.shared.appleIDKey))
-            loginType = .none
+            self.updateSNSLoginType(type: .none)
             completion?()
         case .kakao:
             /// SNS Kakao Logout
@@ -77,19 +137,30 @@ final class SNSLoginManager: NSObject {
                 if error != nil {
                     print("카카오톡 로그아웃 성공")
                 }
-                self.loginType = .none
+                self.updateSNSLoginType(type: .none)
                 completion?()
             }
         case .facebook:
             FacebookLoginUseCase().requestLogout()
-            loginType = .none
+            self.updateSNSLoginType(type: .none)
             completion?()
         default:
             completion?()
         }
     }
+}
 
-    public func updateSNSLoginType(type: SNSLoginType) {
-        self.loginType = type
+private extension SNSLoginManager {
+    func updateSNSLoginType(type: SNSLoginType) {
+        UserDefaultUseCase().write(input: .init(key: self.userDefaultKey, value: type.rawValue))
+    }
+
+    func savedLoginType() -> SNSLoginType {
+        guard let strLoginType = UserDefaultUseCase().read(
+            input: .init(key: self.userDefaultKey)
+        ).value as? String else {
+            return .none
+        }
+        return SNSLoginType(fromRawValue: strLoginType)
     }
 }

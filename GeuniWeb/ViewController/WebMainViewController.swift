@@ -126,6 +126,7 @@ extension WebMainViewController: WebBridgeDelegate {
             switch loginType {
             case .facebook:
                 SNSLoginManager.shared.requestFacebookLogin(viewController: self) { userInfo in
+                    print(userInfo ?? "")
                     completion?()
                 }
             default:

@@ -25,9 +25,6 @@ public protocol KakaoLoginUseCaseProtocol {
     func unlinkKakao(completion: ((Error?) -> Void)?)
 }
 
-public struct KakaoLoginInput {
-}
-
 public struct KakaoLoginOutput {
     var userInfo: UserInfo?
     var error: Error?

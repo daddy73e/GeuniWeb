@@ -22,9 +22,6 @@ public protocol FacebookLoginUseCaseProtocol {
     func requestLogout()
 }
 
-public struct FacebookLoginInput {
-}
-
 public struct FacebookLoginOutput {
     var userInfo: UserInfo?
     var error: Error?
