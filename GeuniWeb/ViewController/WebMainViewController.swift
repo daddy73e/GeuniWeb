@@ -62,14 +62,7 @@ private extension WebMainViewController {
         self.view.backgroundColor = .white
         self.view.addSubview(webview)
         webview.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            webview.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-            webview.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            webview.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            webview.bottomAnchor.constraint(
-                equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0
-            )
-        ])
+        updateScreenMode(type: AppConfigure.shared.screenMode)
     }
 
     func configureWebView() {
@@ -80,6 +73,7 @@ private extension WebMainViewController {
         self.webview = WKWebView(frame: .zero, configuration: configuration)
         self.webview?.uiDelegate = self
         self.webview?.navigationDelegate = self
+        self.webview?.backgroundColor = .brown
     }
 
     func configureNetwork() {
@@ -106,6 +100,30 @@ private extension WebMainViewController {
             }
         }
     }
+
+    func updateScreenMode(type: ScreenType) {
+        guard let webview = self.webview else {
+            return
+        }
+        var constantLeft = 0.0
+        var constantRight = 0.0
+        var constantTop = 0.0
+        var constantBottom = 0.0
+        switch type {
+        case .safeArea:
+            constantLeft = self.view.safeAreaInsets.left
+            constantRight = -self.view.safeAreaInsets.right
+            constantTop = self.view.safeAreaInsets.top
+            constantBottom = -self.view.safeAreaInsets.bottom
+        default:
+            break
+        }
+        let left = webview.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: constantLeft)
+        let right = webview.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: constantRight)
+        let top = webview.topAnchor.constraint(equalTo: self.view.topAnchor, constant: constantTop)
+        let bottom = webview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: constantBottom)
+        NSLayoutConstraint.activate([left, right, top, bottom])
+    }
 }
 
 extension WebMainViewController: WKScriptMessageHandler {
@@ -125,9 +143,20 @@ extension WebMainViewController: WebBridgeDelegate {
     /// 웹으로 정상 호출 확인용 completion 
     func callBridgeAction(actionType: WebBridgeRequest, completion: (() -> Void)?) {
         switch actionType {
-        case .updateConfigure:
-            completion?()
-            Router.shared.restart(fromVC: self)
+        case .updateConfigure(let configureType):
+            switch configureType {
+            case .baseURL:
+                completion?()
+                Router.shared.restart(fromVC: self)
+            case .screen(let type):
+                Task { @MainActor in
+                    self.updateScreenMode(type: type)
+                    completion?()
+                }
+            default:
+                completion?()
+            }
+
         case .closeWeb(let string):
             closeWebMain(sendData: string, completion: completion)
         case .showAlertPopup(let dictionary):

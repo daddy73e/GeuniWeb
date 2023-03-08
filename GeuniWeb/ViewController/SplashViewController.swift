@@ -9,25 +9,21 @@ import UIKit
 
 class SplashViewController: UIViewController {
 
-    let timeManager = TimerManager.init(timeInterval: 1, finishTime: 2)
-
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        timeManager.startTimer(tickAction: nil) {
-            SNSLoginManager.shared.checkLogin { isAutoLogin in
-                print(isAutoLogin)
-                /// isAutoLogin이 true일 경우, 메인
-                /// false일 경우, login화면
-                Task { @MainActor in
-                    self.dismiss(animated: false) {
-                        let navigationController = UINavigationController(rootViewController: WebMainViewController())
-                        navigationController.modalPresentationStyle = .fullScreen
-                        Router.shared.navigate(fromVC: self, toVC: navigationController, animated: false)
-                    }
+        SNSLoginManager.shared.checkLogin { isAutoLogin in
+            print(isAutoLogin)
+            /// isAutoLogin이 true일 경우, 메인
+            /// false일 경우, login화면
+            Task { @MainActor in
+                self.dismiss(animated: false) {
+                    let navigationController = UINavigationController(rootViewController: WebMainViewController())
+                    navigationController.modalPresentationStyle = .fullScreen
+                    Router.shared.navigate(fromVC: self, toVC: navigationController, animated: false)
                 }
             }
         }

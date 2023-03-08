@@ -13,6 +13,8 @@ public class AppConfigure {
     public let webBridgeMessageHandlerName = "geuniModule"
     /// 빌드환경
     public var enviromentType: EnvironmentType = .develop
+    /// 스크린 모드
+    public var screenMode: ScreenType = .safeArea
 
     /// 애플 로그인 ID
     public var appleIDKey = "GEUNI_WEB_APPLE_LOGIN_ID"

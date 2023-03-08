@@ -97,10 +97,13 @@ public extension WKScriptMessageMapper {
         action: String,
         params: [String: Any]?
     ) -> WebBridgeRequest? {
-        let configure = (params?["configure"] as? String) ?? ""
         switch action {
-        case "updateConfigure":
-            return .updateConfigure(type: .init(fromRawValue: configure))
+        case "baseURL":
+            let configure = (params?["configure"] as? String) ?? ""
+            return .updateConfigure(type: .baseURL(type: .init(fromRawValue: configure)))
+        case "screen":
+            let screenMode = (params?["screenMode"] as? String) ?? ""
+            return .updateConfigure(type: .screen(type: .init(fromRawValue: screenMode)))
         default:
             return nil
         }

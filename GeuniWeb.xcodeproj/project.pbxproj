@@ -57,7 +57,7 @@
 		6B6EB34029B70B7400641E6E /* WebMainViewController+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6EB33F29B70B7400641E6E /* WebMainViewController+Notification.swift */; };
 		6B6EB34629B71ED000641E6E /* WKScriptMessageMapper+Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6EB34529B71ED000641E6E /* WKScriptMessageMapper+Action.swift */; };
 		6B6EB34829B7241F00641E6E /* UserDefaultActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6EB34729B7241F00641E6E /* UserDefaultActionType.swift */; };
-		6B6EB34A29B726B500641E6E /* EnvironmentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6EB34929B726B500641E6E /* EnvironmentType.swift */; };
+		6B6EB34C29B8614000641E6E /* ConfigureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6EB34B29B8614000641E6E /* ConfigureType.swift */; };
 		6B703ACD29B09C0F00D61ABD /* KeychainUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B703ACC29B09C0F00D61ABD /* KeychainUseCase.swift */; };
 		6B703ACF29B16E4900D61ABD /* NetworkStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B703ACE29B16E4900D61ABD /* NetworkStatusManager.swift */; };
 		6B703AD129B17C0200D61ABD /* SNSLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B703AD029B17C0200D61ABD /* SNSLoginManager.swift */; };
@@ -144,7 +144,7 @@
 		6B6EB33F29B70B7400641E6E /* WebMainViewController+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebMainViewController+Notification.swift"; sourceTree = "<group>"; };
 		6B6EB34529B71ED000641E6E /* WKScriptMessageMapper+Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKScriptMessageMapper+Action.swift"; sourceTree = "<group>"; };
 		6B6EB34729B7241F00641E6E /* UserDefaultActionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultActionType.swift; sourceTree = "<group>"; };
-		6B6EB34929B726B500641E6E /* EnvironmentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentType.swift; sourceTree = "<group>"; };
+		6B6EB34B29B8614000641E6E /* ConfigureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureType.swift; sourceTree = "<group>"; };
 		6B703ACC29B09C0F00D61ABD /* KeychainUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainUseCase.swift; sourceTree = "<group>"; };
 		6B703ACE29B16E4900D61ABD /* NetworkStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatusManager.swift; sourceTree = "<group>"; };
 		6B703AD029B17C0200D61ABD /* SNSLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SNSLoginManager.swift; sourceTree = "<group>"; };
@@ -268,7 +268,7 @@
 				6B66DE4429922D580073313E /* Contact.swift */,
 				6B6EB2DD29B5761000641E6E /* UserInfo.swift */,
 				6B6EB34729B7241F00641E6E /* UserDefaultActionType.swift */,
-				6B6EB34929B726B500641E6E /* EnvironmentType.swift */,
+				6B6EB34B29B8614000641E6E /* ConfigureType.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -534,7 +534,6 @@
 				6B0BDC682991E3DE008645A5 /* WebBridgeRequest.swift in Sources */,
 				6B6EB32B29B6B8DE00641E6E /* FacebookLoginUseCase.swift in Sources */,
 				6B66DE4329922B3F0073313E /* ContactsUseCase.swift in Sources */,
-				6B6EB34A29B726B500641E6E /* EnvironmentType.swift in Sources */,
 				6B66DE4529922D580073313E /* Contact.swift in Sources */,
 				6B6EB34629B71ED000641E6E /* WKScriptMessageMapper+Action.swift in Sources */,
 				6B0BDC652991E26A008645A5 /* WebMainViewController.swift in Sources */,
@@ -544,6 +543,7 @@
 				6B66DE5429939F300073313E /* AppleLoginUseCase.swift in Sources */,
 				6B66DE4D299334710073313E /* SplashViewController.swift in Sources */,
 				6B6EB34829B7241F00641E6E /* UserDefaultActionType.swift in Sources */,
+				6B6EB34C29B8614000641E6E /* ConfigureType.swift in Sources */,
 				6B0BDC5F2991E26A008645A5 /* String+.swift in Sources */,
 				6B0BDC5E2991E26A008645A5 /* WKScriptMessage+.swift in Sources */,
 				6B0BDC612991E26A008645A5 /* CodableWebBridgeResponse.swift in Sources */,

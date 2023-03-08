@@ -48,15 +48,27 @@ public class WebBridge {
                 type: request,
                 scriptMessage: responseMessage
             )
-        case .updateConfigure(let environmentType):
-            /// 환경 변경, 로그아웃 시키고 메인
-            self.logout { [weak self] in
-                AppConfigure.shared.enviromentType = environmentType
-                self?.callBridgeAction(
+        case .updateConfigure(let configureType):
+            switch configureType {
+            case .baseURL(let environmentType):
+                /// 환경 변경, 로그아웃 시키고 메인
+                self.logout { [weak self] in
+                    AppConfigure.shared.enviromentType = environmentType
+                    self?.callBridgeAction(
+                        type: request,
+                        scriptMessage: responseMessage
+                    )
+                }
+            case .screen(let screenMode):
+                AppConfigure.shared.screenMode = screenMode
+                self.callBridgeAction(
                     type: request,
                     scriptMessage: responseMessage
                 )
+            default:
+                break
             }
+
         case .login(let loginType, _):
             switch loginType {
             case .apple, .kakao:
