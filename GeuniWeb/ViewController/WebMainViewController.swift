@@ -15,19 +15,28 @@ public protocol WebMainViewDelegate: AnyObject {
 public final class WebMainViewController: UIViewController {
     public var delegate: WebMainViewDelegate?
     private var messageHandlerName = AppConfigure.shared.webBridgeMessageHandlerName
+    private var rootContainer = UIView()
     private var webview: WKWebView?
     private var networkStatusManager = NetworkStatusManager.shared
 
+    private var marginTop = NSLayoutConstraint()
+    private var marginBottom = NSLayoutConstraint()
+    private var marginLeft = NSLayoutConstraint()
+    private var marginRight = NSLayoutConstraint()
+
     public override func viewDidLoad() {
         super.viewDidLoad()
-        configureWebView()
         configureNetwork()
-        loadURL()
+        configureWebView()
         configureUI()
+        loadURL()
     }
 
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        if let webView = self.webview {
+            webView.frame = self.rootContainer.bounds
+        }
     }
 
     public override func viewWillAppear(_ animated: Bool) {
@@ -59,10 +68,35 @@ private extension WebMainViewController {
         }
 
         self.navigationController?.isNavigationBarHidden = true
-        self.view.backgroundColor = .white
-        self.view.addSubview(webview)
+        self.view.backgroundColor = .yellow
+        self.rootContainer.backgroundColor = .green
+        self.view.addSubview(rootContainer)
+        self.rootContainer.addSubview(webview)
+        rootContainer.translatesAutoresizingMaskIntoConstraints = false
         webview.translatesAutoresizingMaskIntoConstraints = false
-        updateScreenMode(type: AppConfigure.shared.screenMode)
+        webview.autoresizingMask = [.flexibleLeftMargin, .flexibleTopMargin]
+        marginLeft = rootContainer.leadingAnchor.constraint(
+            equalTo: self.view.leadingAnchor,
+            constant: AppConfigure.shared.screenMode == .safeArea ? self.view.safeAreaInsets.left : 0.0
+        )
+        marginRight = rootContainer.trailingAnchor.constraint(
+            equalTo: self.view.trailingAnchor,
+            constant: AppConfigure.shared.screenMode == .safeArea ? -self.view.safeAreaInsets.right : 0.0
+        )
+        marginTop = rootContainer.topAnchor.constraint(
+            equalTo: self.view.topAnchor,
+            constant: AppConfigure.shared.screenMode == .safeArea ? self.view.safeAreaInsets.top : 0.0
+        )
+        marginBottom = rootContainer.bottomAnchor.constraint(
+            equalTo: self.view.bottomAnchor,
+            constant: AppConfigure.shared.screenMode == .safeArea ? -self.view.safeAreaInsets.bottom : 0.0
+        )
+        NSLayoutConstraint.activate([
+            marginTop,
+            marginBottom,
+            marginLeft,
+            marginRight
+        ])
     }
 
     func configureWebView() {
@@ -102,9 +136,6 @@ private extension WebMainViewController {
     }
 
     func updateScreenMode(type: ScreenType) {
-        guard let webview = self.webview else {
-            return
-        }
         var constantLeft = 0.0
         var constantRight = 0.0
         var constantTop = 0.0
@@ -118,11 +149,10 @@ private extension WebMainViewController {
         default:
             break
         }
-        let left = webview.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: constantLeft)
-        let right = webview.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: constantRight)
-        let top = webview.topAnchor.constraint(equalTo: self.view.topAnchor, constant: constantTop)
-        let bottom = webview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: constantBottom)
-        NSLayoutConstraint.activate([left, right, top, bottom])
+        marginLeft.constant = constantLeft
+        marginRight.constant = constantRight
+        marginTop.constant = constantTop
+        marginBottom.constant = constantBottom
     }
 }
 
@@ -151,6 +181,7 @@ extension WebMainViewController: WebBridgeDelegate {
             case .screen(let type):
                 Task { @MainActor in
                     self.updateScreenMode(type: type)
+                    self.view.setNeedsLayout()
                     completion?()
                 }
             default:
