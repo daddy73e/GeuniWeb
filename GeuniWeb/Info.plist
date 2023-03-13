@@ -5,12 +5,30 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleIdentifier</key>
+			<string></string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>kakao3f1930bce00d0fcab7cee062e7a58d87</string>
 				<string>fb761522388654731</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>paycologininsdk</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>GeuniWeb</string>
 			</array>
 		</dict>
 	</array>
@@ -25,7 +43,7 @@
 		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
 		<string>fbapi</string>
-  		<string>fb-messenger-share-api</string>
+		<string>fb-messenger-share-api</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

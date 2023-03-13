@@ -78,7 +78,7 @@ public class WebBridge {
                         scriptMessage: responseMessage
                     )
                 }
-            case .facebook:
+            case .facebook, .payco:
                 self.callBridgeAction(
                     type: request,
                     scriptMessage: responseMessage

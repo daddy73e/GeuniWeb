@@ -226,6 +226,13 @@ function loginFacebook() {
     sendNativeAction("Login", "loginSNS", params)
 }
 
+function loginPayco() {
+    var params = {
+        "type" : "payco"
+    };
+    sendNativeAction("Login", "loginSNS", params)
+}
+
 function logOut() {
     var params = { };
     sendNativeAction("LogOut", "logout", params)

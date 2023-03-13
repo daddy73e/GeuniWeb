@@ -36,8 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let url = URLContexts.first?.url else {
             return
         }
-
-        KakaoLoginUseCase().loginWithOpenUrl(url: url)
-        FacebookLoginUseCase().loginWithOpenUrl(url: url)
+        
+        SNSLoginManager.shared.loginWithOpenUrl(url: url)
     }
 }

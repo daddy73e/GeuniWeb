@@ -215,6 +215,10 @@ extension WebMainViewController: WebBridgeDelegate {
                     print(userInfo ?? "")
                     completion?()
                 }
+            case .payco:
+                SNSLoginManager.shared.requestPaycoLogin { userInfo in
+                    completion?()
+                }
             default:
                 completion?()
             }

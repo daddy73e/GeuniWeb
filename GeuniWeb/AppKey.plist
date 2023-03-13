@@ -4,5 +4,9 @@
 <dict>
 	<key>kakaoAppAppID</key>
 	<string>3f1930bce00d0fcab7cee062e7a58d87</string>
+	<key>paycoClientID</key>
+	<string>3RDkuZaB4_ULbww7Cwij</string>
+	<key>paycoClientSecret</key>
+	<string>6Oa2X1ST_LmRXPrkfqc4xSKj</string>
 </dict>
 </plist>

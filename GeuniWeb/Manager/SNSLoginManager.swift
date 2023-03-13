@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 import UIKit
 
 public enum SNSLoginType: String {
@@ -13,6 +14,7 @@ public enum SNSLoginType: String {
     case apple
     case kakao
     case facebook
+    case payco
     init(fromRawValue: String) {
         self = SNSLoginType(rawValue: fromRawValue) ?? .none
     }
@@ -32,6 +34,8 @@ protocol SNSLoginManagerProtocol: AnyObject {
     func requestKakaoLogin(completion: ((UserInfo?) -> Void)?)
     /// 페이스북 로그인 요청
     func requestFacebookLogin(viewController: UIViewController, completion: ((UserInfo?) -> Void)?)
+    /// 페이코 로그인 요청
+    func requestPaycoLogin(completion: ((UserInfo?) -> Void)?)
     /// 로그아웃 요청
     func requestLogout(completion: (() -> Void)?)
 }
@@ -42,6 +46,8 @@ final class SNSLoginManager: SNSLoginManagerProtocol {
     private var appleLoginUseCase = AppleLoginUseCase()
     private var kakaoLoginUseCase =  KakaoLoginUseCase()
     private var facebookLoginUseCase = FacebookLoginUseCase()
+    private var paycoLoginUseCase = PaycoLoginUseCase()
+    
     private let userDefaultKey = "SNSLoginType"
 
     public func application(
@@ -50,6 +56,7 @@ final class SNSLoginManager: SNSLoginManagerProtocol {
     ) {
         self.kakaoLoginUseCase.initSDK()
         self.facebookLoginUseCase.initSDK(launchOptions: launchOptions)
+        self.paycoLoginUseCase.initSDK()
     }
 
     public func checkLogin(completion: ((Bool) -> Void)?) {
@@ -122,6 +129,10 @@ final class SNSLoginManager: SNSLoginManagerProtocol {
         )
     }
 
+    public func requestPaycoLogin(completion: ((UserInfo?) -> Void)?) {
+        self.paycoLoginUseCase.openLoginPage()
+    }
+
     public func requestLogout(completion: (() -> Void)?) {
         let loginType = savedLoginType()
 
@@ -147,6 +158,12 @@ final class SNSLoginManager: SNSLoginManagerProtocol {
         default:
             completion?()
         }
+    }
+    
+    func loginWithOpenUrl(url: URL) {
+        KakaoLoginUseCase().loginWithOpenUrl(url: url)
+        FacebookLoginUseCase().loginWithOpenUrl(url: url)
+        PaycoLoginUseCase().loginWithOpenUrl(url: url)
     }
 }
 
