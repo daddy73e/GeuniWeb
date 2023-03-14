@@ -11,6 +11,7 @@ import WebKit
 protocol WebBridgeDelegate: AnyObject {
     func evaluateJavaScript(_ javaScriptString: String, completion: ((Any?, Error?) -> Void)?)
     func callBridgeAction(actionType: WebBridgeRequest, completion: (() -> Void)?)
+    func showPopup(popupInfo: PopupInput)
 }
 
 public class WebBridge {
@@ -149,7 +150,7 @@ public class WebBridge {
             SNSLoginManager.shared.requestAppleLogin { userInfo in
                 let keyCainUseCase = KeychainUseCase()
                 keyCainUseCase.write(input: .init(
-                    key: AppConfigure.shared.appleIDKey,
+                    key: UserDefaultKey.appleIDKey.rawValue,
                     saveData: userInfo?.userID
                 ))
                 completion?()
@@ -164,8 +165,16 @@ public class WebBridge {
     }
 
     private func logout(completion: (() -> Void)?) {
-        SNSLoginManager.shared.requestLogout {
-            NotificationCenter.default.post(name: Notification.Name.logout, object: nil)
+        SNSLoginManager.shared.requestLogout { error in
+            if let error = error {
+                self.webDelegate?.showPopup(popupInfo: .init(
+                    title: "오류",
+                    contents: "로그아웃 에러, \(error.localizedDescription)",
+                    completion: nil
+                ))
+            } else {
+                NotificationCenter.default.post(name: Notification.Name.logout, object: nil)
+            }
             completion?()
         }
     }

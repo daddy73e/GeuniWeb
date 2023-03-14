@@ -170,6 +170,10 @@ extension WebMainViewController: WKScriptMessageHandler {
 }
 
 extension WebMainViewController: WebBridgeDelegate {
+    func showPopup(popupInfo: PopupInput) {
+        Router.shared.showPopup(fromVC: self, popupInput: popupInfo)
+    }
+
     /// 웹으로 정상 호출 확인용 completion 
     func callBridgeAction(actionType: WebBridgeRequest, completion: (() -> Void)?) {
         switch actionType {
@@ -216,7 +220,7 @@ extension WebMainViewController: WebBridgeDelegate {
                     completion?()
                 }
             case .payco:
-                SNSLoginManager.shared.requestPaycoLogin { userInfo in
+                SNSLoginManager.shared.requestPaycoLogin { _ in
                     completion?()
                 }
             default:

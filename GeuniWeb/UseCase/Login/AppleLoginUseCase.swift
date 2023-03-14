@@ -35,7 +35,7 @@ public class AppleLoginUseCase: NSObject, AppleLoginUseCaseProtocol {
 
     public func checkLogin(completion: ((Bool) -> Void)?) {
         let keyCainUseCase = KeychainUseCase()
-        guard let appleID = keyCainUseCase.read(input: .init(key: AppConfigure.shared.appleIDKey)) else {
+        guard let appleID = keyCainUseCase.read(input: .init(key: UserDefaultKey.appleIDKey.rawValue)) else {
             completion?(false)
             return
         }

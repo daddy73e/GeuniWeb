@@ -9,9 +9,9 @@ import Foundation
 public class AppConfigure {
 
     public static let shared = AppConfigure()
-    
+
     public let serviceName = "GeuniWeb"
-    
+
     public let webBridgeMessageHandlerName = "geuniModule"
     /// 빌드환경
     public var enviromentType: EnvironmentType = .develop
@@ -19,9 +19,9 @@ public class AppConfigure {
     public var screenMode: ScreenType = .safeArea
 
     /// 애플 로그인 ID
-    public var appleIDKey = "GEUNI_WEB_APPLE_LOGIN_ID"
+    public var appleIDKey = UserDefaultKey.appleIDKey
     /// 페이코 accessTokeyID
-    public var paycoAccessToekn = "GEUNI_WEB_PAYCO_ACCESS_TOKEN"
+    public var paycoAccessToekn = UserDefaultKey.paycoAccessToekn
 
     /// 카카오 로그인 AppKey
     public func kakaoAppKey() -> String? {
@@ -34,25 +34,25 @@ public class AppConfigure {
         }
         return dictionary["kakaoAppAppID"] as? String
     }
-    
+
     /// 페이코 로그인 ClientID
     public func paycoClientID() -> String? {
         guard let url = Bundle.main.url(forResource: "AppKey", withExtension: "plist") else {
             return nil
         }
-        
+
         guard let dictionary = NSDictionary(contentsOf: url) else {
             return nil
         }
         return dictionary["paycoClientID"] as? String
     }
-    
+
     /// 페이코 로그인 Secret
     public func paycoClientSecret() -> String? {
         guard let url = Bundle.main.url(forResource: "AppKey", withExtension: "plist") else {
             return nil
         }
-        
+
         guard let dictionary = NSDictionary(contentsOf: url) else {
             return nil
         }

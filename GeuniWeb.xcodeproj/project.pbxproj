@@ -31,6 +31,7 @@
 		6B0BDC72299210A7008645A5 /* AppConfigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC71299210A7008645A5 /* AppConfigure.swift */; };
 		6B0BDC7429921943008645A5 /* SampleUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC7329921943008645A5 /* SampleUseCase.swift */; };
 		6B0BDC76299219C2008645A5 /* LocationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0BDC75299219C2008645A5 /* LocationUseCase.swift */; };
+		6B12D3C629BFEF4A001B01B4 /* UserDefaultKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B12D3C529BFEF4A001B01B4 /* UserDefaultKey.swift */; };
 		6B66DE4329922B3F0073313E /* ContactsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE4229922B3F0073313E /* ContactsUseCase.swift */; };
 		6B66DE4529922D580073313E /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE4429922D580073313E /* Contact.swift */; };
 		6B66DE47299230D40073313E /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE46299230D40073313E /* UIViewController+.swift */; };
@@ -127,6 +128,7 @@
 		6B0BDC71299210A7008645A5 /* AppConfigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigure.swift; sourceTree = "<group>"; };
 		6B0BDC7329921943008645A5 /* SampleUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleUseCase.swift; sourceTree = "<group>"; };
 		6B0BDC75299219C2008645A5 /* LocationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationUseCase.swift; sourceTree = "<group>"; };
+		6B12D3C529BFEF4A001B01B4 /* UserDefaultKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKey.swift; sourceTree = "<group>"; };
 		6B66DE4229922B3F0073313E /* ContactsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsUseCase.swift; sourceTree = "<group>"; };
 		6B66DE4429922D580073313E /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		6B66DE46299230D40073313E /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				6B0BDC2A2991E1D8008645A5 /* AppDelegate.swift */,
 				6B0BDC2C2991E1D8008645A5 /* SceneDelegate.swift */,
 				6B0BDC71299210A7008645A5 /* AppConfigure.swift */,
+				6B12D3C529BFEF4A001B01B4 /* UserDefaultKey.swift */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -598,6 +601,7 @@
 				6B0BDC6A2991E9BF008645A5 /* TestUIViewController.swift in Sources */,
 				6B6EB32229B5D47C00641E6E /* APIManager.swift in Sources */,
 				6B0BDC5D2991E26A008645A5 /* Data+.swift in Sources */,
+				6B12D3C629BFEF4A001B01B4 /* UserDefaultKey.swift in Sources */,
 				6BBEFF9729A343C100C38307 /* UIColor+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

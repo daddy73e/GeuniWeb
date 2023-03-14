@@ -37,7 +37,7 @@ protocol SNSLoginManagerProtocol: AnyObject {
     /// 페이코 로그인 요청
     func requestPaycoLogin(completion: ((UserInfo?) -> Void)?)
     /// 로그아웃 요청
-    func requestLogout(completion: (() -> Void)?)
+    func requestLogout(completion: ((Error?) -> Void)?)
 }
 
 final class SNSLoginManager: SNSLoginManagerProtocol {
@@ -47,8 +47,8 @@ final class SNSLoginManager: SNSLoginManagerProtocol {
     private var kakaoLoginUseCase =  KakaoLoginUseCase()
     private var facebookLoginUseCase = FacebookLoginUseCase()
     private var paycoLoginUseCase = PaycoLoginUseCase()
-    
-    private let userDefaultKey = "SNSLoginType"
+
+    private let userDefaultKey = UserDefaultKey.snsLoginType.rawValue
 
     public func application(
         _ application: UIApplication,
@@ -125,23 +125,33 @@ final class SNSLoginManager: SNSLoginManagerProtocol {
                 }
                 print(userInfo)
                 self?.updateSNSLoginType(type: .facebook)
+                completion?(userInfo)
             }
         )
     }
 
     public func requestPaycoLogin(completion: ((UserInfo?) -> Void)?) {
-        self.paycoLoginUseCase.openLoginPage()
+        self.paycoLoginUseCase.requestLogin { [weak self] output in
+            guard let userInfo = output?.userInfo else {
+                completion?(nil)
+                return
+            }
+            print(userInfo)
+            self?.updateSNSLoginType(type: .payco)
+            completion?(userInfo)
+
+        }
     }
 
-    public func requestLogout(completion: (() -> Void)?) {
+    public func requestLogout(completion: ((Error?) -> Void)?) {
         let loginType = savedLoginType()
 
         switch loginType {
         case .apple:
             let keyCainUseCase = KeychainUseCase()
-            keyCainUseCase.delete(input: .init(key: AppConfigure.shared.appleIDKey))
+            keyCainUseCase.delete(input: .init(key: UserDefaultKey.appleIDKey.rawValue))
             self.updateSNSLoginType(type: .none)
-            completion?()
+            completion?(nil)
         case .kakao:
             /// SNS Kakao Logout
             KakaoLoginUseCase().requestLogout { error in
@@ -149,17 +159,24 @@ final class SNSLoginManager: SNSLoginManagerProtocol {
                     print("카카오톡 로그아웃 성공")
                 }
                 self.updateSNSLoginType(type: .none)
-                completion?()
+                completion?(error)
             }
         case .facebook:
             FacebookLoginUseCase().requestLogout()
             self.updateSNSLoginType(type: .none)
-            completion?()
+            completion?(nil)
+        case .payco:
+            PaycoLoginUseCase().requestLogout { error in
+                if error != nil {
+                    self.updateSNSLoginType(type: .none)
+                }
+                completion?(nil)
+            }
         default:
-            completion?()
+            completion?(nil)
         }
     }
-    
+
     func loginWithOpenUrl(url: URL) {
         KakaoLoginUseCase().loginWithOpenUrl(url: url)
         FacebookLoginUseCase().loginWithOpenUrl(url: url)
