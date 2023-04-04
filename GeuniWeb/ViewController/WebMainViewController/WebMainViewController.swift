@@ -19,12 +19,12 @@ public final class WebMainViewController: UIViewController {
     private var webview: WKWebView?
     private var sampleImageView: UIImageView?
     private var networkStatusManager = NetworkStatusManager.shared
-    
+
     private var marginTop = NSLayoutConstraint()
     private var marginBottom = NSLayoutConstraint()
     private var marginLeft = NSLayoutConstraint()
     private var marginRight = NSLayoutConstraint()
-    
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         configureNetwork()
@@ -32,7 +32,7 @@ public final class WebMainViewController: UIViewController {
         configureUI()
         loadURL()
     }
-    
+
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if let webView = self.webview {

@@ -35,6 +35,7 @@
 		6B49C19829DBB9750027E1B4 /* GenerateBarcodeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B49C19729DBB9750027E1B4 /* GenerateBarcodeUseCase.swift */; };
 		6B49C19A29DBB9B80027E1B4 /* WebMainViewController+UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B49C19929DBB9B80027E1B4 /* WebMainViewController+UseCase.swift */; };
 		6B49C1A429DBE1240027E1B4 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B49C1A329DBE1240027E1B4 /* Toast.swift */; };
+		6B49C1B529DC2C5F0027E1B4 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 6B49C1B429DC2C5F0027E1B4 /* Kingfisher */; };
 		6B66DE4329922B3F0073313E /* ContactsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE4229922B3F0073313E /* ContactsUseCase.swift */; };
 		6B66DE4529922D580073313E /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE4429922D580073313E /* Contact.swift */; };
 		6B66DE47299230D40073313E /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE46299230D40073313E /* UIViewController+.swift */; };
@@ -191,6 +192,7 @@
 				6B703ADD29B1B4FC00D61ABD /* KakaoSDKUser in Frameworks */,
 				6B6EB33729B6D14400641E6E /* FacebookCore in Frameworks */,
 				6BAED38929BF0B41007A8AC6 /* PIDThirdPartyAuth.framework in Frameworks */,
+				6B49C1B529DC2C5F0027E1B4 /* Kingfisher in Frameworks */,
 				6B6EB33B29B6D14400641E6E /* FacebookShare in Frameworks */,
 				6B6EB33929B6D14400641E6E /* FacebookLogin in Frameworks */,
 			);
@@ -469,6 +471,7 @@
 				6B6EB33629B6D14400641E6E /* FacebookCore */,
 				6B6EB33829B6D14400641E6E /* FacebookLogin */,
 				6B6EB33A29B6D14400641E6E /* FacebookShare */,
+				6B49C1B429DC2C5F0027E1B4 /* Kingfisher */,
 			);
 			productName = GeuniWeb;
 			productReference = 6B0BDC272991E1D8008645A5 /* GeuniWeb.app */;
@@ -521,6 +524,7 @@
 			packageReferences = (
 				6B703ADB29B1B4FC00D61ABD /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				6B6EB33529B6D14400641E6E /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				6B49C1B329DC2C5F0027E1B4 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 6B0BDC282991E1D8008645A5 /* Products */;
 			projectDirPath = "";
@@ -954,6 +958,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		6B49C1B329DC2C5F0027E1B4 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 		6B6EB33529B6D14400641E6E /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
@@ -973,6 +985,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6B49C1B429DC2C5F0027E1B4 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B49C1B329DC2C5F0027E1B4 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		6B6EB33629B6D14400641E6E /* FacebookCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6B6EB33529B6D14400641E6E /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
