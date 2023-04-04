@@ -13,4 +13,5 @@ public enum WebBridgeRequest {
     case userDefault(type: UserDefaultActionType)
     case requestAPI
     case updateConfigure(type: ConfigureType)
+    case generateBarcode(code: String)
 }

@@ -17,6 +17,7 @@ public final class WebMainViewController: UIViewController {
     private var messageHandlerName = AppConfigure.shared.webBridgeMessageHandlerName
     private var rootContainer = UIView()
     private var webview: WKWebView?
+    private var sampleImageView: UIImageView?
     private var networkStatusManager = NetworkStatusManager.shared
 
     private var marginTop = NSLayoutConstraint()
@@ -63,15 +64,26 @@ public final class WebMainViewController: UIViewController {
 private extension WebMainViewController {
 
     func configureUI() {
+        sampleImageView = UIImageView(frame: .zero)
+        
         guard let webview = self.webview else {
             return
         }
+        
+        guard let barcodeImageView = sampleImageView else {
+            return
+        }
+        
+        barcodeImageView.translatesAutoresizingMaskIntoConstraints = false
+        barcodeImageView.contentMode = .scaleAspectFit
 
         self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = .yellow
         self.rootContainer.backgroundColor = .green
         self.view.addSubview(rootContainer)
         self.rootContainer.addSubview(webview)
+        self.rootContainer.addSubview(barcodeImageView)
+        
         rootContainer.translatesAutoresizingMaskIntoConstraints = false
         webview.translatesAutoresizingMaskIntoConstraints = false
         webview.autoresizingMask = [.flexibleLeftMargin, .flexibleTopMargin]
@@ -96,6 +108,13 @@ private extension WebMainViewController {
             marginBottom,
             marginLeft,
             marginRight
+        ])
+        
+        NSLayoutConstraint.activate([
+            barcodeImageView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            barcodeImageView.widthAnchor.constraint(equalToConstant: 200),
+            barcodeImageView.heightAnchor.constraint(equalToConstant: 50),
+            barcodeImageView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
     }
 
@@ -224,6 +243,11 @@ extension WebMainViewController: WebBridgeDelegate {
                     completion?()
                 }
             default:
+                completion?()
+            }
+        case .generateBarcode(let code):
+            generateBarcode(code: code) { [weak self] barcodeImage in
+                self?.sampleImageView?.image = barcodeImage
                 completion?()
             }
         default:

@@ -62,6 +62,8 @@ public extension WKScriptMessageMapper {
             return apiRequestAction(action: action, params: params)
         case "Configuration":
             return configurationAction(action: action, params: params)
+        case "Generate":
+            return generateAction(action: action, params: params)
         default:
             return nil
         }

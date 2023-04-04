@@ -108,4 +108,17 @@ public extension WKScriptMessageMapper {
             return nil
         }
     }
+    
+    func generateAction(
+        action: String,
+        params: [String: Any]?
+    ) -> WebBridgeRequest? {
+        switch action {
+        case "barcode":
+            let code = (params?["code"] as? String) ?? ""
+            return .generateBarcode(code: code)
+        default:
+            return nil
+        }
+    }
 }

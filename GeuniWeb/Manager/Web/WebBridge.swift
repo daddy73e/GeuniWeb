@@ -44,7 +44,7 @@ public class WebBridge {
         ).toJavascriptMessage(withRequestId: requestId)
 
         switch request {
-        case .closeWeb, .showAlertPopup:
+        case .closeWeb, .showAlertPopup, .generateBarcode:
             self.callBridgeAction(
                 type: request,
                 scriptMessage: responseMessage
