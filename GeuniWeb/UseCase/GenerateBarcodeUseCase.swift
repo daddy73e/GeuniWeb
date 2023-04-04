@@ -25,19 +25,19 @@ public struct GenerateBarcodeOutput {
 }
 
 public class GenerateBarcodeUseCase: GenerateBarcodeUseCaseProtocol {
-    
+
     public init() { }
-    
+
     public func generateBarcode(
         input: GenerateBarcodeInput,
         completion: ((GenerateBarcodeOutput?) -> Void)?
     ) {
         let data = input.code.data(using: String.Encoding.ascii)
-        
+
         if let filter = CIFilter(name: "CICode128BarcodeGenerator") {
             filter.setValue(data, forKey: "inputMessage")
             let transform = CGAffineTransform(scaleX: 3, y: 3)
-            
+
             if let output = filter.outputImage?.transformed(by: transform) {
                 completion?(.init(image: UIImage(ciImage: output)))
             }

@@ -20,14 +20,20 @@ public extension WKScriptMessageMapper {
         }
     }
 
-    func customAlertAction(
+    func notificationAction(
         action: String,
         params: [String: Any]?
     ) -> WebBridgeRequest? {
         switch action {
-        case "showAlertPopup":
+        case "popup":
             if let params = params as? [String: String] {
-                return .showAlertPopup(params)
+                return .showPopup(params)
+            } else {
+                return nil
+            }
+        case "toast":
+            if let params = params as? [String: String] {
+                return .showToast(params)
             } else {
                 return nil
             }
@@ -108,7 +114,7 @@ public extension WKScriptMessageMapper {
             return nil
         }
     }
-    
+
     func generateAction(
         action: String,
         params: [String: Any]?

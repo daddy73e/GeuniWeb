@@ -188,7 +188,15 @@ function showAlertPopup() {
         "yesText" : "확인",
         "noText" : "취소"
     };
-    sendNativeAction("CustomAlert", "showAlertPopup", params)
+    sendNativeAction("Notification", "popup", params)
+}
+
+function showToast() {
+    var params = {
+        "message" : "toast메세지",
+        "duration" : "3"
+    };
+    sendNativeAction("Notification", "toast", params)
 }
 
 function writeLocalStorage() {

@@ -10,7 +10,7 @@ import WebKit
 
 protocol WebBridgeDelegate: AnyObject {
     func evaluateJavaScript(_ javaScriptString: String, completion: ((Any?, Error?) -> Void)?)
-    func callBridgeAction(actionType: WebBridgeRequest, completion: (() -> Void)?)
+    func callBridgeViewAction(actionType: WebBridgeRequest, completion: (() -> Void)?)
     func showPopup(popupInfo: PopupInput)
 }
 
@@ -44,7 +44,7 @@ public class WebBridge {
         ).toJavascriptMessage(withRequestId: requestId)
 
         switch request {
-        case .closeWeb, .showAlertPopup, .generateBarcode:
+        case .closeWeb, .showPopup, .generateBarcode, .showToast:
             self.callBridgeAction(
                 type: request,
                 scriptMessage: responseMessage
@@ -109,7 +109,7 @@ public class WebBridge {
         scriptMessage: String
     ) {
         /* ViewController 에서 동작 */
-        self.webDelegate?.callBridgeAction(
+        self.webDelegate?.callBridgeViewAction(
             actionType: type,
             completion: { [weak self] in
                 /* 웹 자바스크립트 콜백 */

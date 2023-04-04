@@ -19,12 +19,12 @@ public final class WebMainViewController: UIViewController {
     private var webview: WKWebView?
     private var sampleImageView: UIImageView?
     private var networkStatusManager = NetworkStatusManager.shared
-
+    
     private var marginTop = NSLayoutConstraint()
     private var marginBottom = NSLayoutConstraint()
     private var marginLeft = NSLayoutConstraint()
     private var marginRight = NSLayoutConstraint()
-
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         configureNetwork()
@@ -32,37 +32,37 @@ public final class WebMainViewController: UIViewController {
         configureUI()
         loadURL()
     }
-
+    
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if let webView = self.webview {
             webView.frame = self.rootContainer.bounds
         }
     }
-
+    
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addNotification()
     }
-
+    
     public override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeNotification()
         networkStatusManager.stopMonitoring()
     }
-
+    
     /// 로그아웃 완료됨
     @objc func navigateLoginPage(_ notification: Notification) {
         print("navigateLoginPage")
     }
-
+    
     @objc func keyboardWillShow(_ notification: Notification) { }
-
+    
     @objc func keyboardWillHide(_ notification: Notification) { }
 }
 
 private extension WebMainViewController {
-
+    
     func configureUI() {
         sampleImageView = UIImageView(frame: .zero)
         
@@ -76,7 +76,7 @@ private extension WebMainViewController {
         
         barcodeImageView.translatesAutoresizingMaskIntoConstraints = false
         barcodeImageView.contentMode = .scaleAspectFit
-
+        
         self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = .yellow
         self.rootContainer.backgroundColor = .green
@@ -111,13 +111,15 @@ private extension WebMainViewController {
         ])
         
         NSLayoutConstraint.activate([
-            barcodeImageView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            barcodeImageView.leadingAnchor.constraint(
+                equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 50
+            ),
             barcodeImageView.widthAnchor.constraint(equalToConstant: 200),
             barcodeImageView.heightAnchor.constraint(equalToConstant: 50),
             barcodeImageView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
     }
-
+    
     func configureWebView() {
         let userContentController = WKUserContentController()
         userContentController.add(self, name: messageHandlerName)
@@ -128,19 +130,19 @@ private extension WebMainViewController {
         self.webview?.navigationDelegate = self
         self.webview?.backgroundColor = .brown
     }
-
+    
     func configureNetwork() {
         networkStatusManager.delegate = self
         networkStatusManager.startMonitoring()
     }
-
+    
     func loadURL() {
         let testURL = Bundle.main.url(forResource: "test", withExtension: "html")!
         var urlRequest = URLRequest(url: testURL)
         urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         webview?.load(urlRequest)
     }
-
+    
     func closeWebMain(sendData: String?, completion: (() -> Void)?) {
         if let navigationController = self.navigationController {
             navigationController.popViewController(animated: true)
@@ -153,7 +155,7 @@ private extension WebMainViewController {
             }
         }
     }
-
+    
     func updateScreenMode(type: ScreenType) {
         var constantLeft = 0.0
         var constantRight = 0.0
@@ -192,9 +194,9 @@ extension WebMainViewController: WebBridgeDelegate {
     func showPopup(popupInfo: PopupInput) {
         Router.shared.showPopup(fromVC: self, popupInput: popupInfo)
     }
-
-    /// 웹으로 정상 호출 확인용 completion 
-    func callBridgeAction(actionType: WebBridgeRequest, completion: (() -> Void)?) {
+    
+    /// 웹으로 정상 호출 확인용 completion
+    func callBridgeViewAction(actionType: WebBridgeRequest, completion: (() -> Void)?) {
         switch actionType {
         case .updateConfigure(let configureType):
             switch configureType {
@@ -210,10 +212,10 @@ extension WebMainViewController: WebBridgeDelegate {
             default:
                 completion?()
             }
-
+            
         case .closeWeb(let string):
             closeWebMain(sendData: string, completion: completion)
-        case .showAlertPopup(let dictionary):
+        case .showPopup(let dictionary):
             Router.shared.showPopup(
                 fromVC: self,
                 popupInput: .init(
@@ -222,11 +224,21 @@ extension WebMainViewController: WebBridgeDelegate {
                     yesText: dictionary["yesText"] ?? "",
                     noText: dictionary["noText"] ?? "",
                     completion: { output in
-                            print("output = \(output)")
+                        print("output = \(output)")
                         completion?()
                     }
                 )
             )
+        case .showToast(let dictionary):
+            let message = dictionary["message"] ?? ""
+            Toast.shared.show(
+                option: .init(
+                    backgroundView: self.view,
+                    message: message
+                )
+            ) {
+                completion?()
+            }
         case .logout:
             /* 로그인화면으로 이동 */
             completion?()
@@ -254,13 +266,13 @@ extension WebMainViewController: WebBridgeDelegate {
             completion?()
         }
     }
-
+    
     func evaluateJavaScript(_ javaScriptString: String, completion: ((Any?, Error?) -> Void)?) {
         Task { @MainActor in
             self.webview?.evaluateJavaScript(javaScriptString, completionHandler: completion)
         }
     }
-
+    
     func closeSubWebView() {
         if let navigationController = self.navigationController {
             navigationController.popViewController(animated: true)
@@ -297,21 +309,21 @@ extension WebMainViewController: WKNavigationDelegate {
         }
         decisionHandler(.allow)
     }
-
+    
     public func webView(
         _ webView: WKWebView,
         didFailProvisionalNavigation navigation: WKNavigation!,
         withError error: Error
     ) {
-
+        
     }
-
+    
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-
+        
     }
-
+    
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-
+        
     }
 }
 
@@ -325,12 +337,12 @@ extension WebMainViewController: NetworkStatusDelegate {
         print("Network status = \(status)")
         switch status {
         case .notConnected:
-            Router.shared.showPopup(fromVC: self, popupInput: .init(
-                title: "알림",
-                contents: "네트워크 연결이 끊겼습니다.",
-                yesText: "확인",
-                noText: "", completion: nil
-            ))
+            Toast.shared.show(
+                option: .init(
+                    backgroundView: self.view,
+                    message: "네트워크 연결이 끊겼습니다."
+                )
+            )
         default:
             break
         }

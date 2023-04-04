@@ -50,8 +50,8 @@ public extension WKScriptMessageMapper {
         switch serviceName {
         case "Navigator":
             return navigatorAction(action: action, params: params)
-        case "CustomAlert":
-            return customAlertAction(action: action, params: params)
+        case "Notification":
+            return notificationAction(action: action, params: params)
         case "LogOut":
             return logoutAction(action: action, params: params)
         case "Login":
