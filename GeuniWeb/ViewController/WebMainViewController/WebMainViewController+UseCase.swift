@@ -14,4 +14,8 @@ extension WebMainViewController {
             }
         }
     }
+    
+    func isTargetSimulator() -> Bool {
+        return TARGET_IPHONE_SIMULATOR == 1
+    }
 }

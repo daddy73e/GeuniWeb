@@ -10,7 +10,7 @@ import CoreLocation
 import AuthenticationServices
 
 class TestUIViewController: UIViewController {
-    let userDefulatUseCase = UserDefaultUseCase()
+    let userDefulatUseCase = UserDefaultsUseCase()
     var currentLocation: CLLocation?
     override func viewDidLoad() {
         super.viewDidLoad()

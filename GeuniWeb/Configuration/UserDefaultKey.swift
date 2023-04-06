@@ -12,4 +12,5 @@ public enum UserDefaultKey: String {
     case paycoAccessToekn = "geuniWebPaycoAccessToken"
     case paycoRefreshToekn = "geuniWebPaycoRefreshToken"
     case snsLoginType = "SNSLoginType"
+    case pushDeviceToken = "fnbPushDeviceToken"
 }

@@ -70,5 +70,14 @@ public class Router {
                 fromVC.present(popupViewController, animated: false)
             }
         }
-    }    
+    }
+    
+    public func openSettingPage() {
+        if let bundle = Bundle.main.bundleIdentifier,
+           let settings = URL(string: UIApplication.openSettingsURLString + bundle) {
+            if UIApplication.shared.canOpenURL(settings) {
+                UIApplication.shared.open(settings)
+            }
+        }
+    }
 }

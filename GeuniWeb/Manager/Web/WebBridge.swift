@@ -44,7 +44,7 @@ public class WebBridge {
         ).toJavascriptMessage(withRequestId: requestId)
 
         switch request {
-        case .closeWeb, .showPopup, .generateBarcode, .showToast:
+        case .closeWeb, .showPopup, .generateBarcode, .showToast, .updatePushStatus:
             self.callBridgeAction(
                 type: request,
                 scriptMessage: responseMessage
@@ -94,9 +94,22 @@ public class WebBridge {
                     scriptMessage: responseMessage
                 )
             }
-        case .userDefault(let type):
-            userDefaultAction(type: type)
-            self.sendCallbackToWeb(javascriptMessage: responseMessage)
+        case .userDefaults(let type):
+            self.userDefaultsAction(type: type) { [weak self] savedDictionary in
+                if let dictionary = savedDictionary {
+                    self?.addParamsToCallbackResponse(
+                        responseMessage: responseMessage,
+                        params: [
+                            "name": (dictionary["key"] as? String)  ?? "",
+                            "value": (dictionary["value"] as? String) ?? ""
+                        ]
+                    )
+                } else {
+                    self?.sendCallbackToWeb(
+                        javascriptMessage: responseMessage
+                    )
+                }
+            }
         case .requestAPI:
             self.requestAPI {[weak self] in
                 self?.sendCallbackToWeb(javascriptMessage: responseMessage)
@@ -126,18 +139,24 @@ public class WebBridge {
             Loading.shared.hide()
         }
     }
-
-    private func userDefaultAction(type: UserDefaultActionType) {
-        let useCase = UserDefaultUseCase()
+    
+    private func userDefaultsAction(
+        type: UserDefaultActionType,
+        completion: (([String: Any?]?) -> Void)?
+    ) {
         switch type {
         case .write(let key, let value):
-            useCase.write(input: .init(key: key, value: value))
+            UserDefaultsUseCase().write(input: .init(key: key, value: value))
+            completion?(nil)
         case .read(let key):
-            if let readData = useCase.read(input: .init(key: key)).value {
-                print("read data = \(readData)")
-            }
+            let value = UserDefaultsUseCase().read(input: .init(key: key)).value
+            completion?([
+                "key": key,
+                "value": value
+            ])
         case .remove(let key):
-            useCase.delete(input: .init(key: key))
+            UserDefaultsUseCase().delete(input: .init(key: key))
+            completion?(nil)
         }
     }
 
@@ -178,7 +197,24 @@ public class WebBridge {
             completion?()
         }
     }
+    
+    /// 특정 파라미터를 담아 웹으로 보낼경우
+    private func addParamsToCallbackResponse(
+        responseMessage:String,
+        params: [String: Any]
+    ) {
+        var javascriptMessage = ""
+        if var responseDictionary = responseMessage.toResponseDictionary() {
+            responseDictionary["responseData"] = params
+            javascriptMessage = responseDictionary.toJavascriptMessage() ?? ""
+        }
+        
+        self.sendCallbackToWeb(
+            javascriptMessage: javascriptMessage
+        )
+    }
 
+    /// 일반적인 자바스크립트 콜백
     private func sendCallbackToWeb(javascriptMessage: String) {
 #if DEBUG
         let log = """

@@ -12,4 +12,12 @@ public extension String {
         guard let data = self.data(using: .utf8) else { return nil }
         return data.toDictionary()
     }
+    
+    func toResponseDictionary() -> [String: Any]? {
+        let removeCallbackListener: String = String(self.replacingOccurrences(
+            of: "callbackListener(",
+            with: ""
+        ).dropLast())
+        return removeCallbackListener.toDictionary()
+    }
 }

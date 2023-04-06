@@ -11,8 +11,9 @@ public enum WebBridgeRequest {
     case showToast([String: String])
     case login(loginType: SNSLoginType, error: Error?)
     case logout
-    case userDefault(type: UserDefaultActionType)
+    case userDefaults(type: UserDefaultActionType)
     case requestAPI
     case updateConfigure(type: ConfigureType)
     case generateBarcode(code: String)
+    case updatePushStatus(isOn: Bool)
 }

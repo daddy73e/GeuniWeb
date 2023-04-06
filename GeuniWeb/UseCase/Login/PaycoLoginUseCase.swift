@@ -62,7 +62,7 @@ public class PaycoLoginUseCase: NSObject, PaycoLoginUseCaseProtocol {
 
     public func requestLogout(completion: ((Error?) -> Void)?) {
         self.logoutCompletion = completion
-        if let accessToken = UserDefaultUseCase().read(
+        if let accessToken = UserDefaultsUseCase().read(
             input: .init(key: UserDefaultKey.paycoAccessToekn.rawValue)
         ).value as? String {
             PIDThirdPartyAuth.logout(accessToken)
@@ -81,11 +81,11 @@ extension PaycoLoginUseCase: PIDThirdPartyAuthDelegate {
         let serviceExtra = (dicData["serviceExtra"] as? [String: Any]) ?? [:]
         let refreshToken = (serviceExtra["refreshToken"] as? String) ?? ""
 
-        UserDefaultUseCase().write(input: .init(
+        UserDefaultsUseCase().write(input: .init(
             key: UserDefaultKey.paycoAccessToekn.rawValue,
             value: accessToken
         ))
-        UserDefaultUseCase().write(input: .init(
+        UserDefaultsUseCase().write(input: .init(
             key: UserDefaultKey.paycoRefreshToekn.rawValue,
             value: refreshToken
         ))
@@ -106,8 +106,8 @@ extension PaycoLoginUseCase: PIDThirdPartyAuthDelegate {
     }
 
     public func didSuccessLogout() {
-        UserDefaultUseCase().delete(input: .init(key: UserDefaultKey.paycoAccessToekn.rawValue))
-        UserDefaultUseCase().delete(input: .init(key: UserDefaultKey.paycoRefreshToekn.rawValue))
+        UserDefaultsUseCase().delete(input: .init(key: UserDefaultKey.paycoAccessToekn.rawValue))
+        UserDefaultsUseCase().delete(input: .init(key: UserDefaultKey.paycoRefreshToekn.rawValue))
         self.logoutCompletion?(nil)
     }
 

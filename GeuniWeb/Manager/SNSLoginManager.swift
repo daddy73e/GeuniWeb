@@ -186,11 +186,11 @@ final class SNSLoginManager: SNSLoginManagerProtocol {
 
 private extension SNSLoginManager {
     func updateSNSLoginType(type: SNSLoginType) {
-        UserDefaultUseCase().write(input: .init(key: self.userDefaultKey, value: type.rawValue))
+        UserDefaultsUseCase().write(input: .init(key: self.userDefaultKey, value: type.rawValue))
     }
 
     func savedLoginType() -> SNSLoginType {
-        guard let strLoginType = UserDefaultUseCase().read(
+        guard let strLoginType = UserDefaultsUseCase().read(
             input: .init(key: self.userDefaultKey)
         ).value as? String else {
             return .none

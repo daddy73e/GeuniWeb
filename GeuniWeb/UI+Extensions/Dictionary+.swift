@@ -18,4 +18,11 @@ public extension Dictionary where Key == String {
         guard let data = self.toJSONData() else { return nil }
         return String(data: data, encoding: .utf8)
     }
+    func toJavascriptMessage() -> String? {
+        if let strJson = self.toJSONString() {
+            return "callbackListener(\(strJson))"
+        } else {
+            return nil
+        }
+    }
 }

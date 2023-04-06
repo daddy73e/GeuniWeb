@@ -262,6 +262,36 @@ extension WebMainViewController: WebBridgeDelegate {
                 self?.sampleImageView?.image = barcodeImage
                 completion?()
             }
+        case .updatePushStatus(let isOn):
+            if isTargetSimulator() {
+                Toast.shared.show(option: .init(
+                    backgroundView: self.view,
+                    message: "시뮬레이터에서는 테스트할 수 없습니다."
+                ))
+                return
+            }
+            PushManager.shared.updatePushNotificationStatus(isOn: isOn) { [weak self] isSucces in
+                guard let self = self else { return }
+                if isSucces {
+                    completion?()
+                } else {
+                    Router.shared.showPopup(
+                        fromVC: self,
+                        popupInput: .init(
+                            title: "알림",
+                            contents: "알림 설정 필요",
+                            yesText: "확인",
+                            noText: "취소",
+                            completion: { output in
+                                if output.result {
+                                    Router.shared.openSettingPage()
+                                }
+                                completion?()
+                            }
+                        )
+                    )
+                }
+            }
         default:
             completion?()
         }

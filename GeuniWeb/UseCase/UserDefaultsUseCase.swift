@@ -8,13 +8,13 @@
 import Foundation
 
 public protocol UserDefaultUseCaseProtocol {
-    func read(input: UserDefaultInput) -> UserDefaultOutput
-    func write(input: UserDefaultInput)
-    func delete(input: UserDefaultInput)
+    func read(input: UserDefaultsInput) -> UserDefaultsOutput
+    func write(input: UserDefaultsInput)
+    func delete(input: UserDefaultsInput)
     func deleteAll()
 }
 
-public struct UserDefaultInput {
+public struct UserDefaultsInput {
     let key: String
     var value: Any?
 
@@ -24,7 +24,7 @@ public struct UserDefaultInput {
     }
 }
 
-public struct UserDefaultOutput {
+public struct UserDefaultsOutput {
     var value: Any?
 
     init(value: Any? = nil) {
@@ -32,41 +32,41 @@ public struct UserDefaultOutput {
     }
 }
 
-final public class UserDefaultUseCase: UserDefaultUseCaseProtocol {
+final public class UserDefaultsUseCase: UserDefaultUseCaseProtocol {
 
     public init() { }
 
-    public func read(input: UserDefaultInput) -> UserDefaultOutput {
+    public func read(input: UserDefaultsInput) -> UserDefaultsOutput {
         let key = input.key
         let value = UserDefaults.standard.value(forKey: key)
 
         if value is String {
-            return UserDefaultOutput(value: UserDefaults.standard.string(forKey: key))
+            return UserDefaultsOutput(value: UserDefaults.standard.string(forKey: key))
         } else if value is Int {
-            return UserDefaultOutput(value: UserDefaults.standard.integer(forKey: key))
+            return UserDefaultsOutput(value: UserDefaults.standard.integer(forKey: key))
         } else if value is Bool {
-            return UserDefaultOutput(value: UserDefaults.standard.bool(forKey: key))
+            return UserDefaultsOutput(value: UserDefaults.standard.bool(forKey: key))
         } else if value is [Any] {
-            return UserDefaultOutput(value: UserDefaults.standard.array(forKey: key))
+            return UserDefaultsOutput(value: UserDefaults.standard.array(forKey: key))
         } else if value is [String: Any] {
-            return UserDefaultOutput(value: UserDefaults.standard.dictionary(forKey: key))
+            return UserDefaultsOutput(value: UserDefaults.standard.dictionary(forKey: key))
         } else if value is Float {
-            return UserDefaultOutput(value: UserDefaults.standard.float(forKey: key))
+            return UserDefaultsOutput(value: UserDefaults.standard.float(forKey: key))
         } else if value is Data {
-            return UserDefaultOutput(value: UserDefaults.standard.data(forKey: key))
+            return UserDefaultsOutput(value: UserDefaults.standard.data(forKey: key))
         } else if value is Double {
-            return UserDefaultOutput(value: UserDefaults.standard.double(forKey: key))
+            return UserDefaultsOutput(value: UserDefaults.standard.double(forKey: key))
         } else {
-            return UserDefaultOutput(value: nil)
+            return UserDefaultsOutput(value: nil)
         }
     }
 
-    public func write(input: UserDefaultInput) {
+    public func write(input: UserDefaultsInput) {
         UserDefaults.standard.set(input.value, forKey: input.key)
         UserDefaults.standard.synchronize()
     }
 
-    public func delete(input: UserDefaultInput) {
+    public func delete(input: UserDefaultsInput) {
         UserDefaults.standard.removeObject(forKey: input.key)
         UserDefaults.standard.synchronize()
     }

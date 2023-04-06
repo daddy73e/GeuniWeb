@@ -75,13 +75,13 @@ public extension WKScriptMessageMapper {
         case "writeLocalStorage":
             let key = (params?["key"] as? String) ?? ""
             let value = (params?["value"] as? String) ?? ""
-            return .userDefault(type: .write(key: key, value: value))
+            return .userDefaults(type: .write(key: key, value: value))
         case "readLocalStorage":
             let key = (params?["key"] as? String) ?? ""
-            return .userDefault(type: .read(key: key))
+            return .userDefaults(type: .read(key: key))
         case "removeLocalStorage":
             let key = (params?["key"] as? String) ?? ""
-            return .userDefault(type: .remove(key: key))
+            return .userDefaults(type: .remove(key: key))
         default:
             return nil
         }
