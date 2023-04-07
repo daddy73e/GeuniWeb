@@ -13,4 +13,5 @@ public enum UserDefaultKey: String {
     case paycoRefreshToekn = "geuniWebPaycoRefreshToken"
     case snsLoginType = "SNSLoginType"
     case pushDeviceToken = "fnbPushDeviceToken"
+    case splashImage = "splashImage"
 }

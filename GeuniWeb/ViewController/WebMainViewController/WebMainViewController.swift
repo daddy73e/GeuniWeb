@@ -39,51 +39,51 @@ public final class WebMainViewController: UIViewController {
             webView.frame = self.rootContainer.bounds
         }
     }
-    
+
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addNotification()
     }
-    
+
     public override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeNotification()
         networkStatusManager.stopMonitoring()
     }
-    
+
     /// 로그아웃 완료됨
     @objc func navigateLoginPage(_ notification: Notification) {
         print("navigateLoginPage")
     }
-    
+
     @objc func keyboardWillShow(_ notification: Notification) { }
-    
+
     @objc func keyboardWillHide(_ notification: Notification) { }
 }
 
 private extension WebMainViewController {
-    
+
     func configureUI() {
         sampleImageView = UIImageView(frame: .zero)
-        
+
         guard let webview = self.webview else {
             return
         }
-        
+
         guard let barcodeImageView = sampleImageView else {
             return
         }
-        
+
         barcodeImageView.translatesAutoresizingMaskIntoConstraints = false
         barcodeImageView.contentMode = .scaleAspectFit
-        
+
         self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = .yellow
         self.rootContainer.backgroundColor = .green
         self.view.addSubview(rootContainer)
         self.rootContainer.addSubview(webview)
         self.rootContainer.addSubview(barcodeImageView)
-        
+
         rootContainer.translatesAutoresizingMaskIntoConstraints = false
         webview.translatesAutoresizingMaskIntoConstraints = false
         webview.autoresizingMask = [.flexibleLeftMargin, .flexibleTopMargin]
@@ -109,7 +109,7 @@ private extension WebMainViewController {
             marginLeft,
             marginRight
         ])
-        
+
         NSLayoutConstraint.activate([
             barcodeImageView.leadingAnchor.constraint(
                 equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 50
@@ -119,7 +119,7 @@ private extension WebMainViewController {
             barcodeImageView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
     }
-    
+
     func configureWebView() {
         let userContentController = WKUserContentController()
         userContentController.add(self, name: messageHandlerName)
@@ -128,21 +128,21 @@ private extension WebMainViewController {
         self.webview = WKWebView(frame: .zero, configuration: configuration)
         self.webview?.uiDelegate = self
         self.webview?.navigationDelegate = self
-        self.webview?.backgroundColor = .brown
     }
-    
+
     func configureNetwork() {
         networkStatusManager.delegate = self
         networkStatusManager.startMonitoring()
     }
-    
+
     func loadURL() {
-        let testURL = Bundle.main.url(forResource: "test", withExtension: "html")!
-        var urlRequest = URLRequest(url: testURL)
-        urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        webview?.load(urlRequest)
+        if let testURL = Bundle.main.url(forResource: "test", withExtension: "html") {
+            var urlRequest = URLRequest(url: testURL)
+            urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            webview?.load(urlRequest)
+        }
     }
-    
+
     func closeWebMain(sendData: String?, completion: (() -> Void)?) {
         if let navigationController = self.navigationController {
             navigationController.popViewController(animated: true)
@@ -155,7 +155,7 @@ private extension WebMainViewController {
             }
         }
     }
-    
+
     func updateScreenMode(type: ScreenType) {
         var constantLeft = 0.0
         var constantRight = 0.0
@@ -194,9 +194,12 @@ extension WebMainViewController: WebBridgeDelegate {
     func showPopup(popupInfo: PopupInput) {
         Router.shared.showPopup(fromVC: self, popupInput: popupInfo)
     }
-    
+
     /// 웹으로 정상 호출 확인용 completion
-    func callBridgeViewAction(actionType: WebBridgeRequest, completion: (() -> Void)?) {
+    func callBridgeViewAction(
+        actionType: WebBridgeRequest,
+        completion: (() -> Void)?
+    ) {
         switch actionType {
         case .updateConfigure(let configureType):
             switch configureType {
@@ -212,7 +215,7 @@ extension WebMainViewController: WebBridgeDelegate {
             default:
                 completion?()
             }
-            
+
         case .closeWeb(let string):
             closeWebMain(sendData: string, completion: completion)
         case .showPopup(let dictionary):
@@ -296,13 +299,13 @@ extension WebMainViewController: WebBridgeDelegate {
             completion?()
         }
     }
-    
+
     func evaluateJavaScript(_ javaScriptString: String, completion: ((Any?, Error?) -> Void)?) {
         Task { @MainActor in
             self.webview?.evaluateJavaScript(javaScriptString, completionHandler: completion)
         }
     }
-    
+
     func closeSubWebView() {
         if let navigationController = self.navigationController {
             navigationController.popViewController(animated: true)
@@ -339,21 +342,21 @@ extension WebMainViewController: WKNavigationDelegate {
         }
         decisionHandler(.allow)
     }
-    
+
     public func webView(
         _ webView: WKWebView,
         didFailProvisionalNavigation navigation: WKNavigation!,
         withError error: Error
     ) {
-        
+
     }
-    
+
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        
+
     }
-    
+
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        
+
     }
 }
 

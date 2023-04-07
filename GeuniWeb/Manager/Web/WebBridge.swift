@@ -139,7 +139,7 @@ public class WebBridge {
             Loading.shared.hide()
         }
     }
-    
+
     private func userDefaultsAction(
         type: UserDefaultActionType,
         completion: (([String: Any?]?) -> Void)?
@@ -197,10 +197,10 @@ public class WebBridge {
             completion?()
         }
     }
-    
+
     /// 특정 파라미터를 담아 웹으로 보낼경우
     private func addParamsToCallbackResponse(
-        responseMessage:String,
+        responseMessage: String,
         params: [String: Any]
     ) {
         var javascriptMessage = ""
@@ -208,7 +208,7 @@ public class WebBridge {
             responseDictionary["responseData"] = params
             javascriptMessage = responseDictionary.toJavascriptMessage() ?? ""
         }
-        
+
         self.sendCallbackToWeb(
             javascriptMessage: javascriptMessage
         )

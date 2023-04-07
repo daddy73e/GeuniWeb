@@ -71,7 +71,7 @@ public class Router {
             }
         }
     }
-    
+
     public func openSettingPage() {
         if let bundle = Bundle.main.bundleIdentifier,
            let settings = URL(string: UIApplication.openSettingsURLString + bundle) {

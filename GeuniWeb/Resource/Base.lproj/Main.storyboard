@@ -17,21 +17,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Splash" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SEo-5D-MPI">
-                                <rect key="frame" x="181" y="437.5" width="52" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JD1-uh-Gik">
+                                <rect key="frame" x="87" y="328" width="240" height="240"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="JD1-uh-Gik" secondAttribute="height" multiplier="1:1" id="Itd-Hl-Bx5"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="0ue-HC-o6z"/>
                         <color key="backgroundColor" red="0.58634556446512143" green="0.58146959703631007" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="SEo-5D-MPI" firstAttribute="centerY" secondItem="hFE-wT-5WV" secondAttribute="centerY" id="1Pw-8M-DpX"/>
-                            <constraint firstItem="SEo-5D-MPI" firstAttribute="centerX" secondItem="hFE-wT-5WV" secondAttribute="centerX" id="oN6-1e-ZXT"/>
+                            <constraint firstItem="JD1-uh-Gik" firstAttribute="centerX" secondItem="hFE-wT-5WV" secondAttribute="centerX" id="H6d-5y-gH9"/>
+                            <constraint firstItem="JD1-uh-Gik" firstAttribute="centerY" secondItem="hFE-wT-5WV" secondAttribute="centerY" id="PYR-vD-kVX"/>
+                            <constraint firstItem="0ue-HC-o6z" firstAttribute="trailing" secondItem="JD1-uh-Gik" secondAttribute="trailing" constant="87" id="svJ-Lz-9WS"/>
+                            <constraint firstItem="JD1-uh-Gik" firstAttribute="leading" secondItem="0ue-HC-o6z" secondAttribute="leading" constant="87" id="wBd-Ya-km4"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="N5D-ty-gOF"/>
+                    <connections>
+                        <outlet property="imageView" destination="JD1-uh-Gik" id="Vyt-bj-ics"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="51E-3G-kYB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
