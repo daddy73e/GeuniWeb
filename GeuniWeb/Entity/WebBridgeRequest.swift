@@ -16,4 +16,5 @@ public enum WebBridgeRequest {
     case updateConfigure(type: ConfigureType)
     case generateBarcode(code: String)
     case updatePushStatus(isOn: Bool)
+    case openCamera
 }

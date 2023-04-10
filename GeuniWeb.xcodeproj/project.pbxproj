@@ -85,6 +85,8 @@
 		6BD8803A29DFB2D900597732 /* Calendar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD8803929DFB2D900597732 /* Calendar+.swift */; };
 		6BD8803C29DFB2EA00597732 /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD8803B29DFB2EA00597732 /* DateFormatter+.swift */; };
 		6BD8803E29DFB30B00597732 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD8803D29DFB30B00597732 /* Int+.swift */; };
+		6BFFDFB029E404D8004E3B0A /* CameraUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFFDFAF29E404D8004E3B0A /* CameraUseCase.swift */; };
+		6BFFDFB229E406E3004E3B0A /* PhotoAlbumUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFFDFB129E406E3004E3B0A /* PhotoAlbumUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +191,8 @@
 		6BD8803929DFB2D900597732 /* Calendar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+.swift"; sourceTree = "<group>"; };
 		6BD8803B29DFB2EA00597732 /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
 		6BD8803D29DFB30B00597732 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
+		6BFFDFAF29E404D8004E3B0A /* CameraUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraUseCase.swift; sourceTree = "<group>"; };
+		6BFFDFB129E406E3004E3B0A /* PhotoAlbumUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -334,6 +338,8 @@
 				6B66DE4229922B3F0073313E /* ContactsUseCase.swift */,
 				6B703ACC29B09C0F00D61ABD /* KeychainUseCase.swift */,
 				6BD8803329DEC62100597732 /* FileManagerUseCase.swift */,
+				6BFFDFAF29E404D8004E3B0A /* CameraUseCase.swift */,
+				6BFFDFB129E406E3004E3B0A /* PhotoAlbumUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -627,6 +633,7 @@
 				6B66DE4329922B3F0073313E /* ContactsUseCase.swift in Sources */,
 				6B66DE4529922D580073313E /* Contact.swift in Sources */,
 				6B6EB34629B71ED000641E6E /* WKScriptMessageMapper+Action.swift in Sources */,
+				6BFFDFB029E404D8004E3B0A /* CameraUseCase.swift in Sources */,
 				6B0BDC652991E26A008645A5 /* WebMainViewController.swift in Sources */,
 				6B0BDC76299219C2008645A5 /* LocationUseCase.swift in Sources */,
 				6B703ACF29B16E4900D61ABD /* NetworkStatusManager.swift in Sources */,
@@ -642,6 +649,7 @@
 				6B0BDC612991E26A008645A5 /* CodableWebBridgeResponse.swift in Sources */,
 				6B66DE47299230D40073313E /* UIViewController+.swift in Sources */,
 				6BD8803429DEC62100597732 /* FileManagerUseCase.swift in Sources */,
+				6BFFDFB229E406E3004E3B0A /* PhotoAlbumUseCase.swift in Sources */,
 				6B6EB33E29B7087A00641E6E /* NotificationCenterName.swift in Sources */,
 				6B0BDC602991E26A008645A5 /* WebBridgeRespose.swift in Sources */,
 				6B0BDC5B2991E26A008645A5 /* ToJavascriptMessageMapping.swift in Sources */,

@@ -295,6 +295,10 @@ extension WebMainViewController: WebBridgeDelegate {
                     )
                 }
             }
+        case .openCamera:
+            CameraUseCase().permissionCheck { granted in
+                print("")
+            }
         default:
             completion?()
         }

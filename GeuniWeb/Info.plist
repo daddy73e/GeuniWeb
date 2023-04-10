@@ -64,5 +64,9 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>식음료 사진을 찍을때 사용합니다.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>식음료 사진을 저장할때 사용합니다.</string>
 </dict>
 </plist>

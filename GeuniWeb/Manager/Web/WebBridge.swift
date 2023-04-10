@@ -44,7 +44,12 @@ public class WebBridge {
         ).toJavascriptMessage(withRequestId: requestId)
 
         switch request {
-        case .closeWeb, .showPopup, .generateBarcode, .showToast, .updatePushStatus:
+        case .closeWeb,
+                .showPopup,
+                .generateBarcode,
+                .showToast,
+                .updatePushStatus,
+                .openCamera:
             self.callBridgeAction(
                 type: request,
                 scriptMessage: responseMessage

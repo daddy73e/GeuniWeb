@@ -127,4 +127,16 @@ public extension WKScriptMessageMapper {
             return nil
         }
     }
+    
+    func cameraAction(
+        action: String,
+        params: [String: Any]?
+    ) -> WebBridgeRequest? {
+        switch action {
+        case "open":
+            return .openCamera
+        default:
+            return nil
+        }
+    }
 }
