@@ -15,14 +15,11 @@ public protocol FileManagerUseCaseProtocol {
 public struct WriteFileManagerInput {
     let data: Data
     let fileName: String
-    let fileStoreKey: String?
     public init(
         data: Data,
-        fileName: String,
-        fileStoreKey: String? = nil) {
+        fileName: String) {
         self.data = data
         self.fileName = fileName
-        self.fileStoreKey = fileStoreKey
     }
 }
 
@@ -66,14 +63,6 @@ public class FileManagerUseCase: FileManagerUseCaseProtocol {
         do {
             if let url = directory.appendingPathComponent(input.fileName) {
                 try data.write(to: url)
-                if let key = input.fileStoreKey {
-                    UserDefaultsUseCase().write(
-                        input: .init(
-                            key: UserDefaultKey.splashImage.rawValue,
-                            value: [key: input.fileName] 
-                        )
-                    )
-                }
                 compleiton?(.init(result: true))
             }
         } catch {
