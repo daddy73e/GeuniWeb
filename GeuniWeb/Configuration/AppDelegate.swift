@@ -10,15 +10,12 @@ import FacebookCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
             SNSLoginManager.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-
-            //            if let userInfo = launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
-            //                /// 푸시로 앱 진입한 경우 처리
-            //            }
+            NetworkStatusManager.shared.startMonitoring(delegate: self)
         return true
     }
 
@@ -33,4 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) { }
+}
+
+extension AppDelegate: NetworkStatusDelegate {
+    func observeNetworkStatus(status: NetworkStatus) {
+        NotificationCenter.default.post(name: .changeNetworkStatus, object: status)
+    }
 }

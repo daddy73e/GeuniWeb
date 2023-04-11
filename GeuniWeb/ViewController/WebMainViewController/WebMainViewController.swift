@@ -27,7 +27,6 @@ public final class WebMainViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        configureNetwork()
         configureWebView()
         configureUI()
         loadURL()
@@ -47,8 +46,8 @@ public final class WebMainViewController: UIViewController {
 
     public override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        Toast.shared.hide(animate: false)
         removeNotification()
-        networkStatusManager.stopMonitoring()
     }
 
     /// 로그아웃 완료됨
@@ -129,12 +128,7 @@ private extension WebMainViewController {
         self.webview?.uiDelegate = self
         self.webview?.navigationDelegate = self
     }
-
-    func configureNetwork() {
-        networkStatusManager.delegate = self
-        networkStatusManager.startMonitoring()
-    }
-
+    
     func loadURL() {
         if let testURL = Bundle.main.url(forResource: "test", withExtension: "html") {
             var urlRequest = URLRequest(url: testURL)
@@ -196,6 +190,7 @@ extension WebMainViewController: WebBridgeDelegate {
     }
 
     /// 웹으로 정상 호출 확인용 completion
+    // swiftlint:disable function_body_length
     func callBridgeViewAction(
         actionType: WebBridgeRequest,
         completion: (() -> Void)?
@@ -205,7 +200,7 @@ extension WebMainViewController: WebBridgeDelegate {
             switch configureType {
             case .baseURL:
                 completion?()
-                Router.shared.restart(fromVC: self)
+                Router.shared.restart(fromVC: self) { }
             case .screen(let type):
                 Task { @MainActor in
                     self.updateScreenMode(type: type)
@@ -296,7 +291,7 @@ extension WebMainViewController: WebBridgeDelegate {
                 }
             }
         case .openCamera:
-            CameraUseCase().permissionCheck { granted in
+            CameraUseCase().permissionCheck { _ in
                 print("")
             }
         default:
@@ -367,21 +362,4 @@ extension WebMainViewController: WKNavigationDelegate {
 /* 웹메인에서 웹 메인을 호출하는 경우 callback으로 사용 */
 extension WebMainViewController: WebMainViewDelegate {
     public func closeWebMain(sendData: Any?) { }
-}
-
-extension WebMainViewController: NetworkStatusDelegate {
-    public func observeNetworkStatus(status: NetworkStatus) {
-        print("Network status = \(status)")
-        switch status {
-        case .notConnected:
-            Toast.shared.show(
-                option: .init(
-                    backgroundView: self.view,
-                    message: "네트워크 연결이 끊겼습니다."
-                )
-            )
-        default:
-            break
-        }
-    }
 }

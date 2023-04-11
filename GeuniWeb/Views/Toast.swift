@@ -17,6 +17,8 @@ public struct ToastOption {
     var showingSecond: CGFloat
     var verticalPadding: CGFloat
     var horizontalPadding: CGFloat
+    var isFixed: Bool
+    
     public init(
         backgroundView: UIView,
         message: String,
@@ -26,7 +28,8 @@ public struct ToastOption {
         showHideAnimateDuration: CGFloat = 0.3,
         showingSecond: CGFloat = 2.0,
         verticalPadding: CGFloat = 15.0,
-        horizontalPadding: CGFloat = 10.0
+        horizontalPadding: CGFloat = 10.0,
+        isFixed: Bool = false
     ) {
         self.backgroundView = backgroundView
         self.message = message
@@ -37,24 +40,38 @@ public struct ToastOption {
         self.showingSecond = showingSecond
         self.verticalPadding = verticalPadding
         self.horizontalPadding = horizontalPadding
+        self.isFixed = isFixed
     }
 }
 
 final class Toast {
     static let shared = Toast()
     private var isShowing = false
-
+    
+    var toastFrame: UIView?
+    var toastLabel: UILabel?
+    var option: ToastOption?
+    
     func show(
         option: ToastOption,
         completion: (() -> Void)? = nil
     ) {
+        self.option = option
         if isShowing {
             return
         }
         self.isShowing = true
-        DispatchQueue.main.async {
-            let toastFrame = UIView()
-            let toastLabel = UILabel(frame: .zero)
+        DispatchQueue.main.async { [weak self] in
+            self?.toastFrame = UIView()
+            self?.toastLabel = UILabel(frame: .zero)
+            guard let toastFrame = self?.toastFrame else {
+                return
+            }
+            
+            guard let toastLabel = self?.toastLabel else {
+                return
+            }
+            
             toastLabel.textColor = option.textColor
             toastLabel.font = option.font
             toastLabel.textAlignment = .center
@@ -88,28 +105,67 @@ final class Toast {
                     toastFrame.center = toastLabel.center
                     option.backgroundView.layoutIfNeeded()
                 }, completion: { _ in
-                    UIView.animate(
-                        withDuration: option.showHideAnimateDuration,
-                        delay: option.showingSecond,
-                        options: .curveEaseOut,
-                        animations: {
-                            toastLabel.alpha = 0.0
-                            toastFrame.alpha = 0.0
-                            toastLabel.center = CGPoint(
-                                x: option.backgroundView.center.x,
-                                y: option.backgroundView.bounds.height
-                            )
-                            toastFrame.center = toastLabel.center
-                            option.backgroundView.layoutIfNeeded()
-                        }, completion: { _ in
-                            toastLabel.removeFromSuperview()
-                            toastFrame.removeFromSuperview()
-                            self.isShowing = false
-                            completion?()
-                        }
-                    )
+                    if option.isFixed {
+                        completion?()
+                        return
+                    }
+                    self?.hide(completion: completion)
                 }
             )
+        }
+    }
+    
+    func hide(
+        animate:Bool = true,
+        completion: (() -> Void)? = nil
+    ) {
+        guard let toastFrame = self.toastFrame else {
+            completion?()
+            return
+        }
+        
+        guard let toastLabel = self.toastLabel else {
+            completion?()
+            return
+        }
+        
+        guard let option = self.option else {
+            completion?()
+            return
+        }
+
+        if !animate {
+            DispatchQueue.main.async { [weak self] in
+                toastLabel.removeFromSuperview()
+                toastFrame.removeFromSuperview()
+                self?.isShowing = false
+                self?.option = nil
+                completion?()
+            }
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                UIView.animate(
+                    withDuration: option.showHideAnimateDuration,
+                    delay: option.showingSecond,
+                    options: .curveEaseOut,
+                    animations: {
+                        toastLabel.alpha = 0.0
+                        toastFrame.alpha = 0.0
+                        toastLabel.center = CGPoint(
+                            x: option.backgroundView.center.x,
+                            y: option.backgroundView.bounds.height
+                        )
+                        toastFrame.center = toastLabel.center
+                        option.backgroundView.layoutIfNeeded()
+                    }, completion: {[weak self] _ in
+                        toastLabel.removeFromSuperview()
+                        toastFrame.removeFromSuperview()
+                        self?.isShowing = false
+                        self?.option = nil
+                        completion?()
+                    }
+                )
+            }
         }
     }
 }

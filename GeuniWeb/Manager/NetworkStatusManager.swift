@@ -25,10 +25,12 @@ final class NetworkStatusManager {
 
     public static let shared = NetworkStatusManager()
     public weak var delegate: NetworkStatusDelegate?
-    private var networkStatus: NetworkStatus = .none
+    public var networkStatus: NetworkStatus = .none
 
     let monitor = NWPathMonitor()
-    func startMonitoring() {
+
+    func startMonitoring(delegate: NetworkStatusDelegate) {
+        self.delegate = delegate
         monitor.start(queue: DispatchQueue.global())
         monitor.pathUpdateHandler = { [weak self] path in
             if path.status == .satisfied {
@@ -43,7 +45,9 @@ final class NetworkStatusManager {
             } else {
                 self?.networkStatus = .notConnected
             }
-            self?.delegate?.observeNetworkStatus(status: self?.networkStatus ?? .none)
+            self?.delegate?.observeNetworkStatus(
+                status: self?.networkStatus ?? .none
+            )
         }
     }
 

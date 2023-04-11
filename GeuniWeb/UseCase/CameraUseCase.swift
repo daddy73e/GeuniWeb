@@ -27,8 +27,8 @@ public class CameraUseCase: CameraUseCaseProtocol {
     public func execute(input: CameraInput) -> CameraOutput {
         return CameraOutput()
     }
-    
-    public func permissionCheck(completion:((Bool)-> Void?)?) {
+
+    public func permissionCheck(completion: ((Bool) -> Void?)?) {
         AVCaptureDevice.requestAccess(for: .video) { granted in
             completion?(granted)
         }

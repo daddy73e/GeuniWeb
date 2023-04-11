@@ -9,51 +9,93 @@ import UIKit
 import Kingfisher
 
 class SplashViewController: UIViewController {
-
+    
     @IBOutlet weak var imageView: UIImageView!
-//    private let imagePath = "https://media.istockphoto.com/id/1161352480/vector/sample-sign-sample-square-speech-bubble-sample.jpg?s=612x612&w=0&k=20&c=qZ480B32q1qGLxoTZEaXcxDB4BMCMDGAGnDQ0hEJ_I8="
-//    private let imagePath = "https://cdn.crowdpic.net/list-thumb/thumb_l_CDD94CBD46425E4EDBD18A7A17C199E7.jpg"
     private let imagePath = "https://cdn.pixabay.com/photo/2017/09/25/13/12/puppy-2785074__480.jpg"
     private let originSplashImage = UIImage(named: "bororo")
-
+    
+    public var navigateDuplicateCallFlag = false // 네트워크 전환, 중복호출 방지용 flag
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadSplashImage()
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateNetworkSataus(notification:)),
+            name: Notification.Name.changeNetworkStatus,
+            object: nil
+        )
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.navigateDuplicateCallFlag = false
+        checkNetwork()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(
+            self,
+            name: Notification.Name.changeNetworkStatus,
+            object: nil
+        )
+    }
+    
+    private func checkNetwork() {
+        if NetworkStatusManager.shared.networkStatus == .notConnected {
+            Toast.shared.show(
+                option: .init(
+                    backgroundView: self.view,
+                    message: "네트워크 연결확인이 필요합니다.",
+                    isFixed: true
+                )
+            )
+            return
+        } else {
+            Toast.shared.hide(animate: false)
+            // TODO: Remove, Splash 테스트용
+            self.checkLogin()
+        }
         
-        /// Splash 이미지 체크용
-//        TimerManager(timeInterval: 1, finishTime: 3).startTimer(tickAction: nil) {
-//            SNSLoginManager.shared.checkLogin { isAutoLogin in
-//                print(isAutoLogin)
-//                /// isAutoLogin이 true일 경우, 메인
-//                /// false일 경우, login화면
-//                Task { @MainActor in
-//                    self.dismiss(animated: false) {
-//                        let navigationController = UINavigationController(rootViewController: WebMainViewController())
-//                        navigationController.modalPresentationStyle = .fullScreen
-//                        Router.shared.navigate(fromVC: self, toVC: navigationController, animated: false)
-//                    }
-//                }
-//            }
-//        }
-        
+        /// TODO: 복구, 정상 소스
+//        self?.checkLogin()
+    }
+    
+    private func checkLogin() {
         SNSLoginManager.shared.checkLogin { isAutoLogin in
-            print(isAutoLogin)
+            //            if !isAutoLogin {
+            //                /// login화면
+            //                return
+            //            }
             /// isAutoLogin이 true일 경우, 메인
-            /// false일 경우, login화면
+            print("")
             Task { @MainActor in
                 self.dismiss(animated: false) {
-                    let navigationController = UINavigationController(rootViewController: WebMainViewController())
-                    navigationController.modalPresentationStyle = .fullScreen
-                    Router.shared.navigate(fromVC: self, toVC: navigationController, animated: false)
+                    if !self.navigateDuplicateCallFlag {
+                        self.navigateDuplicateCallFlag = true
+                        
+                        let navigationController = UINavigationController(rootViewController: WebMainViewController())
+                        navigationController.modalPresentationStyle = .fullScreen
+                        Router.shared.navigate(fromVC: self, toVC: navigationController, animated: false)
+                    }
                 }
             }
         }
     }
-
+    
+    @objc func updateNetworkSataus(notification: Notification) {
+        if let networkStatus = notification.object as? NetworkStatus {
+            if networkStatus != .notConnected {
+                checkNetwork()
+            }
+        }
+    }
+    
     private func loadSplashImage() {
         if let imageDictionary = UserDefaultsUseCase().read(
             input: .init(
@@ -92,13 +134,13 @@ class SplashViewController: UIViewController {
             }
         }
     }
-
+    
     private func downloadImage(urlString: String, completion: ((UIImage?) -> Void)?) {
         guard let url = URL.init(string: urlString) else {
             completion?(self.originSplashImage)
             return
         }
-
+        
         let resource = ImageResource(downloadURL: url)
         KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil) {[weak self] result in
             switch result {

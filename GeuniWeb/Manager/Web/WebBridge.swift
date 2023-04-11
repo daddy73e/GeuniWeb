@@ -221,14 +221,7 @@ public class WebBridge {
 
     /// 일반적인 자바스크립트 콜백
     private func sendCallbackToWeb(javascriptMessage: String) {
-#if DEBUG
-        let log = """
-        ----- 📤 Bridging Response Start -----
-        [📦] Java Script String: \n\(javascriptMessage)
-        ----- 📤 Bridging Response End -----\n
-        """
-        print(log)
-#endif
+        AppLog.bridgeLog(message: javascriptMessage)
         webDelegate?.evaluateJavaScript(javascriptMessage, completion: nil)
     }
 }

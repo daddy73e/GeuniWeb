@@ -123,7 +123,6 @@ final class SNSLoginManager: SNSLoginManagerProtocol {
                     completion?(nil)
                     return
                 }
-                print(userInfo)
                 self?.updateSNSLoginType(type: .facebook)
                 completion?(userInfo)
             }
@@ -136,7 +135,6 @@ final class SNSLoginManager: SNSLoginManagerProtocol {
                 completion?(nil)
                 return
             }
-            print(userInfo)
             self?.updateSNSLoginType(type: .payco)
             completion?(userInfo)
 
@@ -155,9 +153,7 @@ final class SNSLoginManager: SNSLoginManagerProtocol {
         case .kakao:
             /// SNS Kakao Logout
             KakaoLoginUseCase().requestLogout { error in
-                if error != nil {
-                    print("카카오톡 로그아웃 성공")
-                }
+                if error != nil { }
                 self.updateSNSLoginType(type: .none)
                 completion?(error)
             }

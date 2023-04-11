@@ -10,22 +10,18 @@ public class Router {
 
     public static let shared = Router()
 
-    public func restart(fromVC: UIViewController) {
-        Task { @MainActor in
-            fromVC.view.window!.rootViewController?.dismiss(
-                animated: false,
-                completion: {
-                    Task { @MainActor in
-                        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                        if let splashViewController = storyBoard.instantiateViewController(
-                            withIdentifier: "SplashViewController"
-                        ) as? PopupViewController {
-                            splashViewController.modalPresentationStyle = .overFullScreen
-                            fromVC.present(splashViewController, animated: false)
-                        }
-                    }
-                })
-        }
+    public func restart(
+        fromVC: UIViewController,
+        completion: (() -> Void)?
+    ) {
+        Toast.shared.hide(animate: true, completion: {
+            Task { @MainActor in
+                fromVC.view.window!.rootViewController?.dismiss(
+                    animated: false,
+                    completion: completion
+                )
+            }
+        })
     }
 
     public func navigate(

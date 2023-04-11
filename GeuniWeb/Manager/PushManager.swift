@@ -33,9 +33,9 @@ final class PushManager {
                 case .provisional:
                     UIApplication.shared.unregisterForRemoteNotifications()
                 case .ephemeral:
-                    print("푸시 설정이 App Clip에 대해서만 부분적으로 동의한 경우")
+                    break
                 @unknown default:
-                    print("Unknow Status")
+                    break
                 }
             }
         }

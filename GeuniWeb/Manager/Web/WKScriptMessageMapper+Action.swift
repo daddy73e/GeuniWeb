@@ -127,7 +127,7 @@ public extension WKScriptMessageMapper {
             return nil
         }
     }
-    
+
     func cameraAction(
         action: String,
         params: [String: Any]?

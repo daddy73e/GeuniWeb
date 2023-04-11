@@ -24,6 +24,13 @@ extension WebMainViewController {
             self, selector: #selector(keyboardWillHide(_:)),
             name: UIResponder.keyboardWillHideNotification, object: nil
         )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateNetworkSataus(notification:)),
+            name: Notification.Name.changeNetworkStatus,
+            object: nil
+        )
     }
 
     func removeNotification() {
@@ -44,5 +51,25 @@ extension WebMainViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
+        
+        NotificationCenter.default.removeObserver(
+            self,
+            name: Notification.Name.changeNetworkStatus,
+            object: nil
+        )
+    }
+    
+    @objc func updateNetworkSataus(notification: Notification) {
+        if let networkStatus = notification.object as? NetworkStatus {
+            if networkStatus == .notConnected {
+                Toast.shared.show(
+                    option: .init(
+                        backgroundView: self.view,
+                        message: "네트워크 연결확인이 필요합니다.",
+                        isFixed: true
+                    )
+                )
+            }
+        }
     }
 }
