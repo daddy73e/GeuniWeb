@@ -9,18 +9,18 @@ import UIKit
 import Kingfisher
 
 class SplashViewController: UIViewController {
-    
+
     @IBOutlet weak var imageView: UIImageView!
     private let imagePath = "https://cdn.pixabay.com/photo/2017/09/25/13/12/puppy-2785074__480.jpg"
     private let originSplashImage = UIImage(named: "bororo")
-    
+
     public var navigateDuplicateCallFlag = false // 네트워크 전환, 중복호출 방지용 flag
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         loadSplashImage()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(
@@ -30,13 +30,13 @@ class SplashViewController: UIViewController {
             object: nil
         )
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigateDuplicateCallFlag = false
         checkNetwork()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(
@@ -45,7 +45,7 @@ class SplashViewController: UIViewController {
             object: nil
         )
     }
-    
+
     private func checkNetwork() {
         if NetworkStatusManager.shared.networkStatus == .notConnected {
             Toast.shared.show(
@@ -58,16 +58,12 @@ class SplashViewController: UIViewController {
             return
         } else {
             Toast.shared.hide(animate: false)
-            // TODO: Remove, Splash 테스트용
             self.checkLogin()
         }
-        
-        /// TODO: 복구, 정상 소스
-//        self?.checkLogin()
     }
-    
+
     private func checkLogin() {
-        SNSLoginManager.shared.checkLogin { isAutoLogin in
+        SNSLoginManager.shared.checkLogin { _ in
             //            if !isAutoLogin {
             //                /// login화면
             //                return
@@ -78,7 +74,7 @@ class SplashViewController: UIViewController {
                 self.dismiss(animated: false) {
                     if !self.navigateDuplicateCallFlag {
                         self.navigateDuplicateCallFlag = true
-                        
+
                         let navigationController = UINavigationController(rootViewController: WebMainViewController())
                         navigationController.modalPresentationStyle = .fullScreen
                         Router.shared.navigate(fromVC: self, toVC: navigationController, animated: false)
@@ -87,7 +83,7 @@ class SplashViewController: UIViewController {
             }
         }
     }
-    
+
     @objc func updateNetworkSataus(notification: Notification) {
         if let networkStatus = notification.object as? NetworkStatus {
             if networkStatus != .notConnected {
@@ -95,7 +91,7 @@ class SplashViewController: UIViewController {
             }
         }
     }
-    
+
     private func loadSplashImage() {
         if let imageDictionary = UserDefaultsUseCase().read(
             input: .init(
@@ -134,13 +130,13 @@ class SplashViewController: UIViewController {
             }
         }
     }
-    
+
     private func downloadImage(urlString: String, completion: ((UIImage?) -> Void)?) {
         guard let url = URL.init(string: urlString) else {
             completion?(self.originSplashImage)
             return
         }
-        
+
         let resource = ImageResource(downloadURL: url)
         KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil) {[weak self] result in
             switch result {

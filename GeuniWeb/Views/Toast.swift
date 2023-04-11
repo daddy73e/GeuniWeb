@@ -18,7 +18,7 @@ public struct ToastOption {
     var verticalPadding: CGFloat
     var horizontalPadding: CGFloat
     var isFixed: Bool
-    
+
     public init(
         backgroundView: UIView,
         message: String,
@@ -47,11 +47,12 @@ public struct ToastOption {
 final class Toast {
     static let shared = Toast()
     private var isShowing = false
-    
+
     var toastFrame: UIView?
     var toastLabel: UILabel?
     var option: ToastOption?
-    
+
+    // swiftlint:disable function_body_length
     func show(
         option: ToastOption,
         completion: (() -> Void)? = nil
@@ -67,11 +68,11 @@ final class Toast {
             guard let toastFrame = self?.toastFrame else {
                 return
             }
-            
+
             guard let toastLabel = self?.toastLabel else {
                 return
             }
-            
+
             toastLabel.textColor = option.textColor
             toastLabel.font = option.font
             toastLabel.textAlignment = .center
@@ -114,21 +115,21 @@ final class Toast {
             )
         }
     }
-    
+
     func hide(
-        animate:Bool = true,
+        animate: Bool = true,
         completion: (() -> Void)? = nil
     ) {
         guard let toastFrame = self.toastFrame else {
             completion?()
             return
         }
-        
+
         guard let toastLabel = self.toastLabel else {
             completion?()
             return
         }
-        
+
         guard let option = self.option else {
             completion?()
             return

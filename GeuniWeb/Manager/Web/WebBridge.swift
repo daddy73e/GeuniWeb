@@ -31,6 +31,8 @@ public class WebBridge {
         self.routeMessageCase(message: message)
     }
 
+    // swiftlint:disable function_body_length
+    // swiftlint:disable cyclomatic_complexity
     private func routeMessageCase(message: WKScriptMessage) {
         let message = message.toWKScriptMessageMapper()
         guard let request = message?.toWebBridgeRequest(),

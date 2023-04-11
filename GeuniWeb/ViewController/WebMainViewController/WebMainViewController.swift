@@ -128,7 +128,7 @@ private extension WebMainViewController {
         self.webview?.uiDelegate = self
         self.webview?.navigationDelegate = self
     }
-    
+
     func loadURL() {
         if let testURL = Bundle.main.url(forResource: "test", withExtension: "html") {
             var urlRequest = URLRequest(url: testURL)
@@ -189,8 +189,8 @@ extension WebMainViewController: WebBridgeDelegate {
         Router.shared.showPopup(fromVC: self, popupInput: popupInfo)
     }
 
-    /// 웹으로 정상 호출 확인용 completion
     // swiftlint:disable function_body_length
+    // swiftlint:disable cyclomatic_complexity
     func callBridgeViewAction(
         actionType: WebBridgeRequest,
         completion: (() -> Void)?
