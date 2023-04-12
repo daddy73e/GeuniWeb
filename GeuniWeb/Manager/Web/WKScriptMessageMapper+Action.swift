@@ -15,6 +15,9 @@ public extension WKScriptMessageMapper {
         switch action {
         case "goPrevPageWithData":
             return .closeWeb(params?.toJSONString() ?? "")
+        case "goWebPage":
+            //TODO: 
+            return nil
         default:
             return nil
         }

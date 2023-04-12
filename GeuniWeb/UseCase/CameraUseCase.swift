@@ -6,31 +6,49 @@
 //
 
 import Foundation
+import UIKit
 import AVFoundation
+import Photos
 
 public protocol CameraUseCaseProtocol {
-    func execute(input: CameraInput) -> CameraOutput
+    func checkPermission(completion: ((CameraPermissionOutput) -> Void?)?)
 }
 
-public struct CameraInput {
-}
-
-public struct CameraOutput {
-}
-
-public struct CameraPermissionOutput {
+public enum CameraPermissionOutput {
+    case enableCameraAlbum
+    case disableCamera
+    case disableAlbum
 }
 
 public class CameraUseCase: CameraUseCaseProtocol {
-    public init() {
-    }
-    public func execute(input: CameraInput) -> CameraOutput {
-        return CameraOutput()
+    public init() { }
+
+    public func checkPermission(completion: ((CameraPermissionOutput) -> Void?)?) {
+        self.checkCameraPermission { isEnableCamera in
+            if isEnableCamera {
+                self.checkAlbumPermission { isEnableAlbum in
+                    completion?(isEnableAlbum ? .enableCameraAlbum : .disableAlbum)
+                }
+            } else {
+                completion?(.disableCamera)
+            }
+        }
     }
 
-    public func permissionCheck(completion: ((Bool) -> Void?)?) {
+    private func checkCameraPermission(completion: ((Bool) -> Void?)?) {
         AVCaptureDevice.requestAccess(for: .video) { granted in
             completion?(granted)
         }
+    }
+
+    private func checkAlbumPermission(completion: ((Bool) -> Void?)?) {
+        PHPhotoLibrary.requestAuthorization({ status in
+            switch status {
+            case .authorized:
+                completion?(true)
+            default:
+                completion?(false)
+            }
+        })
     }
 }

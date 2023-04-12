@@ -71,6 +71,15 @@ extension WebMainViewController {
                         )
                     )
                 }
+            } else {
+                if Toast.shared.isAnimating {
+                    return
+                }
+                Toast.shared.hide(
+                    animate: true,
+                    hideDelay: 0.0,
+                    completion: nil
+                )
             }
         }
     }

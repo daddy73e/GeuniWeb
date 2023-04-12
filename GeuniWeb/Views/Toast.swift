@@ -47,6 +47,7 @@ public struct ToastOption {
 final class Toast {
     static let shared = Toast()
     private var isShowing = false
+    public var isAnimating = false
 
     var toastFrame: UIView?
     var toastLabel: UILabel?
@@ -99,6 +100,7 @@ final class Toast {
                 delay: 0.0,
                 options: .curveEaseInOut,
                 animations: {
+                    self?.isAnimating = true
                     toastLabel.center = CGPoint(
                         x: option.backgroundView.center.x,
                         y: option.backgroundView.bounds.height - (option.backgroundView.safeAreaInsets.bottom + 60)
@@ -106,6 +108,7 @@ final class Toast {
                     toastFrame.center = toastLabel.center
                     option.backgroundView.layoutIfNeeded()
                 }, completion: { _ in
+                    self?.isAnimating = false
                     if option.isFixed {
                         completion?()
                         return
@@ -118,6 +121,7 @@ final class Toast {
 
     func hide(
         animate: Bool = true,
+        hideDelay: CGFloat? = nil,
         completion: (() -> Void)? = nil
     ) {
         guard let toastFrame = self.toastFrame else {
@@ -144,12 +148,19 @@ final class Toast {
                 completion?()
             }
         } else {
+            var delay = 0.0
+            if hideDelay == nil {
+                delay = option.showingSecond
+            } else {
+                delay = hideDelay ?? 0.0
+            }
             DispatchQueue.main.async { [weak self] in
                 UIView.animate(
                     withDuration: option.showHideAnimateDuration,
-                    delay: option.showingSecond,
+                    delay: delay,
                     options: .curveEaseOut,
                     animations: {
+                        self?.isAnimating = true
                         toastLabel.alpha = 0.0
                         toastFrame.alpha = 0.0
                         toastLabel.center = CGPoint(
@@ -158,12 +169,15 @@ final class Toast {
                         )
                         toastFrame.center = toastLabel.center
                         option.backgroundView.layoutIfNeeded()
-                    }, completion: {[weak self] _ in
-                        toastLabel.removeFromSuperview()
-                        toastFrame.removeFromSuperview()
-                        self?.isShowing = false
-                        self?.option = nil
-                        completion?()
+                    }, completion: {[weak self] finished in
+                        self?.isAnimating = false
+                        if finished {
+                            toastLabel.removeFromSuperview()
+                            toastFrame.removeFromSuperview()
+                            self?.isShowing = false
+                            self?.option = nil
+                            completion?()
+                        }
                     }
                 )
             }

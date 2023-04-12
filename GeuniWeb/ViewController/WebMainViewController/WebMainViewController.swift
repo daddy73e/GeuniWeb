@@ -12,8 +12,10 @@ public protocol WebMainViewDelegate: AnyObject {
     func closeWebMain(sendData: Any?)
 }
 
-public final class WebMainViewController: UIViewController {
+public final class WebMainViewController: UIViewController, UINavigationControllerDelegate {
     public var delegate: WebMainViewDelegate?
+    
+    public var homeUrl: URL?
     private var messageHandlerName = AppConfigure.shared.webBridgeMessageHandlerName
     private var rootContainer = UIView()
     private var webview: WKWebView?
@@ -29,7 +31,10 @@ public final class WebMainViewController: UIViewController {
         super.viewDidLoad()
         configureWebView()
         configureUI()
-        loadURL()
+        
+        routeURL()
+        
+        
     }
 
     public override func viewDidLayoutSubviews() {
@@ -129,12 +134,24 @@ private extension WebMainViewController {
         self.webview?.navigationDelegate = self
     }
 
-    func loadURL() {
-        if let testURL = Bundle.main.url(forResource: "test", withExtension: "html") {
-            var urlRequest = URLRequest(url: testURL)
-            urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            webview?.load(urlRequest)
+    func routeURL() {
+        var baseURL: URL?
+        if homeUrl == nil {
+            guard let url = AppConfigure.shared.baseUrl else { return }
+            baseURL = url
+        } else {
+            guard let url = homeUrl else { return }
+            baseURL = url
         }
+        if let url = baseURL {
+            loadURL(url: url)
+        }
+    }
+    
+    func loadURL(url: URL) {
+        var urlRequest = URLRequest(url: url)
+        urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        webview?.load(urlRequest)
     }
 
     func closeWebMain(sendData: String?, completion: (() -> Void)?) {
@@ -291,8 +308,41 @@ extension WebMainViewController: WebBridgeDelegate {
                 }
             }
         case .openCamera:
-            CameraUseCase().permissionCheck { _ in
-                print("")
+            CameraUseCase().checkPermission { permission in
+                switch permission {
+                case .enableCameraAlbum:
+                    self.openCamera {
+                        completion?()
+                    }
+                case .disableCamera:
+                    Router.shared.showPopup(
+                        fromVC: self,
+                        popupInput: .init(
+                            title: "카메라 권한 설정이 필요합니다.",
+                            completion: { output in
+                                completion?()
+                                if !output.result {
+                                    return
+                                }
+                                Router.shared.openSettingPage()
+                            }
+                        )
+                    )
+                case .disableAlbum:
+                    Router.shared.showPopup(
+                        fromVC: self,
+                        popupInput: .init(
+                            title: "앨범 권한 설정이 필요합니다.",
+                            completion: { output in
+                                completion?()
+                                if !output.result {
+                                    return
+                                }
+                                Router.shared.openSettingPage()
+                            }
+                        )
+                    )
+                }
             }
         default:
             completion?()

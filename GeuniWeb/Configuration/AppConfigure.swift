@@ -22,6 +22,8 @@ public class AppConfigure {
     public var appleIDKey = UserDefaultKey.appleIDKey
     /// 페이코 accessTokeyID
     public var paycoAccessToekn = UserDefaultKey.paycoAccessToekn
+    
+    public var baseUrl = Bundle.main.url(forResource: "test", withExtension: "html")
 
     /// 카카오 로그인 AppKey
     public func kakaoAppKey() -> String? {
