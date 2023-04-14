@@ -52,7 +52,8 @@ public class WebBridge {
                 .showToast,
                 .updatePushStatus,
                 .openCamera,
-                .openNewWebPage:
+                .openNewWebPage,
+                .historyback:
             self.callBridgeAction(
                 type: request,
                 scriptMessage: responseMessage

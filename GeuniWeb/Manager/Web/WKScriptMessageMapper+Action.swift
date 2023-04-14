@@ -16,7 +16,8 @@ public extension WKScriptMessageMapper {
         case "goPrevPageWithData":
             return .closeWeb(params?.toJSONString() ?? "")
         case "goWebPage":
-            let path = (params?["path"] as? String) ?? ""
+//            let path = (params?["path"] as? String) ?? ""
+            let path = AppConfigure.shared.baseUrl?.absoluteString ?? ""
             return .openNewWebPage(path)
         default:
             return nil
@@ -138,6 +139,19 @@ public extension WKScriptMessageMapper {
         switch action {
         case "open":
             return .openCamera
+        default:
+            return nil
+        }
+    }
+    
+    func controlAction(
+        action: String,
+        params: [String: Any]?
+    ) -> WebBridgeRequest? {
+        switch action {
+        case "historyback":
+            let isOn = (params?["value"] as? Bool) ?? true
+            return .historyback(isOn: isOn)
         default:
             return nil
         }

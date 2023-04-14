@@ -219,6 +219,8 @@ extension WebMainViewController: WebBridgeDelegate {
             updatePushStatus(isOn: isOn, completion: completion)
         case .openCamera:
             openCamera(completion: completion)
+        case .historyback(let isOn):
+            historyback(isOn: isOn, completion: completion)
         default:
             completion?()
         }

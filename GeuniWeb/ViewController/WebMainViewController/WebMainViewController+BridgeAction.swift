@@ -182,6 +182,13 @@ extension WebMainViewController {
             }
         }
     }
+    
+    func historyback(isOn: Bool, completion: (() -> Void)?) {
+        if let navigationController = self.navigationController as? BaseNavigationViewController {
+            navigationController.isLockSwapeGesture = !isOn
+            completion?()
+        }
+    }
 
     func isTargetSimulator() -> Bool {
         return TARGET_IPHONE_SIMULATOR == 1

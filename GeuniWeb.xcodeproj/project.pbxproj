@@ -80,6 +80,7 @@
 		6BBEFF9529A33BF200C38307 /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBEFF9429A33BF200C38307 /* PopupViewController.swift */; };
 		6BBEFF9729A343C100C38307 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBEFF9629A343C100C38307 /* UIColor+.swift */; };
 		6BC20EC929E6AEFE00817D84 /* WebMainViewController+Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC20EC829E6AEFE00817D84 /* WebMainViewController+Camera.swift */; };
+		6BC20ECB29E8E1A000817D84 /* BaseNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC20ECA29E8E1A000817D84 /* BaseNavigationViewController.swift */; };
 		6BD8803229DEAA3000597732 /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD8803129DEAA3000597732 /* PushManager.swift */; };
 		6BD8803429DEC62100597732 /* FileManagerUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD8803329DEC62100597732 /* FileManagerUseCase.swift */; };
 		6BD8803829DFB29500597732 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD8803729DFB29500597732 /* Date+.swift */; };
@@ -189,6 +190,7 @@
 		6BBEFF9429A33BF200C38307 /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
 		6BBEFF9629A343C100C38307 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		6BC20EC829E6AEFE00817D84 /* WebMainViewController+Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebMainViewController+Camera.swift"; sourceTree = "<group>"; };
+		6BC20ECA29E8E1A000817D84 /* BaseNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationViewController.swift; sourceTree = "<group>"; };
 		6BD8803129DEAA3000597732 /* PushManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushManager.swift; path = GeuniWeb/Manager/PushManager.swift; sourceTree = SOURCE_ROOT; };
 		6BD8803329DEC62100597732 /* FileManagerUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerUseCase.swift; sourceTree = "<group>"; };
 		6BD8803729DFB29500597732 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
@@ -386,6 +388,7 @@
 			isa = PBXGroup;
 			children = (
 				6B66DE5129933C020073313E /* Router.swift */,
+				6BC20ECA29E8E1A000817D84 /* BaseNavigationViewController.swift */,
 				6B66DE4C299334710073313E /* SplashViewController.swift */,
 				6B0BDC692991E9BF008645A5 /* TestUIViewController.swift */,
 				6BBEFF9429A33BF200C38307 /* PopupViewController.swift */,
@@ -623,6 +626,7 @@
 				6B6EB2DE29B5761000641E6E /* UserInfo.swift in Sources */,
 				6B49C1A429DBE1240027E1B4 /* Toast.swift in Sources */,
 				6B703AD129B17C0200D61ABD /* SNSLoginManager.swift in Sources */,
+				6BC20ECB29E8E1A000817D84 /* BaseNavigationViewController.swift in Sources */,
 				6B0BDC6D29920338008645A5 /* UserDefaultsUseCase.swift in Sources */,
 				6B0BDC5A2991E26A008645A5 /* WKScriptMessageMapper.swift in Sources */,
 				6BD8803E29DFB30B00597732 /* Int+.swift in Sources */,

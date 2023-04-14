@@ -75,7 +75,9 @@ class SplashViewController: UIViewController {
                     if !self.navigateDuplicateCallFlag {
                         self.navigateDuplicateCallFlag = true
 
-                        let navigationController = UINavigationController(rootViewController: WebMainViewController())
+                        let navigationController = BaseNavigationViewController(
+                            rootViewController: WebMainViewController()
+                        )
                         navigationController.modalPresentationStyle = .fullScreen
                         Router.shared.navigate(fromVC: self, toVC: navigationController, animated: false)
                     }
