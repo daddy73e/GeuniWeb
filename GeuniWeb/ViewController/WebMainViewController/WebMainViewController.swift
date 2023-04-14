@@ -14,12 +14,11 @@ public protocol WebMainViewDelegate: AnyObject {
 
 public final class WebMainViewController: UIViewController, UINavigationControllerDelegate {
     public var delegate: WebMainViewDelegate?
-    
+
     public var homeUrl: URL?
     private var messageHandlerName = AppConfigure.shared.webBridgeMessageHandlerName
     private var rootContainer = UIView()
     private var webview: WKWebView?
-    private var sampleImageView: UIImageView?
     private var networkStatusManager = NetworkStatusManager.shared
 
     private var marginTop = NSLayoutConstraint()
@@ -27,14 +26,14 @@ public final class WebMainViewController: UIViewController, UINavigationControll
     private var marginLeft = NSLayoutConstraint()
     private var marginRight = NSLayoutConstraint()
 
+    public var sampleImageView: UIImageView?
     public override func viewDidLoad() {
         super.viewDidLoad()
         configureWebView()
         configureUI()
-        
+
         routeURL()
-        
-        
+
     }
 
     public override func viewDidLayoutSubviews() {
@@ -63,6 +62,26 @@ public final class WebMainViewController: UIViewController, UINavigationControll
     @objc func keyboardWillShow(_ notification: Notification) { }
 
     @objc func keyboardWillHide(_ notification: Notification) { }
+
+    func updateScreenMode(type: ScreenType) {
+        var constantLeft = 0.0
+        var constantRight = 0.0
+        var constantTop = 0.0
+        var constantBottom = 0.0
+        switch type {
+        case .safeArea:
+            constantLeft = self.view.safeAreaInsets.left
+            constantRight = -self.view.safeAreaInsets.right
+            constantTop = self.view.safeAreaInsets.top
+            constantBottom = -self.view.safeAreaInsets.bottom
+        default:
+            break
+        }
+        marginLeft.constant = constantLeft
+        marginRight.constant = constantRight
+        marginTop.constant = constantTop
+        marginBottom.constant = constantBottom
+    }
 }
 
 private extension WebMainViewController {
@@ -147,45 +166,13 @@ private extension WebMainViewController {
             loadURL(url: url)
         }
     }
-    
+
     func loadURL(url: URL) {
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         webview?.load(urlRequest)
     }
 
-    func closeWebMain(sendData: String?, completion: (() -> Void)?) {
-        if let navigationController = self.navigationController {
-            navigationController.popViewController(animated: true)
-            self.delegate?.closeWebMain(sendData: sendData)
-            completion?()
-        } else {
-            self.dismiss(animated: true) { [weak self] in
-                self?.delegate?.closeWebMain(sendData: sendData)
-                completion?()
-            }
-        }
-    }
-
-    func updateScreenMode(type: ScreenType) {
-        var constantLeft = 0.0
-        var constantRight = 0.0
-        var constantTop = 0.0
-        var constantBottom = 0.0
-        switch type {
-        case .safeArea:
-            constantLeft = self.view.safeAreaInsets.left
-            constantRight = -self.view.safeAreaInsets.right
-            constantTop = self.view.safeAreaInsets.top
-            constantBottom = -self.view.safeAreaInsets.bottom
-        default:
-            break
-        }
-        marginLeft.constant = constantLeft
-        marginRight.constant = constantRight
-        marginTop.constant = constantTop
-        marginBottom.constant = constantBottom
-    }
 }
 
 extension WebMainViewController: WKScriptMessageHandler {
@@ -206,7 +193,6 @@ extension WebMainViewController: WebBridgeDelegate {
         Router.shared.showPopup(fromVC: self, popupInput: popupInfo)
     }
 
-    // swiftlint:disable function_body_length
     // swiftlint:disable cyclomatic_complexity
     func callBridgeViewAction(
         actionType: WebBridgeRequest,
@@ -214,136 +200,25 @@ extension WebMainViewController: WebBridgeDelegate {
     ) {
         switch actionType {
         case .updateConfigure(let configureType):
-            switch configureType {
-            case .baseURL:
-                completion?()
-                Router.shared.restart(fromVC: self) { }
-            case .screen(let type):
-                Task { @MainActor in
-                    self.updateScreenMode(type: type)
-                    self.view.setNeedsLayout()
-                    completion?()
-                }
-            default:
-                completion?()
-            }
-
+            updateConfigure(type: configureType, completion: completion)
         case .closeWeb(let string):
             closeWebMain(sendData: string, completion: completion)
+        case .openNewWebPage(let urlPath):
+            openNewWebPage(urlPath: urlPath, completion: completion)
         case .showPopup(let dictionary):
-            Router.shared.showPopup(
-                fromVC: self,
-                popupInput: .init(
-                    title: dictionary["title"] ?? "",
-                    contents: dictionary["contents"] ?? "",
-                    yesText: dictionary["yesText"] ?? "",
-                    noText: dictionary["noText"] ?? "",
-                    completion: { output in
-                        print("output = \(output)")
-                        completion?()
-                    }
-                )
-            )
+            showPopup(dictionary: dictionary, completion: completion)
         case .showToast(let dictionary):
-            let message = dictionary["message"] ?? ""
-            Toast.shared.show(
-                option: .init(
-                    backgroundView: self.view,
-                    message: message
-                )
-            ) {
-                completion?()
-            }
+            showToast(dictionary: dictionary, completion: completion)
         case .logout:
-            /* 로그인화면으로 이동 */
-            completion?()
-        case .login(let loginType, _):
-            /* 페이지 이동 */
-            switch loginType {
-            case .facebook:
-                SNSLoginManager.shared.requestFacebookLogin(viewController: self) { userInfo in
-                    print(userInfo ?? "")
-                    completion?()
-                }
-            case .payco:
-                SNSLoginManager.shared.requestPaycoLogin { _ in
-                    completion?()
-                }
-            default:
-                completion?()
-            }
+            logout(completion: completion)
+        case .login(let loginType, let error):
+            login(loginType: loginType, error: error, completion: completion)
         case .generateBarcode(let code):
-            generateBarcode(code: code) { [weak self] barcodeImage in
-                self?.sampleImageView?.image = barcodeImage
-                completion?()
-            }
+            generateBarcode(code: code, completion: completion)
         case .updatePushStatus(let isOn):
-            if isTargetSimulator() {
-                Toast.shared.show(option: .init(
-                    backgroundView: self.view,
-                    message: "시뮬레이터에서는 테스트할 수 없습니다."
-                ))
-                return
-            }
-            PushManager.shared.updatePushNotificationStatus(isOn: isOn) { [weak self] isSucces in
-                guard let self = self else { return }
-                if isSucces {
-                    completion?()
-                } else {
-                    Router.shared.showPopup(
-                        fromVC: self,
-                        popupInput: .init(
-                            title: "알림",
-                            contents: "알림 설정 필요",
-                            yesText: "확인",
-                            noText: "취소",
-                            completion: { output in
-                                if output.result {
-                                    Router.shared.openSettingPage()
-                                }
-                                completion?()
-                            }
-                        )
-                    )
-                }
-            }
+            updatePushStatus(isOn: isOn, completion: completion)
         case .openCamera:
-            CameraUseCase().checkPermission { permission in
-                switch permission {
-                case .enableCameraAlbum:
-                    self.openCamera {
-                        completion?()
-                    }
-                case .disableCamera:
-                    Router.shared.showPopup(
-                        fromVC: self,
-                        popupInput: .init(
-                            title: "카메라 권한 설정이 필요합니다.",
-                            completion: { output in
-                                completion?()
-                                if !output.result {
-                                    return
-                                }
-                                Router.shared.openSettingPage()
-                            }
-                        )
-                    )
-                case .disableAlbum:
-                    Router.shared.showPopup(
-                        fromVC: self,
-                        popupInput: .init(
-                            title: "앨범 권한 설정이 필요합니다.",
-                            completion: { output in
-                                completion?()
-                                if !output.result {
-                                    return
-                                }
-                                Router.shared.openSettingPage()
-                            }
-                        )
-                    )
-                }
-            }
+            openCamera(completion: completion)
         default:
             completion?()
         }

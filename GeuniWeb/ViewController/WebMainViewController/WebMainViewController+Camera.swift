@@ -8,14 +8,6 @@
 import Foundation
 
 extension WebMainViewController: UIImagePickerControllerDelegate {
-    public func openCamera(completion: (() -> Void)?) {
-        Task { @MainActor in
-            let camera = UIImagePickerController()
-            camera.sourceType = .camera
-            camera.delegate = self
-            self.present(camera, animated: true, completion: completion)
-        }
-    }
 
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true)

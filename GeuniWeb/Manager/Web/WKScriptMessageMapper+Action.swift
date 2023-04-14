@@ -16,8 +16,8 @@ public extension WKScriptMessageMapper {
         case "goPrevPageWithData":
             return .closeWeb(params?.toJSONString() ?? "")
         case "goWebPage":
-            //TODO: 
-            return nil
+            let path = (params?["path"] as? String) ?? ""
+            return .openNewWebPage(path)
         default:
             return nil
         }

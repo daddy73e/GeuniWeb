@@ -7,6 +7,7 @@
 
 public enum WebBridgeRequest {
     case closeWeb(String)
+    case openNewWebPage(String)
     case showPopup([String: String]) // ProgramID로 화면 이동이 가능한지 체크
     case showToast([String: String])
     case login(loginType: SNSLoginType, error: Error?)

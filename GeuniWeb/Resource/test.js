@@ -133,7 +133,7 @@ var rsaKey = "356AA68F5A50D5EA9024CC33B772F573A768ABA6CDBB941E74B0C1B2A91A5A9BAB
 //////////////////////////////////////////////////////////////////////////
 function openNewWebPage() {
     var params = {
-        "url" : "https://www.naver.com"
+        "path" : "https://www.naver.com"
     };
     sendNativeAction("Navigator", "goWebPage", params)
 }

@@ -51,7 +51,8 @@ public class WebBridge {
                 .generateBarcode,
                 .showToast,
                 .updatePushStatus,
-                .openCamera:
+                .openCamera,
+                .openNewWebPage:
             self.callBridgeAction(
                 type: request,
                 scriptMessage: responseMessage
