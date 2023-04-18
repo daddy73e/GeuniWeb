@@ -74,7 +74,7 @@ extension WebMainViewController {
 
     func logout(completion: (() -> Void)?) {
         SNSLoginManager.shared.requestLogout { error in
-            if error != nil {
+            if error == nil {
                 /* 로그인화면으로 이동 */
                 completion?()
             } else {

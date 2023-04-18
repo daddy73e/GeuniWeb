@@ -288,5 +288,7 @@ extension WebMainViewController: WKNavigationDelegate {
 
 /* 웹메인에서 웹 메인을 호출하는 경우 callback으로 사용 */
 extension WebMainViewController: WebMainViewDelegate {
-    public func closeWebMain(sendData: Any?) { }
+    public func closeWebMain(sendData: Any?) {
+        print("")
+    }
 }
