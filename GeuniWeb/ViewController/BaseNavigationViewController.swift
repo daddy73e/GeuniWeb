@@ -37,7 +37,7 @@ extension BaseNavigationViewController: UIGestureRecognizerDelegate {
         if isLockSwapeGesture {
             return false
         }
-        
+
         guard gestureRecognizer == interactivePopGestureRecognizer,
               let topVC = topViewController else {
             return true // default value

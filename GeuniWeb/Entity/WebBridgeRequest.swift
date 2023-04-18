@@ -18,5 +18,6 @@ public enum WebBridgeRequest {
     case generateBarcode(code: String)
     case updatePushStatus(isOn: Bool)
     case openCamera
-    case historyback(isOn: Bool) 
+    case historyback(isOn: Bool)
+    case currentLocation
 }

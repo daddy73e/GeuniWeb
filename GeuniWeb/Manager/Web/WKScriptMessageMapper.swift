@@ -68,6 +68,8 @@ public extension WKScriptMessageMapper {
             return cameraAction(action: action, params: params)
         case "Control":
             return controlAction(action: action, params: params)
+        case "Location":
+            return locationAction(action: action, params: params)
         default:
             return nil
         }

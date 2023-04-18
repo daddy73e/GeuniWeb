@@ -182,7 +182,7 @@ extension WebMainViewController {
             }
         }
     }
-    
+
     func historyback(isOn: Bool, completion: (() -> Void)?) {
         if let navigationController = self.navigationController as? BaseNavigationViewController {
             navigationController.isLockSwapeGesture = !isOn
@@ -190,7 +190,20 @@ extension WebMainViewController {
         }
     }
 
+    func currentLocation(completion: (() -> Void)?) {
+        LocationManager.shared.checkLocationService()
+        LocationManager.shared.delegate = self
+    }
+}
+
+private extension WebMainViewController {
     func isTargetSimulator() -> Bool {
         return TARGET_IPHONE_SIMULATOR == 1
+    }
+}
+
+extension WebMainViewController: LocationManagerDelegate {
+    public func loactionChangeAuthorization(status: LocationStatus) {
+        print("update location status = \(status)")
     }
 }

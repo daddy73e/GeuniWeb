@@ -46,18 +46,6 @@ public class WebBridge {
         ).toJavascriptMessage(withRequestId: requestId)
 
         switch request {
-        case .closeWeb,
-                .showPopup,
-                .generateBarcode,
-                .showToast,
-                .updatePushStatus,
-                .openCamera,
-                .openNewWebPage,
-                .historyback:
-            self.callBridgeAction(
-                type: request,
-                scriptMessage: responseMessage
-            )
         case .updateConfigure(let configureType):
             switch configureType {
             case .baseURL(let environmentType):
@@ -123,6 +111,19 @@ public class WebBridge {
             self.requestAPI {[weak self] in
                 self?.sendCallbackToWeb(javascriptMessage: responseMessage)
             }
+        case .closeWeb,
+                .showPopup,
+                .generateBarcode,
+                .showToast,
+                .updatePushStatus,
+                .openCamera,
+                .openNewWebPage,
+                .historyback,
+                .currentLocation:
+            self.callBridgeAction(
+                type: request,
+                scriptMessage: responseMessage
+            )
         }
     }
 

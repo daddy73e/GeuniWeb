@@ -143,7 +143,7 @@ public extension WKScriptMessageMapper {
             return nil
         }
     }
-    
+
     func controlAction(
         action: String,
         params: [String: Any]?
@@ -152,6 +152,18 @@ public extension WKScriptMessageMapper {
         case "historyback":
             let isOn = (params?["value"] as? Bool) ?? true
             return .historyback(isOn: isOn)
+        default:
+            return nil
+        }
+    }
+
+    func locationAction(
+        action: String,
+        params: [String: Any]?
+    ) -> WebBridgeRequest? {
+        switch action {
+        case "current":
+            return .currentLocation
         default:
             return nil
         }

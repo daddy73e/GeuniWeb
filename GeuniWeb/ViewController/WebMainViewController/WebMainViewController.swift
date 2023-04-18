@@ -27,6 +27,7 @@ public final class WebMainViewController: UIViewController, UINavigationControll
     private var marginRight = NSLayoutConstraint()
 
     public var sampleImageView: UIImageView?
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         configureWebView()
@@ -221,6 +222,8 @@ extension WebMainViewController: WebBridgeDelegate {
             openCamera(completion: completion)
         case .historyback(let isOn):
             historyback(isOn: isOn, completion: completion)
+        case .currentLocation:
+            currentLocation(completion: completion)
         default:
             completion?()
         }

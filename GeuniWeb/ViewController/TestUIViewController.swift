@@ -21,13 +21,7 @@ class TestUIViewController: UIViewController {
     }
 
     @IBAction func didTest2(_ sender: Any) {
-        let locationUseCase = LocationUseCase()
-        switch locationUseCase.permissionCheck().permission {
-        case .access:
-            print("사용가능")
-        default:
-            print("세팅창으로")
-        }
+
     }
 
     @IBAction func didTest3(_ sender: Any) {
