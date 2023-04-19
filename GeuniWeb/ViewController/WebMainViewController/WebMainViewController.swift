@@ -157,8 +157,13 @@ private extension WebMainViewController {
     func routeURL() {
         var baseURL: URL?
         if homeUrl == nil {
-            guard let url = AppConfigure.shared.baseUrl else { return }
-            baseURL = url
+            if let savedBaseURL = UserDefaultsUseCase().read(input: .init(key: UserDefaultKey.baseUrl.rawValue)).value as? String {
+                guard let url = URL(string: savedBaseURL) else { return }
+                baseURL = url
+            } else {
+                guard let url = AppConfigure.shared.baseUrl else { return }
+                baseURL = url
+            }
         } else {
             guard let url = homeUrl else { return }
             baseURL = url
@@ -224,6 +229,8 @@ extension WebMainViewController: WebBridgeDelegate {
             historyback(isOn: isOn, completion: completion)
         case .currentLocation:
             currentLocation(completion: completion)
+        case .goAdmin:
+            goAdmin(completion: completion)
         default:
             completion?()
         }

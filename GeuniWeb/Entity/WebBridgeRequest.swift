@@ -6,6 +6,7 @@
 //
 
 public enum WebBridgeRequest {
+    case goAdmin
     case closeWeb(String)
     case openNewWebPage(String)
     case showPopup([String: String]) // ProgramID로 화면 이동이 가능한지 체크

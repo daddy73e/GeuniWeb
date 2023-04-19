@@ -119,7 +119,8 @@ public class WebBridge {
                 .openCamera,
                 .openNewWebPage,
                 .historyback,
-                .currentLocation:
+                .currentLocation,
+                .goAdmin:
             self.callBridgeAction(
                 type: request,
                 scriptMessage: responseMessage

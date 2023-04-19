@@ -14,4 +14,5 @@ public enum UserDefaultKey: String {
     case snsLoginType = "SNSLoginType"
     case pushDeviceToken = "fnbPushDeviceToken"
     case splashImage = "splashImage"
+    case baseUrl = "baseUrl"
 }

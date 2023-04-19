@@ -23,7 +23,7 @@ public class Router {
             }
         })
     }
-
+    
     public func navigate(
         fromVC: UIViewController,
         toVC: UIViewController,

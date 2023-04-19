@@ -19,6 +19,8 @@ public extension WKScriptMessageMapper {
 //            let path = (params?["path"] as? String) ?? ""
             let path = AppConfigure.shared.baseUrl?.absoluteString ?? ""
             return .openNewWebPage(path)
+        case "goAdmin":
+            return .goAdmin
         default:
             return nil
         }

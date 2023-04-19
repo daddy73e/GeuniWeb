@@ -194,6 +194,15 @@ extension WebMainViewController {
         LocationManager.shared.checkLocationService()
         LocationManager.shared.delegate = self
     }
+    
+    func goAdmin(completion: (() -> Void)?) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        if let adminViewController = storyBoard.instantiateViewController(
+            withIdentifier: "AdminViewController"
+        ) as? AdminViewController {
+            Router.shared.navigate(fromVC: self, toVC: adminViewController, animated: true)
+        }
+    }
 }
 
 private extension WebMainViewController {
