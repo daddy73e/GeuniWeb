@@ -18,6 +18,7 @@ public final class WebMainViewController: UIViewController, UINavigationControll
     public var homeUrl: URL?
     private var messageHandlerName = AppConfigure.shared.webBridgeMessageHandlerName
     private var rootContainer = UIView()
+    private var adminButton = UIButton()
     private var webview: WKWebView?
     private var networkStatusManager = NetworkStatusManager.shared
 
@@ -32,9 +33,7 @@ public final class WebMainViewController: UIViewController, UINavigationControll
         super.viewDidLoad()
         configureWebView()
         configureUI()
-
         routeURL()
-
     }
 
     public override func viewDidLayoutSubviews() {
@@ -107,9 +106,14 @@ private extension WebMainViewController {
         self.view.addSubview(rootContainer)
         self.rootContainer.addSubview(webview)
         self.rootContainer.addSubview(barcodeImageView)
+        self.rootContainer.addSubview(adminButton)
 
         rootContainer.translatesAutoresizingMaskIntoConstraints = false
         webview.translatesAutoresizingMaskIntoConstraints = false
+        adminButton.translatesAutoresizingMaskIntoConstraints = false
+        adminButton.setTitle("관리자", for: .normal)
+        adminButton.addTarget(self, action: #selector(didTapAdminButton), for: .touchUpInside)
+
         webview.autoresizingMask = [.flexibleLeftMargin, .flexibleTopMargin]
         marginLeft = rootContainer.leadingAnchor.constraint(
             equalTo: self.view.leadingAnchor,
@@ -140,7 +144,19 @@ private extension WebMainViewController {
             ),
             barcodeImageView.widthAnchor.constraint(equalToConstant: 200),
             barcodeImageView.heightAnchor.constraint(equalToConstant: 50),
-            barcodeImageView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+            barcodeImageView.bottomAnchor.constraint(
+                equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0
+            ),
+            adminButton.trailingAnchor.constraint(
+                equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -20
+            ),
+            adminButton.bottomAnchor.constraint(
+                equalTo: self.view.safeAreaLayoutGuide.bottomAnchor,
+                constant: -20
+            ),
+            adminButton.widthAnchor.constraint(equalToConstant: 100),
+            adminButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
 
@@ -157,7 +173,9 @@ private extension WebMainViewController {
     func routeURL() {
         var baseURL: URL?
         if homeUrl == nil {
-            if let savedBaseURL = UserDefaultsUseCase().read(input: .init(key: UserDefaultKey.baseUrl.rawValue)).value as? String {
+            if let savedBaseURL = UserDefaultsUseCase().read(
+                input: .init(key: UserDefaultKey.baseUrl.rawValue)
+            ).value as? String {
                 guard let url = URL(string: savedBaseURL) else { return }
                 baseURL = url
             } else {
@@ -174,11 +192,15 @@ private extension WebMainViewController {
     }
 
     func loadURL(url: URL) {
+        AppLog.log(message: url.absoluteString)
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         webview?.load(urlRequest)
     }
 
+    @objc func didTapAdminButton() {
+        goAdmin(completion: nil)
+    }
 }
 
 extension WebMainViewController: WKScriptMessageHandler {
@@ -195,8 +217,23 @@ extension WebMainViewController: WKScriptMessageHandler {
 }
 
 extension WebMainViewController: WebBridgeDelegate {
-    func showPopup(popupInfo: PopupInput) {
-        Router.shared.showPopup(fromVC: self, popupInput: popupInfo)
+    // swiftlint:disable cyclomatic_complexity
+    func callBridgeViewAction(
+        actionType: WebBridgeRequest,
+        completion: (([String : Any]) -> Void)?
+    ) {
+        switch actionType {
+        case .currentLocation:
+            currentLocation { location in
+                let responseData = [
+                    "latitude": "\(location?.latitude ?? 0)",
+                    "longitude": "\(location?.longitude ?? 0)"
+                ]
+                completion?(responseData)
+            }
+        default:
+            completion?([:])
+        }
     }
 
     // swiftlint:disable cyclomatic_complexity
@@ -227,15 +264,21 @@ extension WebMainViewController: WebBridgeDelegate {
             openCamera(completion: completion)
         case .historyback(let isOn):
             historyback(isOn: isOn, completion: completion)
-        case .currentLocation:
-            currentLocation(completion: completion)
         case .goAdmin:
             goAdmin(completion: completion)
+        case .currentLocation:
+            currentLocation { location in
+                completion?()
+            }
         default:
             completion?()
         }
     }
 
+    func showPopup(popupInfo: PopupInput) {
+        Router.shared.showPopup(fromVC: self, popupInput: popupInfo)
+    }
+    
     func evaluateJavaScript(_ javaScriptString: String, completion: ((Any?, Error?) -> Void)?) {
         Task { @MainActor in
             self.webview?.evaluateJavaScript(javaScriptString, completionHandler: completion)

@@ -20,6 +20,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if (scene as? UIWindowScene) == nil {
             return
         }
+
+        let buttonDiameter: CGFloat = 44.0
+        let floatingButton = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: buttonDiameter, height: buttonDiameter))
+        floatingButton.layer.cornerRadius = buttonDiameter / 2.0
+        floatingButton.backgroundColor = .red
+        window?.addSubview(floatingButton)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) { }

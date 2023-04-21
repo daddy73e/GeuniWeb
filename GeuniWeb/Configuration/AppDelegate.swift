@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
             SNSLoginManager.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
             NetworkStatusManager.shared.startMonitoring(delegate: self)
+            LocationManager.shared.setupLocationManager()
         return true
     }
 

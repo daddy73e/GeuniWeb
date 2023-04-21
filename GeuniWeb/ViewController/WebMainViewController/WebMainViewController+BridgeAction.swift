@@ -6,7 +6,7 @@
 //
 
 extension WebMainViewController {
-
+    
     func updateConfigure(type: ConfigureType, completion: (() -> Void)?) {
         switch type {
         case .baseURL:
@@ -22,7 +22,7 @@ extension WebMainViewController {
             completion?()
         }
     }
-
+    
     func closeWebMain(sendData: String?, completion: (() -> Void)?) {
         if let navigationController = self.navigationController {
             navigationController.popViewController(animated: true)
@@ -35,7 +35,7 @@ extension WebMainViewController {
             }
         }
     }
-
+    
     func openNewWebPage(urlPath: String, completion: (() -> Void)?) {
         let webViewController = WebMainViewController()
         webViewController.homeUrl = URL(string: urlPath)
@@ -47,7 +47,7 @@ extension WebMainViewController {
         )
         completion?()
     }
-
+    
     func showPopup(dictionary: [String: String], completion: (() -> Void)?) {
         Router.shared.showPopup(
             fromVC: self,
@@ -63,7 +63,7 @@ extension WebMainViewController {
             )
         )
     }
-
+    
     func showToast(dictionary: [String: String], completion: (() -> Void)?) {
         let message = dictionary["message"] ?? ""
         Toast.shared.show(option: .init(
@@ -71,7 +71,7 @@ extension WebMainViewController {
             message: message
         ), completion: completion)
     }
-
+    
     func logout(completion: (() -> Void)?) {
         SNSLoginManager.shared.requestLogout { error in
             if error == nil {
@@ -82,7 +82,7 @@ extension WebMainViewController {
             }
         }
     }
-
+    
     func login(loginType: SNSLoginType, error: Error?, completion: (() -> Void)?) {
         switch loginType {
         case .facebook:
@@ -98,7 +98,7 @@ extension WebMainViewController {
             completion?()
         }
     }
-
+    
     func generateBarcode(code: String, completion: (() -> Void)?) {
         let useCase = GenerateBarcodeUseCase()
         useCase.generateBarcode(input: .init(code: code)) { [weak self] output in
@@ -108,7 +108,7 @@ extension WebMainViewController {
             }
         }
     }
-
+    
     func updatePushStatus(isOn: Bool, completion: (() -> Void)?) {
         if isTargetSimulator() {
             Toast.shared.show(option: .init(
@@ -140,7 +140,7 @@ extension WebMainViewController {
             }
         }
     }
-
+    
     func openCamera(completion: (() -> Void)?) {
         CameraUseCase().checkPermission { permission in
             switch permission {
@@ -182,17 +182,36 @@ extension WebMainViewController {
             }
         }
     }
-
+    
     func historyback(isOn: Bool, completion: (() -> Void)?) {
         if let navigationController = self.navigationController as? BaseNavigationViewController {
             navigationController.isLockSwapeGesture = !isOn
             completion?()
         }
     }
-
-    func currentLocation(completion: (() -> Void)?) {
-        LocationManager.shared.checkLocationService()
-        LocationManager.shared.delegate = self
+    
+    func currentLocation(completion: ((Location?) -> Void)?) {
+        LocationManager.shared.checkLocationManagerAuthorization { [weak self] status in
+            guard let self = self else { return }
+            switch status {
+            case .locationSystemDenied, .notDetermined:
+                Router.shared.showPopup(
+                    fromVC: self,
+                    popupInput: .init(
+                        title: "알림",
+                        contents: "위치정보를 이용할 수 없습니다.\n설정창으로 이동하시겠습니까?",
+                        completion: { output in
+                            if output.result {
+                                Router.shared.openSettingPage()
+                            }
+                            completion?(nil)
+                        }
+                    )
+                )
+            case .available(let location):
+                completion?(location)
+            }
+        }
     }
     
     func goAdmin(completion: (() -> Void)?) {
@@ -202,17 +221,12 @@ extension WebMainViewController {
         ) as? AdminViewController {
             Router.shared.navigate(fromVC: self, toVC: adminViewController, animated: true)
         }
+        completion?()
     }
 }
 
 private extension WebMainViewController {
     func isTargetSimulator() -> Bool {
         return TARGET_IPHONE_SIMULATOR == 1
-    }
-}
-
-extension WebMainViewController: LocationManagerDelegate {
-    public func loactionChangeAuthorization(status: LocationStatus) {
-        print("update location status = \(status)")
     }
 }

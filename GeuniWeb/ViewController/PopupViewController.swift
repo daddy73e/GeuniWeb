@@ -94,6 +94,7 @@ final class PopupViewController: UIViewController {
 
     private func configureUI() {
         self.view.backgroundColor = UIColor(hex: "#0000004C")
+        self.contentsLabel.numberOfLines = 0
         self.rootVerticalCenter.constant = Constants.animateInterval
         self.rootView.isHidden = true
         self.titleLabel.text = popupInputData?.title

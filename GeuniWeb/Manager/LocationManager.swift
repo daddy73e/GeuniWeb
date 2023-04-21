@@ -8,9 +8,14 @@ import Foundation
 import CoreLocation
 import Combine
 
+public struct Location {
+    var latitude: Double
+    var longitude: Double
+}
+
 public enum LocationStatus {
     /// 이용가능
-    case available
+    case available(Location)
     /// 결정안됨
     case notDetermined
     /// 시스템 위치공유 제안
@@ -25,57 +30,75 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     public static let shared = LocationManager()
     private let manager = CLLocationManager()
     private let notificationCenter = NotificationCenter.default
-
-    public weak var delegate: LocationManagerDelegate?
+    private var completion: ((LocationStatus) -> Void)?
     var authorizationStatus: CLAuthorizationStatus = .notDetermined
 
     private override init() { }
 
-    func checkLocationService() {
-        setupLocationManager()
-        checkLocationManagerAuthorization()
-    }
-
-    private func setupLocationManager() {
+    public func setupLocationManager() {
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyBest
     }
 
-    private func checkLocationManagerAuthorization() {
+    public func checkLocationManagerAuthorization(
+        completion: ((LocationStatus) -> Void)?
+    ) {
         if #available(iOS 14.0, *) {
             authorizationStatus = manager.authorizationStatus
         }
-
+        self.completion = completion
         switch authorizationStatus {
         case .notDetermined:
             manager.requestWhenInUseAuthorization()
         case .authorizedAlways, .authorizedWhenInUse:
             manager.startUpdatingLocation()
         case .denied, .restricted:
-            print("::: -> Location: denied")
+            completion?(.locationSystemDenied)
         default:
             break
         }
     }
 
-    public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        checkLocationManagerAuthorization()
+    public func locationManager(
+        _ manager: CLLocationManager,
+        didChangeAuthorization status: CLAuthorizationStatus
+    ) {
         if #available(iOS 14.0, *) {
             switch manager.authorizationStatus {
             case .notDetermined:
-                delegate?.loactionChangeAuthorization(status: .locationSystemDenied)
+                completion?(.locationSystemDenied)
             case .authorizedAlways, .authorizedWhenInUse:
-                delegate?.loactionChangeAuthorization(status: .available)
+                manager.startUpdatingLocation()
             case .denied, .restricted:
-                delegate?.loactionChangeAuthorization(status: .notDetermined)
+                completion?(.notDetermined)
             default:
                 break
             }
-
         }
     }
 
-    public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    public func locationManager(
+        _ manager: CLLocationManager,
+        didFailWithError error: Error
+    ) {
         manager.stopUpdatingLocation()
+    }
+
+    public func locationManager(
+        _ manager: CLLocationManager,
+        didUpdateLocations locations: [CLLocation]
+    ) {
+        manager.stopUpdatingLocation()
+        if let location = manager.location?.coordinate {
+            completion?(
+                .available(
+                    .init(
+                        latitude: location.latitude,
+                        longitude: location.longitude
+                    )
+                )
+            )
+            completion = nil
+        }
     }
 }

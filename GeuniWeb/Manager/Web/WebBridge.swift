@@ -11,6 +11,7 @@ import WebKit
 protocol WebBridgeDelegate: AnyObject {
     func evaluateJavaScript(_ javaScriptString: String, completion: ((Any?, Error?) -> Void)?)
     func callBridgeViewAction(actionType: WebBridgeRequest, completion: (() -> Void)?)
+    func callBridgeViewAction(actionType: WebBridgeRequest, completion: (([String: Any]) -> Void)?)
     func showPopup(popupInfo: PopupInput)
 }
 
@@ -119,9 +120,13 @@ public class WebBridge {
                 .openCamera,
                 .openNewWebPage,
                 .historyback,
-                .currentLocation,
                 .goAdmin:
             self.callBridgeAction(
+                type: request,
+                scriptMessage: responseMessage
+            )
+        case .currentLocation:
+            self.callBridgeActionWithData(
                 type: request,
                 scriptMessage: responseMessage
             )
@@ -139,6 +144,22 @@ public class WebBridge {
                 /* 웹 자바스크립트 콜백 */
                 self?.sendCallbackToWeb(
                     javascriptMessage: scriptMessage
+                )
+            }
+        )
+    }
+    
+    private func callBridgeActionWithData(
+        type: WebBridgeRequest,
+        scriptMessage: String
+    ) {
+        self.webDelegate?.callBridgeViewAction(
+            actionType: type,
+            completion: { [weak self] params in
+                /* 웹 자바스크립트 콜백 */
+                self?.addParamsToCallbackResponse(
+                    responseMessage: scriptMessage,
+                    params: params
                 )
             }
         )
