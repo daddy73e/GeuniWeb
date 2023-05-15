@@ -6,7 +6,7 @@
 //
 
 extension WebMainViewController {
-    
+
     func updateConfigure(type: ConfigureType, completion: (() -> Void)?) {
         switch type {
         case .baseURL:
@@ -22,7 +22,7 @@ extension WebMainViewController {
             completion?()
         }
     }
-    
+
     func closeWebMain(sendData: String?, completion: (() -> Void)?) {
         if let navigationController = self.navigationController {
             navigationController.popViewController(animated: true)
@@ -35,7 +35,7 @@ extension WebMainViewController {
             }
         }
     }
-    
+
     func openNewWebPage(urlPath: String, completion: (() -> Void)?) {
         let webViewController = WebMainViewController()
         webViewController.homeUrl = URL(string: urlPath)
@@ -47,7 +47,7 @@ extension WebMainViewController {
         )
         completion?()
     }
-    
+
     func showPopup(dictionary: [String: String], completion: (() -> Void)?) {
         Router.shared.showPopup(
             fromVC: self,
@@ -63,7 +63,7 @@ extension WebMainViewController {
             )
         )
     }
-    
+
     func showToast(dictionary: [String: String], completion: (() -> Void)?) {
         let message = dictionary["message"] ?? ""
         Toast.shared.show(option: .init(
@@ -71,7 +71,7 @@ extension WebMainViewController {
             message: message
         ), completion: completion)
     }
-    
+
     func logout(completion: (() -> Void)?) {
         SNSLoginManager.shared.requestLogout { error in
             if error == nil {
@@ -82,7 +82,7 @@ extension WebMainViewController {
             }
         }
     }
-    
+
     func login(loginType: SNSLoginType, error: Error?, completion: (() -> Void)?) {
         switch loginType {
         case .facebook:
@@ -98,7 +98,7 @@ extension WebMainViewController {
             completion?()
         }
     }
-    
+
     func generateBarcode(code: String, completion: (() -> Void)?) {
         let useCase = GenerateBarcodeUseCase()
         useCase.generateBarcode(input: .init(code: code)) { [weak self] output in
@@ -108,7 +108,7 @@ extension WebMainViewController {
             }
         }
     }
-    
+
     func updatePushStatus(isOn: Bool, completion: (() -> Void)?) {
         if isTargetSimulator() {
             Toast.shared.show(option: .init(
@@ -140,7 +140,7 @@ extension WebMainViewController {
             }
         }
     }
-    
+
     func openCamera(completion: (() -> Void)?) {
         CameraUseCase().checkPermission { permission in
             switch permission {
@@ -182,14 +182,14 @@ extension WebMainViewController {
             }
         }
     }
-    
+
     func historyback(isOn: Bool, completion: (() -> Void)?) {
         if let navigationController = self.navigationController as? BaseNavigationViewController {
             navigationController.isLockSwapeGesture = !isOn
             completion?()
         }
     }
-    
+
     func currentLocation(completion: ((Location?) -> Void)?) {
         LocationManager.shared.checkLocationManagerAuthorization { [weak self] status in
             guard let self = self else { return }
@@ -213,7 +213,7 @@ extension WebMainViewController {
             }
         }
     }
-    
+
     func goAdmin(completion: (() -> Void)?) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         if let adminViewController = storyBoard.instantiateViewController(

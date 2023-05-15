@@ -74,7 +74,7 @@ class SplashViewController: UIViewController {
     }
 
     private func checkLogin() {
-        
+
         TimerManager(timeInterval: 1.0, finishTime: 2.0).startTimer(tickAction: nil) {
             SNSLoginManager.shared.checkLogin { [weak self] _ in
                 //            if !isAutoLogin {
@@ -85,17 +85,17 @@ class SplashViewController: UIViewController {
                 print("")
                 Task { @MainActor in
                     self?.routeToMain()
-                    
+
                 }
             }
         }
     }
-    
+
     private func routeToMain() {
         self.dismiss(animated: false) {
             if !self.navigateDuplicateCallFlag {
                 self.navigateDuplicateCallFlag = true
-                
+
                 let navigationController = BaseNavigationViewController(
                     rootViewController: WebMainViewController()
                 )

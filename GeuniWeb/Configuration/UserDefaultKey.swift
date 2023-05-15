@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum UserDefaultKey: String, CaseIterable{
+public enum UserDefaultKey: String, CaseIterable {
     case appleIDKey = "geuniWebAppleLoginID"
     case paycoAccessToekn = "geuniWebPaycoAccessToken"
     case paycoRefreshToekn = "geuniWebPaycoRefreshToken"

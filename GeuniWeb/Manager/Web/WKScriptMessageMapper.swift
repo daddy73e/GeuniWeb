@@ -42,6 +42,7 @@ public extension WKScriptMessageMapper {
         )
     }
 
+    // swiftlint:disable cyclomatic_complexity
     func routeService(
         serviceName: String,
         action: String,

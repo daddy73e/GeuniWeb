@@ -27,7 +27,12 @@ public class BaseNavigationViewController: UINavigationController {
 }
 
 extension BaseNavigationViewController: UINavigationControllerDelegate {
-    public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+    public func navigationController(
+        _ navigationController: UINavigationController,
+        didShow viewController:
+        UIViewController,
+        animated: Bool
+    ) {
         self.duringTransition = false
     }
 }
@@ -47,10 +52,8 @@ extension BaseNavigationViewController: UIGestureRecognizerDelegate {
     }
 
     private func isPopGestureEnable(_ topVC: UIViewController) -> Bool {
-        for vc in disabledPopVCs {
-            if String(describing: type(of: topVC)) == String(describing: vc) {
-                return false
-            }
+        for each in disabledPopVCs where String(describing: type(of: topVC)) == String(describing: each) {
+            return false
         }
         return true
     }

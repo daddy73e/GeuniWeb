@@ -74,7 +74,7 @@ public class AppConfigure {
             return "https://mock"
         }
     }
-    
+
     public func deviceId() -> String {
         return UIDevice.current.identifierForVendor?.uuidString ?? ""
     }

@@ -26,7 +26,7 @@ public extension WKScriptMessageMapper {
             return nil
         }
     }
-    
+
     func navigatorAction(
         action: String,
         params: [String: Any]?

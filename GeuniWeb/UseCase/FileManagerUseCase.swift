@@ -61,8 +61,7 @@ public struct DeleteFileManagerOutput {
 
 public class FileManagerUseCase: FileManagerUseCaseProtocol {
     public init() { }
-    
-    
+
     public func write(
         input: WriteFileManagerInput,
         compleiton: ((WriteFileManagerOutput) -> Void)?
@@ -86,7 +85,7 @@ public class FileManagerUseCase: FileManagerUseCaseProtocol {
             compleiton?(.init(result: false))
         }
     }
-    
+
     public func read(
         input: ReadFileManagerInput,
         compleiton: ((ReadFileManagerOutput) -> Void)?
@@ -100,7 +99,7 @@ public class FileManagerUseCase: FileManagerUseCaseProtocol {
             compleiton?(.init(data: nil))
             return
         }
-        
+
         do {
             if let url = directory.appendingPathComponent(input.fileName) {
                 let data = try Data(contentsOf: url)
@@ -110,7 +109,7 @@ public class FileManagerUseCase: FileManagerUseCaseProtocol {
             compleiton?(.init(data: nil))
         }
     }
-    
+
     public func delete(
         input: DeleteFileManagerInput,
         compleiton: ((DeleteFileManagerOutput) -> Void)?
@@ -124,7 +123,7 @@ public class FileManagerUseCase: FileManagerUseCaseProtocol {
             compleiton?(.init(result: false))
             return
         }
-        
+
         do {
             if let url = directory.appendingPathComponent(input.fileName) {
                 try FileManager.default.removeItem(atPath: url.path)

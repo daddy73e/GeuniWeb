@@ -44,7 +44,7 @@ class AdminViewController: UIViewController {
 
     @IBAction func didTapDevelop(_ sender: Any) {
         if let developURL = AppConfigure.shared.baseUrl {
-            userDefulatUseCase.delete(input: .init(key: UserDefaultKey.baseUrl.rawValue))
+            userDefulatUseCase.write(input: .init(key: UserDefaultKey.baseUrl.rawValue, value: developURL))
         }
     }
 

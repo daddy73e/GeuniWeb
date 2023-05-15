@@ -11,7 +11,7 @@ import Kingfisher
 public class ImageDownloadManager: NSObject {
     public static let shared = ImageDownloadManager()
     private override init() { }
-    
+
     private func savedSplashImageKeyValue() -> (String, String?) {
         if let savedImageDictionary = UserDefaultsUseCase().read(
             input: .init(
@@ -49,7 +49,7 @@ public class ImageDownloadManager: NSObject {
             completion?(false)
         }
     }
-    
+
     public func loadSplashImage(
         completion: ((Data?) -> Void)?
     ) {
@@ -65,7 +65,7 @@ public class ImageDownloadManager: NSObject {
             completion?(nil)
         }
     }
-    
+
     public func downloadImage(
         urlString: String,
         completion: ((String?) -> Void)?
@@ -74,7 +74,7 @@ public class ImageDownloadManager: NSObject {
             completion?(nil)
             return
         }
-        
+
         let imageKey = savedSplashImageKeyValue().0
         if imageKey.isEmpty {
             downloadImageUsingKingfisher(url: url, completion: completion)
@@ -90,7 +90,7 @@ public class ImageDownloadManager: NSObject {
             completion?(nil)
         }
     }
-    
+
     private func downloadImageUsingKingfisher(
         url: URL,
         completion: ((String?) -> Void)?

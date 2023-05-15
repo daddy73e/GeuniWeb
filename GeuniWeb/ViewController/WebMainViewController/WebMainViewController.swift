@@ -217,10 +217,10 @@ extension WebMainViewController: WKScriptMessageHandler {
 }
 
 extension WebMainViewController: WebBridgeDelegate {
-    // swiftlint:disable cyclomatic_complexity
+    // swiftlint:disable superfluous_disable_command
     func callBridgeViewAction(
         actionType: WebBridgeRequest,
-        completion: (([String : Any]) -> Void)?
+        completion: (([String: Any]) -> Void)?
     ) {
         switch actionType {
         case .currentLocation:
@@ -267,7 +267,7 @@ extension WebMainViewController: WebBridgeDelegate {
         case .goAdmin:
             goAdmin(completion: completion)
         case .currentLocation:
-            currentLocation { location in
+            currentLocation { _ in
                 completion?()
             }
         default:
@@ -278,7 +278,7 @@ extension WebMainViewController: WebBridgeDelegate {
     func showPopup(popupInfo: PopupInput) {
         Router.shared.showPopup(fromVC: self, popupInput: popupInfo)
     }
-    
+
     func evaluateJavaScript(_ javaScriptString: String, completion: ((Any?, Error?) -> Void)?) {
         Task { @MainActor in
             self.webview?.evaluateJavaScript(javaScriptString, completionHandler: completion)

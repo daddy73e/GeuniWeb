@@ -161,7 +161,7 @@ public class WebBridge {
             }
         )
     }
-    
+
     private func callBridgeActionWithData(
         type: WebBridgeRequest,
         scriptMessage: String
@@ -204,8 +204,7 @@ public class WebBridge {
             completion?(nil)
         }
     }
-    
-    
+
     private func appConfigurationGetAction(
         requestValue: String,
         responseMessage: String
@@ -215,75 +214,73 @@ public class WebBridge {
             addParamsToCallbackResponse(
                 responseMessage: responseMessage,
                 params: [
-                    "id": AppConfigure().deviceId(),
+                    "id": AppConfigure().deviceId()
                 ]
             )
         default:
             break
         }
     }
-    
+
     private func appConfigurationSetAction(
         params: [String: Any],
         responseMessage: String
     ) {
         for key in params.keys {
-            for uKey in UserDefaultKey.allCases {
-                if key == uKey.rawValue {
-                    guard let imageUrl = params[key] as? String else {
-                        return
-                    }
-                    // 공백으로 오는 경우 제거
-                    if imageUrl.isEmpty {
-                        ImageDownloadManager.shared.removeImage { result in
-                            UserDefaultsUseCase().delete(input: .init(key: UserDefaultKey.splashImageUrl.rawValue))
-                            self.addParamsToCallbackResponse(
-                                responseMessage: responseMessage,
-                                params: [
-                                    "savedResult": result,
-                                ]
-                            )
-                        }
-                        return
-                    }
-                    
-                    // 이미지 다운로드
-                    ImageDownloadManager.shared.downloadImage(
-                        urlString: imageUrl
-                    ) { [weak self] savedFileName in
-                        guard let fileName = savedFileName else {
-                            self?.addParamsToCallbackResponse(
-                                responseMessage: responseMessage,
-                                params: [
-                                    "savedResult": false,
-                                ]
-                            )
-                            return
-                        }
-                        
-                        UserDefaultsUseCase().write(
-                            input: .init(
-                                key: UserDefaultKey.splashImageUrl.rawValue,
-                                value: [imageUrl: fileName]
-                            )
-                        )
-                        
-                        self?.addParamsToCallbackResponse(
+            for uKey in UserDefaultKey.allCases where key == uKey.rawValue {
+                guard let imageUrl = params[key] as? String else {
+                    return
+                }
+                // 공백으로 오는 경우 제거
+                if imageUrl.isEmpty {
+                    ImageDownloadManager.shared.removeImage { result in
+                        UserDefaultsUseCase().delete(input: .init(key: UserDefaultKey.splashImageUrl.rawValue))
+                        self.addParamsToCallbackResponse(
                             responseMessage: responseMessage,
                             params: [
-                                "savedResult": true,
+                                "savedResult": result
                             ]
                         )
                     }
                     return
                 }
+
+                // 이미지 다운로드
+                ImageDownloadManager.shared.downloadImage(
+                    urlString: imageUrl
+                ) { [weak self] savedFileName in
+                    guard let fileName = savedFileName else {
+                        self?.addParamsToCallbackResponse(
+                            responseMessage: responseMessage,
+                            params: [
+                                "savedResult": false
+                            ]
+                        )
+                        return
+                    }
+
+                    UserDefaultsUseCase().write(
+                        input: .init(
+                            key: UserDefaultKey.splashImageUrl.rawValue,
+                            value: [imageUrl: fileName]
+                        )
+                    )
+
+                    self?.addParamsToCallbackResponse(
+                        responseMessage: responseMessage,
+                        params: [
+                            "savedResult": true
+                        ]
+                    )
+                }
+                return
             }
         }
-        
+
         addParamsToCallbackResponse(
             responseMessage: responseMessage,
             params: [
-                "savedResult": false,
+                "savedResult": false
             ]
         )
     }
