@@ -7,12 +7,13 @@
 
 import Foundation
 
-public enum UserDefaultKey: String {
+public enum UserDefaultKey: String, CaseIterable{
     case appleIDKey = "geuniWebAppleLoginID"
     case paycoAccessToekn = "geuniWebPaycoAccessToken"
     case paycoRefreshToekn = "geuniWebPaycoRefreshToken"
     case snsLoginType = "SNSLoginType"
     case pushDeviceToken = "fnbPushDeviceToken"
     case splashImage = "splashImage"
+    case splashImageUrl = "splashImageUrl"
     case baseUrl = "baseUrl"
 }

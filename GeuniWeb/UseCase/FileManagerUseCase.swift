@@ -10,6 +10,7 @@ import Foundation
 public protocol FileManagerUseCaseProtocol {
     func write(input: WriteFileManagerInput, compleiton: ((WriteFileManagerOutput) -> Void)?)
     func read(input: ReadFileManagerInput, compleiton: ((ReadFileManagerOutput) -> Void)?)
+    func delete(input: DeleteFileManagerInput, compleiton: ((DeleteFileManagerOutput) -> Void)?)
 }
 
 public struct WriteFileManagerInput {
@@ -18,9 +19,9 @@ public struct WriteFileManagerInput {
     public init(
         data: Data,
         fileName: String) {
-        self.data = data
-        self.fileName = fileName
-    }
+            self.data = data
+            self.fileName = fileName
+        }
 }
 
 public struct WriteFileManagerOutput {
@@ -44,8 +45,24 @@ public struct ReadFileManagerOutput {
     }
 }
 
+public struct DeleteFileManagerInput {
+    let fileName: String
+    public init(fileName: String) {
+        self.fileName = fileName
+    }
+}
+
+public struct DeleteFileManagerOutput {
+    let result: Bool
+    public init(result: Bool) {
+        self.result = result
+    }
+}
+
 public class FileManagerUseCase: FileManagerUseCaseProtocol {
     public init() { }
+    
+    
     public func write(
         input: WriteFileManagerInput,
         compleiton: ((WriteFileManagerOutput) -> Void)?
@@ -69,7 +86,7 @@ public class FileManagerUseCase: FileManagerUseCaseProtocol {
             compleiton?(.init(result: false))
         }
     }
-
+    
     public func read(
         input: ReadFileManagerInput,
         compleiton: ((ReadFileManagerOutput) -> Void)?
@@ -83,7 +100,7 @@ public class FileManagerUseCase: FileManagerUseCaseProtocol {
             compleiton?(.init(data: nil))
             return
         }
-
+        
         do {
             if let url = directory.appendingPathComponent(input.fileName) {
                 let data = try Data(contentsOf: url)
@@ -91,6 +108,30 @@ public class FileManagerUseCase: FileManagerUseCaseProtocol {
             }
         } catch {
             compleiton?(.init(data: nil))
+        }
+    }
+    
+    public func delete(
+        input: DeleteFileManagerInput,
+        compleiton: ((DeleteFileManagerOutput) -> Void)?
+    ) {
+        guard let directory = try? FileManager.default.url(
+            for: .documentDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: false
+        ) as NSURL else {
+            compleiton?(.init(result: false))
+            return
+        }
+        
+        do {
+            if let url = directory.appendingPathComponent(input.fileName) {
+                try FileManager.default.removeItem(atPath: url.path)
+                compleiton?(.init(result: true))
+            }
+        } catch {
+            compleiton?(.init(result: false))
         }
     }
 }

@@ -53,14 +53,14 @@ public class WebBridge {
                 /// 환경 변경, 로그아웃 시키고 메인
                 self.logout { [weak self] in
                     AppConfigure.shared.enviromentType = environmentType
-                    self?.callBridgeAction(
+                    self?.callViewBridgeAction(
                         type: request,
                         scriptMessage: responseMessage
                     )
                 }
             case .screen(let screenMode):
                 AppConfigure.shared.screenMode = screenMode
-                self.callBridgeAction(
+                self.callViewBridgeAction(
                     type: request,
                     scriptMessage: responseMessage
                 )
@@ -72,13 +72,13 @@ public class WebBridge {
             switch loginType {
             case .apple, .kakao:
                 loginAction(type: loginType) { [weak self] in
-                    self?.callBridgeAction(
+                    self?.callViewBridgeAction(
                         type: request,
                         scriptMessage: responseMessage
                     )
                 }
             case .facebook, .payco:
-                self.callBridgeAction(
+                self.callViewBridgeAction(
                     type: request,
                     scriptMessage: responseMessage
                 )
@@ -87,7 +87,7 @@ public class WebBridge {
             }
         case .logout:
             self.logout { [weak self] in
-                self?.callBridgeAction(
+                self?.callViewBridgeAction(
                     type: request,
                     scriptMessage: responseMessage
                 )
@@ -121,7 +121,7 @@ public class WebBridge {
                 .openNewWebPage,
                 .historyback,
                 .goAdmin:
-            self.callBridgeAction(
+            self.callViewBridgeAction(
                 type: request,
                 scriptMessage: responseMessage
             )
@@ -130,10 +130,23 @@ public class WebBridge {
                 type: request,
                 scriptMessage: responseMessage
             )
+        case .appConfiguration(let type):
+            switch type {
+            case .get(let string):
+                self.appConfigurationGetAction(
+                    requestValue: string,
+                    responseMessage: responseMessage
+                )
+            case .set(let params):
+                self.appConfigurationSetAction(
+                    params: params,
+                    responseMessage: responseMessage
+                )
+            }
         }
     }
 
-    private func callBridgeAction(
+    private func callViewBridgeAction(
         type: WebBridgeRequest,
         scriptMessage: String
     ) {
@@ -190,6 +203,89 @@ public class WebBridge {
             UserDefaultsUseCase().delete(input: .init(key: key))
             completion?(nil)
         }
+    }
+    
+    
+    private func appConfigurationGetAction(
+        requestValue: String,
+        responseMessage: String
+    ) {
+        switch requestValue {
+        case "deviceId":
+            addParamsToCallbackResponse(
+                responseMessage: responseMessage,
+                params: [
+                    "id": AppConfigure().deviceId(),
+                ]
+            )
+        default:
+            break
+        }
+    }
+    
+    private func appConfigurationSetAction(
+        params: [String: Any],
+        responseMessage: String
+    ) {
+        for key in params.keys {
+            for uKey in UserDefaultKey.allCases {
+                if key == uKey.rawValue {
+                    guard let imageUrl = params[key] as? String else {
+                        return
+                    }
+                    // 공백으로 오는 경우 제거
+                    if imageUrl.isEmpty {
+                        ImageDownloadManager.shared.removeImage { result in
+                            UserDefaultsUseCase().delete(input: .init(key: UserDefaultKey.splashImageUrl.rawValue))
+                            self.addParamsToCallbackResponse(
+                                responseMessage: responseMessage,
+                                params: [
+                                    "savedResult": result,
+                                ]
+                            )
+                        }
+                        return
+                    }
+                    
+                    // 이미지 다운로드
+                    ImageDownloadManager.shared.downloadImage(
+                        urlString: imageUrl
+                    ) { [weak self] savedFileName in
+                        guard let fileName = savedFileName else {
+                            self?.addParamsToCallbackResponse(
+                                responseMessage: responseMessage,
+                                params: [
+                                    "savedResult": false,
+                                ]
+                            )
+                            return
+                        }
+                        
+                        UserDefaultsUseCase().write(
+                            input: .init(
+                                key: UserDefaultKey.splashImageUrl.rawValue,
+                                value: [imageUrl: fileName]
+                            )
+                        )
+                        
+                        self?.addParamsToCallbackResponse(
+                            responseMessage: responseMessage,
+                            params: [
+                                "savedResult": true,
+                            ]
+                        )
+                    }
+                    return
+                }
+            }
+        }
+        
+        addParamsToCallbackResponse(
+            responseMessage: responseMessage,
+            params: [
+                "savedResult": false,
+            ]
+        )
     }
 
     private func loginAction(

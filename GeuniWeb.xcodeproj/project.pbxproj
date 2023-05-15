@@ -42,6 +42,8 @@
 		6B66DE502993353B0073313E /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE4F2993353B0073313E /* TimerManager.swift */; };
 		6B66DE5229933C020073313E /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE5129933C020073313E /* Router.swift */; };
 		6B66DE5429939F300073313E /* AppleLoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66DE5329939F300073313E /* AppleLoginUseCase.swift */; };
+		6B6A42932A12326800EAE820 /* ImageDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A42922A12326800EAE820 /* ImageDownloadManager.swift */; };
+		6B6A42952A1233FC00EAE820 /* AppConfigurationActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A42942A1233FC00EAE820 /* AppConfigurationActionType.swift */; };
 		6B6EB2DC29B5746800641E6E /* AppKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B6EB2DB29B5746800641E6E /* AppKey.plist */; };
 		6B6EB2DE29B5761000641E6E /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6EB2DD29B5761000641E6E /* UserInfo.swift */; };
 		6B6EB2E629B59BD000641E6E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B6EB2E529B59BD000641E6E /* WidgetKit.framework */; };
@@ -156,6 +158,8 @@
 		6B66DE5129933C020073313E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		6B66DE5329939F300073313E /* AppleLoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginUseCase.swift; sourceTree = "<group>"; };
 		6B66DE552993A1E20073313E /* GeuniWeb.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GeuniWeb.entitlements; sourceTree = "<group>"; };
+		6B6A42922A12326800EAE820 /* ImageDownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadManager.swift; sourceTree = "<group>"; };
+		6B6A42942A1233FC00EAE820 /* AppConfigurationActionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigurationActionType.swift; sourceTree = "<group>"; };
 		6B6EB2DB29B5746800641E6E /* AppKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AppKey.plist; sourceTree = "<group>"; };
 		6B6EB2DD29B5761000641E6E /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		6B6EB2E329B59BD000641E6E /* GeuniWebWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GeuniWebWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -333,6 +337,7 @@
 				6B6EB2DD29B5761000641E6E /* UserInfo.swift */,
 				6B6EB34729B7241F00641E6E /* UserDefaultActionType.swift */,
 				6B6EB34B29B8614000641E6E /* ConfigureType.swift */,
+				6B6A42942A1233FC00EAE820 /* AppConfigurationActionType.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -421,6 +426,7 @@
 				6B703AD029B17C0200D61ABD /* SNSLoginManager.swift */,
 				6BFFDFB629E4DB19004E3B0A /* AppLog.swift */,
 				6BADD6F929EE5B5A002C67CD /* LocationManager.swift */,
+				6B6A42922A12326800EAE820 /* ImageDownloadManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -628,6 +634,7 @@
 			files = (
 				6B6EB2DE29B5761000641E6E /* UserInfo.swift in Sources */,
 				6B49C1A429DBE1240027E1B4 /* Toast.swift in Sources */,
+				6B6A42952A1233FC00EAE820 /* AppConfigurationActionType.swift in Sources */,
 				6B703AD129B17C0200D61ABD /* SNSLoginManager.swift in Sources */,
 				6BC20ECB29E8E1A000817D84 /* BaseNavigationViewController.swift in Sources */,
 				6B0BDC6D29920338008645A5 /* UserDefaultsUseCase.swift in Sources */,
@@ -649,6 +656,7 @@
 				6B66DE4329922B3F0073313E /* ContactsUseCase.swift in Sources */,
 				6B66DE4529922D580073313E /* Contact.swift in Sources */,
 				6BFFDFB929E4F3FB004E3B0A /* Notification.swift in Sources */,
+				6B6A42932A12326800EAE820 /* ImageDownloadManager.swift in Sources */,
 				6B6EB34629B71ED000641E6E /* WKScriptMessageMapper+Action.swift in Sources */,
 				6BFFDFB029E404D8004E3B0A /* CameraUseCase.swift in Sources */,
 				6B0BDC652991E26A008645A5 /* WebMainViewController.swift in Sources */,

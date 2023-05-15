@@ -48,6 +48,8 @@ public extension WKScriptMessageMapper {
         params: [String: Any]?
     ) -> WebBridgeRequest? {
         switch serviceName {
+        case "AppConfiguration":
+            return appConfigurationAction(action: action, params: params)
         case "Navigator":
             return navigatorAction(action: action, params: params)
         case "Notification":

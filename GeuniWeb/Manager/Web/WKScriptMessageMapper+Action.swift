@@ -8,6 +8,25 @@
 import Foundation
 
 public extension WKScriptMessageMapper {
+    func appConfigurationAction(
+        action: String,
+        params: [String: Any]?
+    ) -> WebBridgeRequest? {
+        switch action {
+        case "get":
+            let value = (params?["value"] as? String) ?? ""
+            return .appConfiguration(type: .get(value))
+        case "set":
+            if let params = params {
+                return .appConfiguration(type: .set(params))
+            } else {
+                return nil
+            }
+        default:
+            return nil
+        }
+    }
+    
     func navigatorAction(
         action: String,
         params: [String: Any]?

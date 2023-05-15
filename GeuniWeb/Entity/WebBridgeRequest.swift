@@ -21,4 +21,5 @@ public enum WebBridgeRequest {
     case openCamera
     case historyback(isOn: Bool)
     case currentLocation
+    case appConfiguration(type: AppConfigurationActionType)
 }
